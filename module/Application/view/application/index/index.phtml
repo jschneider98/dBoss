@@ -1,0 +1,12 @@
+<div class="jumbotron">
+    <h2><?php echo sprintf($this->translate('Welcome to %sdBoss%s'), '<span class="zf-green">', '</span>') ?></h2>
+
+    <p>
+        <?php echo sprintf($this->translate("Congratulations! You have successfully installed %sdBoss%s a database management tool that doesn't suck. dBoss is currently using Zend Framework version %s. Enjoy!"), '<a href="https://github.com/jschneider98/dBoss" target="_blank">', '</a>',\Zend\Version\Version::VERSION) ?>
+    </p>
+    <p>
+        <a class="btn btn-success btn-lg" href="https://github.com/jschneider98/dBoss" target="_blank">
+            <?php echo $this->translate('Take a look at the repo') ?> &raquo;
+        </a>
+    </p>
+</div>
