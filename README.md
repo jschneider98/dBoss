@@ -1,9 +1,9 @@
-DbBoss
+dBoss
 =======================
 
 Introduction
 ------------
-DbBoss is a web based database administration and management tool.
+dBoss is a web based database administration and management tool.
 
 Installation
 ------------
