@@ -1,1 +1,39 @@
-query index
+<?php
+// module/Application/view/query/index.phtml:
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('query', array('action' => 'index')));
+$form->prepare();
+?>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<fieldset>
+    <legend>Execute SQL</legend>
+    <div>
+        <?php echo $this->formRow($form->get('sql')); ?>
+    </div>
+    <div>
+        <?php echo $this->formSubmit($form->get('run_submit')); ?>
+    </div>
+</fieldset>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<?php foreach ($results as $result): ?>
+    *******
+    <table>
+    <?php foreach ($result as $row): ?>
+        <tr>
+        <?php foreach ($row as $field_name => $value): ?>
+            <td><?php echo $value ?></td>
+        <?php endforeach ?>
+        </tr>
+    <?php endforeach ?>
+    </table>
+<?php endforeach ?>
+
+<?php foreach ($errors as $error): ?>
+    <br>
+    <pre class="prettyprint linenums"><?php echo $error ?></pre>
+<?php endforeach ?>

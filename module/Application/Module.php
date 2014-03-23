@@ -28,6 +28,7 @@ class Module
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    'Dboss' => __DIR__ . '/../../vendor/dboss/library/Dboss'
                 ),
             ),
         );
