@@ -1,6 +1,6 @@
 <?php
 /**
- * Default index controller. Default page with dBoss info and links.
+ * Query controller.
  */
 
 namespace Application\Controller;
@@ -8,7 +8,7 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class QueryController extends AbstractActionController
 {
     public function indexAction()
     {
