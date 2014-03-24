@@ -1,0 +1,49 @@
+<div class="row-fluid">
+    <div class="span8">
+
+        <form action="<?php echo $this->url('schema', array('action' => 'index')) ?>" id="schema_form" method="get">
+             <div class="input-group">
+                <span class="input-group-btn">
+                    <button name="search_submit" id="search_button" class="btn btn-default" type="submit">Search</button>
+                </span>
+                <input type="text" name="search" id="search" class="form-control">
+            </div>
+        </form>
+
+        <?php if ($row_count): ?>
+            <div id="table_menu" class="left left_menu">
+                <h3><strong><?php echo $this->row_count ?></strong> results found</h3>
+                
+                <?php echo "<br/>" . $this->not_implemented; ?>
+
+                <div class="auto_scroll">
+                <?php if ($results): ?>
+                    <table id="tables" class="full_width">
+                        <tbody>
+                        <?php foreach ($results as $encoded_id => $row): ?>
+                        <tr>
+                            <td>
+                                <a name="<?php echo $encoded_id ?>" href="<?php echo $this->url('schema',
+                                            array(
+                                                'action'              => 'definition',
+                                                //'encoded_database_id' => $this->database->getEncodedDatabaseId(),
+                                                //'schema_name'         => $row['schema_name'],
+                                                //'resource_name'       => $row['resource_name'],
+                                                //'resource_arguments'  => $row['resource_arguments'],
+                                                //'resource_type'       => $row['resource_type'],
+                                                //'resource_value'      => $row['display']
+                                            )
+                                        ) ?>"><?php echo $row['display'] ?></a>
+                                <em style="color: #999999"><?php echo $row['resource_type'] ?></em>
+                            </td>
+                        </tr>
+                        <?php endforeach ?>
+                        </tbody>
+                    </table>
+                <?php endif ?>
+                </div>
+            </div>
+        <?php endif ?>
+
+    </div>
+</div>

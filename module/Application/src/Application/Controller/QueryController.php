@@ -45,12 +45,8 @@ class QueryController extends AbstractActionController
     /**
      * @TEMP: Just testing
      */
-    protected function runSql($sql)
+    protected function runSql($sql = null)
     {
-        if ( ! $sql) {
-            return "";
-        }
-
         $config = $this->getServiceLocator()->get('config');
         $db = new Adapter($config['db']);
 
