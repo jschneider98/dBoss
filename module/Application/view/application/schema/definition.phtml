@@ -1,0 +1,73 @@
+<div class="row-fluid">
+    
+    <?php if ($this->resource_type == "table"): ?>
+    <!--<div class="span2">
+        <ul class="nav nav-list">
+            <li class="nav-header">
+                Actions
+            </li>
+            <li>
+                <a href="<?php echo $this->url(
+                    'query',
+                    array(
+                        'action'           => 'sql',
+                        'query_type'       => 'select',
+                        'scheam_name'      => $this->schema_name,
+                        'resource_name'    => $this->resource_name,
+                        'with_field_names' => 0
+                )) ?>">SELECT *</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url(
+                    'query',
+                    array(
+                        'action'           => 'sql',
+                        'query_type'       => 'select',
+                        'scheam_name'      => $this->schema_name,
+                        'resource_name'    => $this->resource_name,
+                        'with_field_names' => 1
+                )) ?>">SELECT FIELDS</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url(
+                    'query',
+                    array(
+                        'action'           => 'sql',
+                        'query_type'       => 'insert',
+                        'scheam_name'      => $this->schema_name,
+                        'resource_name'    => $this->resource_name
+                )) ?>">INSERT</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url(
+                    'query',
+                    array(
+                        'action'           => 'sql',
+                        'query_type'       => 'update',
+                        'scheam_name'      => $this->schema_name,
+                        'resource_name'    => $this->resource_name
+                )) ?>">UPDATE</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url(
+                    'query',
+                    array(
+                        'action'           => 'sql',
+                        'query_type'       => 'delete',
+                        'scheam_name'      => $this->schema_name,
+                        'resource_name'    => $this->resource_name
+                )) ?>">DELETE</a>
+            </li>
+        </ul>
+    </div>-->
+    <?php endif ?>
+
+    <div class="span8">
+        <h3>
+            <a href="javascript::void();" onclick="history.back()">Definition: <?php echo $this->resource ?></a>
+        </h3>
+    </div>
+    <div class="span8">
+        <pre><code class="sql"><?php echo $this->definition ?></code></pre>
+    </div>
+</div>

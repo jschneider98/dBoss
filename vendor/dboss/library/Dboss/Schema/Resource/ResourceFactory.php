@@ -6,8 +6,6 @@
 
 namespace Dboss\Schema\Resource;
 
-use Dboss\Schema\Resource\PgSqlTable;
-
 class ResourceFactory
 {
     public static function getResource(array $params)
@@ -25,12 +23,10 @@ class ResourceFactory
             throw new \Exception("Database connection object is required in " . __METHOD__);
         }
 
-        //$driver_name = $db->getDriver()->getName();
-
         // @TEMP
         return new PgSqlTable(array('db' => $db));
 
-        if ($driver_name == "pdo_pgsql") {
+        if ($db->platform->getName() == "PostgreSQL") {
             switch ($resource_type) {
                 case "table":
                     return new PgSqlTable(array('db' => $db));
@@ -59,13 +55,13 @@ class ResourceFactory
             }
         }
 
-        if ($driver_name == "pdo_sqlite") {
+        if ($db->platform->getName() == "SQLite") {
             if ($resource_type == "table" || $resource_type == "everything") {
                 return new SQLBoss_Schema_Resource_SqliteTable(array('db' => $db));
             }
         }
         
-        return new SQLBoss_Schema_Resource_Null(array('db' => $db));
+        return new Null(array('db' => $db));
     }
 
     /**
@@ -82,12 +78,12 @@ class ResourceFactory
         }
 
         return array(
-            new SQLBoss_Schema_Resource_PgSqlTable(array('db' => $db)),
-            new SQLBoss_Schema_Resource_PgSqlView(array('db' => $db)),
-            new SQLBoss_Schema_Resource_PgSqlSchema(array('db' => $db)),
-            new SQLBoss_Schema_Resource_PgSqlFunction(array('db' => $db)),
-            new SQLBoss_Schema_Resource_PgSqlSequence(array('db' => $db)),
-            new SQLBoss_Schema_Resource_PgSqlType(array('db' => $db))
+            new \PgSqlTable(array('db' => $db)),
+            new \PgSqlView(array('db' => $db)),
+            new \PgSqlSchema(array('db' => $db)),
+            new \PgSqlFunction(array('db' => $db)),
+            new \PgSqlSequence(array('db' => $db)),
+            new \PgSqlType(array('db' => $db))
         );
     }
 }

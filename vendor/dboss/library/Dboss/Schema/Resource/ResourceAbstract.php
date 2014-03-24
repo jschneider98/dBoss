@@ -28,6 +28,15 @@ abstract class ResourceAbstract
     }
 
     /**
+     * Does resource support schemas?
+     * @TODO: Should be part of the db platform?
+     */
+    public function supportsSchemas()
+    {
+        return true;
+    }
+
+    /**
      *  Get the resource_type
      **/
     public function getResourceType()
@@ -93,15 +102,12 @@ abstract class ResourceAbstract
         extract($params, EXTR_IF_EXISTS);
 
         $platform = $this->db->getPlatform();
-        // @TEMP
-        $supports_schema = TRUE;
 
         $where = "\nWHERE 1=1";
 
         if ($search) {
             
-            //if ($platform->supportsSchemas()) {
-            if ($supports_schema) {
+            if ($this->supportsSchemas()) {
                 $conditional_parts = explode(".", $search);
 
                 if (count($conditional_parts) > 1) {
@@ -123,12 +129,9 @@ abstract class ResourceAbstract
      **/
     public function getOrderBy(array $params = array())
     {
-        // @TEMP
-        return "";
+        //$platform = $this->db->getPlatform();
 
-        $platform = $this->db->getDatabasePlatform();
-
-        if ($platform->supportsSchemas()) {
+        if ($this->supportsSchemas()) {
             $order_by = "\nORDER BY schema_name, resource_name";
         } else {
             $order_by = "\nORDER BY resource_name";

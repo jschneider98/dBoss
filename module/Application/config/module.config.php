@@ -19,7 +19,7 @@ return array(
             'query' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/query',
+                    'route'    => '/query[/:action]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Query',
@@ -30,7 +30,7 @@ return array(
             'schema' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/schema',
+                    'route'    => '/schema[/:action][/:schema_name][/:resource_name][/:resource_arguments][/:resource_type][/:resource_value]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Schema',

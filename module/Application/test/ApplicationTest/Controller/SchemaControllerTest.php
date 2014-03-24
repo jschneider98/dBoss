@@ -34,6 +34,9 @@ class SchemaControllerTest extends PHPUnit_Framework_TestCase
         $this->controller->setServiceLocator($serviceManager);
     }
 
+    /**
+     * 
+     */
     public function testIndexActionCanBeAccessed()
     {
         $this->routeMatch->setParam('action', 'index');
@@ -43,4 +46,19 @@ class SchemaControllerTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
     }
+
+    /**
+     * 
+     */
+    /*
+    public function testDefinitionActionCanBeAccessed()
+    {
+        $this->routeMatch->setParam('action', 'definition');
+
+        $result   = $this->controller->dispatch($this->request);
+        $response = $this->controller->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+    */
 }

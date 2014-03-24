@@ -10,9 +10,13 @@ use Zend\View\Model\ViewModel;
 use Zend\Db\Adapter\Adapter;
 use Application\Form\SchemaSearchForm;
 use Dboss\Schema\Resource\ResourceFactory;
+use Dboss\Schema\Resource\Null;
 
 class SchemaController extends AbstractActionController
 {
+    /**
+     * 
+     **/
     public function indexAction()
     {
         $search = "";
@@ -36,6 +40,7 @@ class SchemaController extends AbstractActionController
             $search = $request->getQuery('search');
 
             if ($search !== null) {
+                // @TEMP
                 $config = $this->getServiceLocator()->get('config');
                 $db = new Adapter($config['db']);
 
@@ -45,6 +50,11 @@ class SchemaController extends AbstractActionController
                 );
 
                 $schema_resource = ResourceFactory::getResource($params);
+
+                if ($schema_resource instanceof Null) {
+                    $template['not_implemented'] = "This feature is either not supported by your database platform or it has not been implemented yet.";
+                }
+
                 $results = $schema_resource->getEncodedResourceList(array('search' => $search));
                 
                 $template['results'] = $results;
@@ -52,25 +62,49 @@ class SchemaController extends AbstractActionController
             }
         }
 
-        /*
+        return $template;
+    }
+
+    /**
+     * 
+     */
+    public function definitionAction()
+    {
+        $resource_type = null;
+        $schema_name = null;
+        $resource_name = null;
+        $resource_arguments = null;
+        $resource_value = null;
+
+        $params = $this->params()->fromRoute();
+
+        extract($params, EXTR_IF_EXISTS);
+
+        $template = array();
+
+        // @TEMP
+        $config = $this->getServiceLocator()->get('config');
+        $db = new Adapter($config['db']);
+
         $params = array(
             'resource_type' => $resource_type,
-            'db'            => $this->_helper->getHelper('Database')->getConnection()
+            'db'            => $db
         );
 
-        $schema_resource = SQLBoss_Schema_Resource_Factory::getResource($params);
+        $schema_resource = ResourceFactory::getResource($params);
 
-        if ($schema_resource instanceof SQLBoss_Schema_Resource_Null) {
-
-            $this->view->not_implemented = "This feature is either not supported by your database platform or it has not been implemented yet.";
-        }
-
-        $this->view->results = $schema_resource->getEncodedResourceList(array('search' => $search));
-        $this->view->row_count = count($this->view->results);
-
-        $this->view->form = $form;
-        $this->view->database = $this->_helper->getHelper('Database')->getDatabase();
-        */
+        $params = array(
+            'schema_name'        => $schema_name,
+            'resource_name'      => $resource_name,
+            'resource_arguments' => $resource_arguments
+        );
+        
+        $template['definition'] = $schema_resource->getResourceDefinition($params);
+        $template['schema_name'] = $schema_name;
+        $template['resource_name'] = $resource_name;
+        $template['resource'] = $resource_value;
+        $template['resource_type'] = $resource_type;
+        //$template['database'] = $this->_helper->getHelper('Database')->getDatabase();
 
         return $template;
     }

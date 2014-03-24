@@ -6,7 +6,7 @@
 
 namespace Dboss\Schema\Resource;
 
-use Dboss\Schema\Resource\ResourceAbstract;
+use Zend\Db\Adapter\Adapter;
 
 class PgSqlTable extends ResourceAbstract
 {
@@ -17,6 +17,9 @@ class PgSqlTable extends ResourceAbstract
         $this->resource_type = "table";
     }
 
+    /**
+     * 
+     */
     public function getResourceListSql(array $params = array())
     {
         $exclude_order_by = FALSE;
@@ -44,16 +47,19 @@ class PgSqlTable extends ResourceAbstract
         return $sql;
     }
 
+    /**
+     * 
+     */
     public function getResourceDefinition(array $params = array())
     {
-        $schema_name = NULL;
-        $resource_name = NULL;
-        $resource_arguments = NULL;
+        $schema_name = null;
+        $resource_name = null;
+        $resource_arguments = null;
 
         extract($params, EXTR_IF_EXISTS);
         
         if ( ! $schema_name || ! $resource_name) {
-            throw new Exception("Invalid resource ({$this->resource_type}) in " . __METHOD__);
+            throw new \Exception("Invalid resource ({$this->resource_type}) in " . __METHOD__);
         }
 
         $resource = $schema_name . "." . $resource_name;
@@ -66,7 +72,7 @@ class PgSqlTable extends ResourceAbstract
         // Fields
         $fields = $this->getFields($params);
 
-        while ($field = $fields->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($fields as $field) {
             $field_def = "\t" . $field['field_name'] . " " . $field['data_type'];
 
             if ($field['not_null'] == "1") {
@@ -83,7 +89,7 @@ class PgSqlTable extends ResourceAbstract
         // Constraints
         $constraints = $this->getContraints($params);
 
-        while ($constraint = $constraints->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($constraints as $constraint) {
             $constraint_def = "CONSTRAINT {$constraint['constraint_name']} {$constraint['definition']}";
             $constraint_def = str_replace(" REFERENCES", "\n\tREFERENCES", $constraint_def);
             $constraint_def = str_replace(" ON UPDATE", "\n\tON UPDATE", $constraint_def);
@@ -99,7 +105,7 @@ class PgSqlTable extends ResourceAbstract
 
         $index_defs = array();
 
-        while ($index = $indexes->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($indexes as $index) {
             $index_def = str_replace(" ON ", "\n\tON ", $index['definition']);
             $index_def = str_replace(" USING ", "\n\tUSING ", $index_def);
             $index_def = str_replace(" (", "\n\t(", $index_def);
@@ -116,7 +122,7 @@ class PgSqlTable extends ResourceAbstract
 
         $trigger_defs = array();
 
-        while ($trigger = $triggers->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($triggers as $trigger) {
             $trigger_def = str_replace(" ON ", "\n\tON ", $trigger['definition']);
             $trigger_def = str_replace(" AFTER ", "\n\tAFTER ", $trigger_def);
             $trigger_def = str_replace(" FOR ", "\n\tFOR ", $trigger_def);
@@ -168,7 +174,7 @@ class PgSqlTable extends ResourceAbstract
             ORDER BY a.attnum
         ";
 
-        return $this->db->query($sql);
+        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
     }
 
     /**
@@ -199,7 +205,7 @@ class PgSqlTable extends ResourceAbstract
             ORDER BY contype DESC
         ";
 
-        return $this->db->query($sql);
+        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
     }
 
     /**
@@ -231,7 +237,7 @@ class PgSqlTable extends ResourceAbstract
             ORDER BY c2.relname
         ";
 
-        return $this->db->query($sql);
+        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
     }
 
     /**
@@ -262,7 +268,7 @@ class PgSqlTable extends ResourceAbstract
                 AND t.tgconstraint = 0
         ";
 
-        return $this->db->query($sql);
+        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
     }
 
     /**
