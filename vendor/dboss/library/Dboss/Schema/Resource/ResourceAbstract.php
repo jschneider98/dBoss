@@ -6,8 +6,6 @@
 
 namespace Dboss\Schema\Resource;
 
-use Zend\Db\Adapter\Adapter;
-
 abstract class ResourceAbstract
 {
     protected $resource_type;
@@ -183,7 +181,8 @@ abstract class ResourceAbstract
     {
         $sql = $this->getResourceListSql($params);
         
-        $this->resource_list = $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
+        $statement = $this->db->query($sql);
+        $this->resource_list = $statement->execute();
 
         return $this->resource_list;
     }

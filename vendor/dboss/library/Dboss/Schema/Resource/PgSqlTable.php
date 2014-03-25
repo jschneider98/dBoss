@@ -6,8 +6,6 @@
 
 namespace Dboss\Schema\Resource;
 
-use Zend\Db\Adapter\Adapter;
-
 class PgSqlTable extends ResourceAbstract
 {
     public function __construct(array $params = array())
@@ -174,7 +172,8 @@ class PgSqlTable extends ResourceAbstract
             ORDER BY a.attnum
         ";
 
-        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
+        $statement = $this->db->query($sql);
+        return $statement->execute();
     }
 
     /**
@@ -205,7 +204,8 @@ class PgSqlTable extends ResourceAbstract
             ORDER BY contype DESC
         ";
 
-        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
+        $statement = $this->db->query($sql);
+        return $statement->execute();
     }
 
     /**
@@ -237,7 +237,8 @@ class PgSqlTable extends ResourceAbstract
             ORDER BY c2.relname
         ";
 
-        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
+        $statement = $this->db->query($sql);
+        return $statement->execute();
     }
 
     /**
@@ -268,7 +269,8 @@ class PgSqlTable extends ResourceAbstract
                 AND t.tgconstraint = 0
         ";
 
-        return $this->db->query($sql, Adapter::QUERY_MODE_EXECUTE);
+        $statement = $this->db->query($sql);
+        return $statement->execute();
     }
 
     /**

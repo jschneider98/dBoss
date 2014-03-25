@@ -6,7 +6,6 @@
 
 namespace Dboss;
 
-use Zend\Db\Adapter\Adapter;
 use Dboss\SqlFormatter;
 
 class QueryRunner
@@ -16,14 +15,14 @@ class QueryRunner
     protected $run_in_transaction;
     protected $db;
     protected $sys_db;
-    protected $statements = array();
+    protected $results = array();
     protected $user_id = null;
 
     protected $errors = array();
     protected $status = array();
     protected $warnings = array();
     
-    public function __construct(array $params = array()) 
+    public function __construct(array $params = array())
     {
         $sql = null;
         $query_name = null;
@@ -65,7 +64,7 @@ class QueryRunner
     /**
      * Executes one or more SQL queries
      *
-     * @return array An array of Doctrine statement objects on success, false otherwise
+     * @return array An array of results
      */
     public function execSql()
     {
@@ -88,7 +87,8 @@ class QueryRunner
                 $query = trim($query);
 
                 if ($query) {
-                    $this->statements[] = $this->db->query($query, Adapter::QUERY_MODE_EXECUTE);
+                    $statement = $this->db->query($query);
+                    $this->results[] = $statement->execute();
                 }
             }
 
@@ -96,7 +96,7 @@ class QueryRunner
                 $this->db->commit();
             }
 
-            return $this->statements;
+            return $this->results;
         } catch (\Exception $e) {
             $this->errors[] = $e->getMessage();
 
