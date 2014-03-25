@@ -4,9 +4,11 @@
  * Schema Resource Table
  */
 
-namespace Dboss\Schema\Resource;
+namespace Dboss\Schema\Resource\Pg;
 
-class PgSqlTable extends ResourceAbstract
+use Dboss\Schema\Resource\ResourceAbstract;
+
+class SqlTable extends ResourceAbstract
 {
     public function __construct(array $params = array())
     {

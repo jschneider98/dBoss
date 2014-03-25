@@ -49,7 +49,8 @@ class SchemaController extends AbstractActionController
                     'db'            => $db
                 );
 
-                $schema_resource = ResourceFactory::getResource($params);
+                $resource_factory = new ResourceFactory($params);
+                $schema_resource = $resource_factory->getResource();
 
                 if ($schema_resource instanceof Null) {
                     $template['not_implemented'] = "This feature is either not supported by your database platform or it has not been implemented yet.";
@@ -91,7 +92,8 @@ class SchemaController extends AbstractActionController
             'db'            => $db
         );
 
-        $schema_resource = ResourceFactory::getResource($params);
+        $resource_factory = new ResourceFactory($params);
+        $schema_resource = $resource_factory->getResource();
 
         $params = array(
             'schema_name'        => $schema_name,
