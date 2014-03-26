@@ -17,39 +17,65 @@ class PgResourceFactory extends ResourceFactoryAbstract
      */
     public function getResource()
     {
-        // @TEMP
-        return new SqlTable(array('db' => $this->db));
+        $params = array('db' => $this->db);
 
         if ($this->db->platform->getName() == "PostgreSQL") {
             switch ($this->resource_type) {
-                case "table":
-                    return new SqlTable(array('db' => $this->db));
-                    break;
                 case "view":
-                    return new SqlView(array('db' => $this->db));
+                case "views":
+                    return new SqlView($params);
                     break;
+                case "sch":
                 case "schema":
-                    return new SqlSchema(array('db' => $this->db));
+                case "schemas":
+                    return new SqlSchema($params);
                     break;
+                case "func":
                 case "function":
-                    return new SqlFunction(array('db' => $this->db));
+                case "functions":
+                    return new SqlFunction($params);
                     break;
+                case "seq":
                 case "sequence":
-                    return new SqlSequence(array('db' => $this->db));
+                case "sequences":
+                    return new SqlSequence($params);
                     break;
                 case "type":
-                    return new SqlType(array('db' => $this->db));
+                case "types":
+                    return new SqlType($params);
                     break;
+                case "db":
                 case "database":
-                    return new SqlDatabase(array('db' => $this->db));
+                case "databases":
+                    return new SqlDatabase($params);
                     break;
+                case "trig":
+                case "trigger":
+                case "triggers":
+                    return new SqlTrigger($params);
+                    break;
+                case "idx":
+                case "indx":
+                case "index":
+                case "indexes":
+                    return new SqlIndex($params);
+                    break;
+                case "e":
                 case "everything":
-                    return new SqlEverything(array('db' => $this->db));
+                case "all":
+                case "boss":
+                    return new SqlEverything($params);
+                    break;
+                case "tbl":
+                case "table":
+                case "tables":
+                default:
+                    return new SqlTable($params);
                     break;
             }
         }
         
-        return new Null(array('db' => $this->db));
+        return new Null($params);
     }
 
     /**
@@ -67,7 +93,9 @@ class PgResourceFactory extends ResourceFactoryAbstract
             new SqlSchema($params),
             new SqlFunction($params),
             new SqlSequence($params),
-            new SqlType($params)
+            new SqlType($params),
+            new SqlTrigger($params),
+            new SqlIndex($params),
         );
     }
 }

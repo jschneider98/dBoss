@@ -22,7 +22,7 @@ class SchemaController extends AbstractActionController
         $search = "";
         $template = array();
 
-        $resource_type = "everything";
+        $resource_type = "table";
 
         $template = array(
             'results' => array(),
@@ -35,11 +35,22 @@ class SchemaController extends AbstractActionController
         $request = $this->getRequest();
 
         if ($request->isGet()) {
-            $form->setData($request->getPost());
+            $get_data = $request->getQuery();
+            $form->setData($get_data);
 
-            $search = $request->getQuery('search');
+            $search = $get_data['search'];
 
             if ($search !== null) {
+                // @TEMP: Move to obj?
+                // Parse out the resource_type from search string
+                $pos = strpos($search, ":");
+
+                if ($pos !== false) {
+                    $search_parts = explode(":", $search);
+                    $resource_type = trim($search_parts[0]);
+                    $search = trim($search_parts[1]);
+                }
+
                 // @TEMP
                 $config = $this->getServiceLocator()->get('config');
                 $db = new Adapter($config['db']);
