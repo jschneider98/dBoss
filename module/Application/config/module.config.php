@@ -30,7 +30,7 @@ return array(
             'schema' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/schema[/:action][/:schema_name][/:resource_name][/:resource_arguments][/:resource_type][/:resource_value]',
+                    'route'    => '/schema[/:action][/:schema_name][/:table_name][/:resource_name][/:resource_arguments][/:resource_type][/:resource_value]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Schema',

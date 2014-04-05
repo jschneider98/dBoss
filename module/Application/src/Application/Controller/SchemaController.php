@@ -84,6 +84,7 @@ class SchemaController extends AbstractActionController
     {
         $resource_type = null;
         $schema_name = null;
+        $table_name = null;
         $resource_name = null;
         $resource_arguments = null;
         $resource_value = null;
@@ -108,6 +109,7 @@ class SchemaController extends AbstractActionController
 
         $params = array(
             'schema_name'        => $schema_name,
+            'table_name'         => $table_name,
             'resource_name'      => $resource_name,
             'resource_arguments' => $resource_arguments
         );

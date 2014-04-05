@@ -58,10 +58,17 @@ abstract class ResourceAbstract
             $argument_part = "";
             $schema_part = "";
             $display_schema_part = "";
+            $table_part = "";
+            $display_table_part = "";
 
             if (isset($row['schema_name'])) {
                 $schema_part = $row['schema_name'] . "_";
                 $display_schema_part = $row['schema_name'] . ".";
+            }
+
+            if (isset($row['table_name'])) {
+                $table_part = $row['table_name'] . "_";
+                $display_table_part = $row['table_name'] . ".";
             }
 
             if (isset($row['resource_arguments'])) {
@@ -71,11 +78,12 @@ abstract class ResourceAbstract
                 $display_argument_part = "(" . $row['resource_arguments'] . ")";
             }
 
-            $row['display'] = $display_schema_part . $row['resource_name'] . $display_argument_part;
+            $row['display'] = $display_schema_part . $display_table_part . $row['resource_name'] . $display_argument_part;
 
             $encoded_id = 
                 "resource_" . $row['resource_type'] . "_" 
                 . $schema_part 
+                . $table_part 
                 . $row['resource_name']
                 . $argument_part;
                 
@@ -104,16 +112,15 @@ abstract class ResourceAbstract
         $where = "\nWHERE 1=1";
 
         if ($search) {
-            
-            if ($this->supportsSchemas()) {
-                $conditional_parts = explode(".", $search);
+            $conditional_parts = explode(".", $search);
 
-                if (count($conditional_parts) > 1) {
-                    $where .= "\nAND LOWER(schema_name) LIKE " . strtolower($platform->quoteValue($conditional_parts[0]));
-                    $where .= "\nAND LOWER(resource_name) LIKE " . strtolower($platform->quoteValue("%" . $conditional_parts[1] . "%"));
-                } else {
-                    $where .= "\nAND LOWER(resource_name) LIKE " . strtolower($platform->quoteValue("%" . $search . "%"));
-                }
+            if (count($conditional_parts) > 2) {
+                $where .= "\nAND LOWER(schema_name) LIKE " . strtolower($platform->quoteValue($conditional_parts[0]));
+                $where .= "\nAND LOWER(table_name) LIKE " . strtolower($platform->quoteValue($conditional_parts[1]));
+                $where .= "\nAND LOWER(resource_name) LIKE " . strtolower($platform->quoteValue("%" . $conditional_parts[2] . "%"));
+            } else if (count($conditional_parts) > 1) {
+                $where .= "\nAND LOWER(schema_name) LIKE " . strtolower($platform->quoteValue($conditional_parts[0]));
+                $where .= "\nAND LOWER(resource_name) LIKE " . strtolower($platform->quoteValue("%" . $conditional_parts[1] . "%"));
             } else {
                 $where .= "\nAND LOWER(resource_name) LIKE " . strtolower($platform->quoteValue("%" . $search . "%"));
             }

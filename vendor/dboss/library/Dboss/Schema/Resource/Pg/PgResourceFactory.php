@@ -21,6 +21,12 @@ class PgResourceFactory extends ResourceFactoryAbstract
 
         if ($this->db->platform->getName() == "PostgreSQL") {
             switch ($this->resource_type) {
+                case "column":
+                case "columns":
+                case "col":
+                case "cols":
+                    return new SqlColumn($params);
+                    break;
                 case "view":
                 case "views":
                     return new SqlView($params);
@@ -89,6 +95,7 @@ class PgResourceFactory extends ResourceFactoryAbstract
 
         return array(
             new SqlTable($params),
+            new SqlColumn($params),
             new SqlView($params),
             new SqlSchema($params),
             new SqlFunction($params),

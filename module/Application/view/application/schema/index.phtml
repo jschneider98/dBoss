@@ -22,7 +22,8 @@
                         <tbody>
                         <?php foreach ($results as $encoded_id => $row): ?>
                         <!-- wow wtf -->
-                        <?php $args = ($row['resource_arguments']) ? ($row['resource_arguments']) : "null"; ?>
+                        <?php $args = ($row['resource_arguments']) ? ($row['resource_arguments']) : "0"; ?>
+                        <?php $table_name = (isset($row['table_name'])) ? ($row['table_name']) : "0"; ?>
                         <tr>
                             <td>
                                 <a name="<?php echo $encoded_id ?>" href="<?php echo $this->url('schema',
@@ -30,6 +31,7 @@
                                                 'action'              => 'definition',
                                                 // 'encoded_database_id' => $this->database->getEncodedDatabaseId(),
                                                 'schema_name'         => $row['schema_name'],
+                                                'table_name'          => $table_name,
                                                 'resource_name'       => $row['resource_name'],
                                                 'resource_arguments'  => $args,
                                                 'resource_type'       => $row['resource_type'],
