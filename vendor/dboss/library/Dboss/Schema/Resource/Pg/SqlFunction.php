@@ -34,6 +34,7 @@ class SqlFunction extends ResourceAbstract
             FROM (
                 SELECT
                     pn.nspname as schema_name,
+                    NULL::text as table_name,
                     p.proname as resource_name,
                     
                     CASE WHEN proallargtypes IS NOT NULL THEN

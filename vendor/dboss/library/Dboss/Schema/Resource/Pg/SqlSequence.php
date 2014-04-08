@@ -34,6 +34,7 @@ class SqlSequence extends ResourceAbstract
             FROM (
                 SELECT
                     n.nspname AS schema_name,
+                    NULL::text as table_name,
                     c.relname as resource_name,
                     NULL::text as resource_arguments,
                     '{$this->resource_type}'::text as resource_type

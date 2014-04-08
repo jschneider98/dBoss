@@ -34,6 +34,7 @@ class SqlType extends ResourceAbstract
             FROM (
                 SELECT DISTINCT
                     object_schema as schema_name,
+                    NULL::text as table_name,
                     object_name as resource_name,
                     NULL::text as resource_arguments,
                     '{$this->resource_type}'::text as resource_type

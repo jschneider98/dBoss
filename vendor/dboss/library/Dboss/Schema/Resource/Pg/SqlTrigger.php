@@ -34,6 +34,7 @@ class SqlTrigger extends ResourceAbstract
             FROM (
                 SELECT
                     n.nspname as schema_name,
+                    NULL::text as table_name,
                     t.tgname as resource_name,
                     NULL::text as resource_arguments,
                     '{$this->resource_type}'::text as resource_type

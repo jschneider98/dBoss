@@ -33,7 +33,8 @@ class SqlSchema extends ResourceAbstract
             SELECT *
             FROM (
                 SELECT DISTINCT
-                    NULL::text as schema_name,
+                    table_schema as schema_name,
+                    NULL::text as table_name,
                     table_schema as resource_name,
                     NULL::text as resource_arguments,
                     '{$this->resource_type}'::text as resource_type
