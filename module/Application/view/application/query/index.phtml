@@ -73,16 +73,23 @@ $form->prepare();
     </div>
     <div class="row">
         <?php if ($count > 0): ?>
+        <?php $first_row = $result->current(); ?>
+        <?php $header = array_keys($first_row); ?>
         <div style="overflow-x: auto;">
             <table class="table table-condensed table-striped">
                 <thead>
-                <!--<tr>
-                    <?php //foreach (SQLBoss_QueryRunner::getStatementFields($statement) as $field): ?>
-                        <th><?php //echo $field['name']; ?></th>
-                    <?php //endforeach ?>
-                </tr>-->
+                <tr>
+                    <?php foreach ($header as $field_name): ?>
+                        <th><?php echo $field_name; ?></th>
+                    <?php endforeach ?>
+                </tr>
                 </thead>
                 <tbody>
+                <tr>
+                <?php foreach ($first_row as $value): ?>
+                    <td><?php echo ($value === NULL ? "<em>NULL</em>" : $value) ?></td>
+                <?php endforeach ?>
+                </tr>
                 <?php foreach ($result as $row): ?>
                 <tr>
                     <?php foreach ($row as $value): ?>
