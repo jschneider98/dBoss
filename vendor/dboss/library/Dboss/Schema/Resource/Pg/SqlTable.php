@@ -31,7 +31,7 @@ class SqlTable extends ResourceAbstract
             FROM (
                 SELECT
                     schemaname AS schema_name,
-                    tablename AS table_name,
+                    NULL::text AS table_name,
                     tablename AS resource_name,
                     NULL::text as resource_arguments,
                     '{$this->resource_type}'::text as resource_type
