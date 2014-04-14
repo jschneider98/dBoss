@@ -300,8 +300,7 @@ class SqlTable extends ResourceAbstract
             $fields = $this->getFields($params);
             $field_array = array();
 
-            while ($field = $fields->fetch(PDO::FETCH_ASSOC)) {
-
+            foreach ($fields as $field) {
                 $field_array[] = "\t" . $field['field_name'];
             }
 
@@ -333,7 +332,7 @@ class SqlTable extends ResourceAbstract
         $field_array = array();
         $place_hodlers = array();
 
-        while ($field = $fields->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($fields as $field) {
             $field_array[] = "\t" . $field['field_name'];
             $place_hodlers[] = "\t:{$field['field_name']}";
         }
@@ -368,7 +367,7 @@ class SqlTable extends ResourceAbstract
         $fields = $this->getFields($params);
         $field_array = array();
 
-        while ($field = $fields->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($fields as $field) {
             $field_array[] = "\t" . $field['field_name'] . " = ?";
         }
 

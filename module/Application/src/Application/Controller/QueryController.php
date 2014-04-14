@@ -9,12 +9,23 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Db\Adapter\Adapter;
 use Application\Form\QueryForm;
+use Dboss\Schema\Resource\ResourceFactory;
 use Dboss\QueryRunner;
 
 class QueryController extends AbstractActionController
 {
     public function indexAction()
     {
+        $query_type = null;
+
+        $params = $this->params()->fromRoute();
+
+        extract($params, EXTR_IF_EXISTS);
+
+        if ($query_type) {
+            $sql = $this->getSql($params);
+        }
+
         $template = array(
             'results' => array(),
             'errors'  => array()
@@ -22,6 +33,10 @@ class QueryController extends AbstractActionController
 
         $form = new QueryForm();
         $template['form'] = $form;
+
+        if ($sql) {
+            $form->setData(array('sql' => $sql));
+        }
 
         $request = $this->getRequest();
 
@@ -42,11 +57,48 @@ class QueryController extends AbstractActionController
         return $template;
     }
 
+
+    /**
+     * Generate various SQL queries (SELECT, INSERT, UPDATE, etc)
+     **/
+    protected function getSql(array $params = array())
+    {
+        $query_type = null;
+        $schema_name = null;
+        $resource_name = null;
+        $with_field_names = null;
+
+        extract($params, EXTR_IF_EXISTS);
+
+        // @TEMP
+        $config = $this->getServiceLocator()->get('config');
+        $db = new Adapter($config['db']);
+
+        $params = array(
+            'resource_type' => 'table',
+            'db'            => $db
+        );
+
+        $resource_factory = new ResourceFactory($params);
+        $schema_resource = $resource_factory->getResource();
+
+        $params = array(
+            'schema_name'      => $schema_name,
+            'resource_name'    => $resource_name,
+            'with_field_names' => $with_field_names
+        );
+
+        // Dynamic function call
+        $func = "get" . $query_type . "Sql";
+        return $schema_resource->$func($params);
+    }
+
     /**
      * @TEMP: Just testing
      */
     protected function runSql($sql = null)
     {
+        // @TEMP
         $config = $this->getServiceLocator()->get('config');
         $db = new Adapter($config['db']);
 
