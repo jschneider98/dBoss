@@ -10,7 +10,7 @@
                     'query',
                     array(
                         'action'           => 'index',
-                        'query_type'       => 'select',
+                        'query_type'       => 'Select',
                         'schema_name'      => $this->schema_name,
                         'resource_name'    => $this->resource_name,
                         'with_field_names' => 0
@@ -21,7 +21,7 @@
                     'query',
                     array(
                         'action'           => 'index',
-                        'query_type'       => 'select',
+                        'query_type'       => 'Select',
                         'schema_name'      => $this->schema_name,
                         'resource_name'    => $this->resource_name,
                         'with_field_names' => 1
@@ -32,7 +32,17 @@
                     'query',
                     array(
                         'action'           => 'index',
-                        'query_type'       => 'insert',
+                        'query_type'       => 'SelectJoin',
+                        'schema_name'      => $this->schema_name,
+                        'resource_name'    => $this->resource_name,
+                )) ?>">SELECT+JOINS</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url(
+                    'query',
+                    array(
+                        'action'           => 'index',
+                        'query_type'       => 'Insert',
                         'schema_name'      => $this->schema_name,
                         'resource_name'    => $this->resource_name
                 )) ?>">INSERT</a>
@@ -42,7 +52,7 @@
                     'query',
                     array(
                         'action'           => 'index',
-                        'query_type'       => 'update',
+                        'query_type'       => 'Update',
                         'schema_name'      => $this->schema_name,
                         'resource_name'    => $this->resource_name
                 )) ?>">UPDATE</a>
@@ -52,7 +62,7 @@
                     'query',
                     array(
                         'action'           => 'index',
-                        'query_type'       => 'delete',
+                        'query_type'       => 'Delete',
                         'schema_name'      => $this->schema_name,
                         'resource_name'    => $this->resource_name
                 )) ?>">DELETE</a>

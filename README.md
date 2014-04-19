@@ -13,6 +13,24 @@ Using Composer (recommended)
 
 @TODO
 
+*Temporary Config* (while user connections aren't added)
+--------------------------------------------------------
+Edit config/autoload/local.php as follows:
+
+<?php
+
+return array(
+    'db' => array(
+        'driver'   => 'Pdo_Pgsql',
+        'database' => '<db name>',
+        'hostname' => '<hostname>',
+        'username' => '<username>',
+        'password' => '<password>',
+    ),
+);
+
+NOTE: local.php is ignored by git, so it's safe to add connection info to it.
+
 
 Web Server Setup
 ----------------

@@ -212,6 +212,44 @@ class SqlTable extends ResourceAbstract
     }
 
     /**
+     * Get foreign key maps
+     **/
+    public function getForeignKeyMaps(array $params = array())
+    {
+        $schema_name = NULL;
+        $resource_name = NULL;
+        $resource_arguments = NULL;
+
+        extract($params, EXTR_IF_EXISTS);
+        
+        if ( ! $schema_name || ! $resource_name) {
+            throw new Exception("Invalid resource ({$this->resource_type}) in " . __METHOD__);
+        }
+
+        $sql = "
+            SELECT
+                cs.nspname as schema_name,
+                ct.relname as table_name,
+                pa.attname as src_field_name,
+                dpa.attname as dest_field_name
+            FROM information_schema.table_constraints tc
+            JOIN pg_constraint pc ON tc.constraint_name = pc.conname
+            JOIN pg_attribute pa ON pa.attnum = ANY (pc.conkey) AND pa.attrelid = pc.conrelid
+
+            JOIN pg_attribute dpa ON dpa.attnum = ANY (pc.confkey) AND dpa.attrelid = pc.confrelid
+            JOIN pg_class ct ON ct.oid = pc.confrelid
+            JOIN pg_namespace cs ON cs.oid = ct.relnamespace
+
+            WHERE pc.contype = 'f'
+                AND tc.table_schema = '{$schema_name}'
+                AND tc.table_name = '{$resource_name}'
+        ";
+
+        $statement = $this->db->query($sql);
+        return $statement->execute();
+    }
+
+    /**
      * Get table indexed
      **/
     public function getIndexes(array $params = array())
@@ -312,6 +350,64 @@ class SqlTable extends ResourceAbstract
     }
 
     /**
+     * Get SELECT query + joins to all forgeign key tables
+     **/
+    public function getSelectJoinSql(array $params = array())
+    {
+        $schema_name = null;
+        $resource_name = null;
+
+        extract($params, EXTR_IF_EXISTS);
+
+        $aliases = array();
+        $joins = array();
+        $fields = array();
+
+        if ( ! $schema_name || ! $resource_name) {
+            return "";
+        }
+
+        $main_alias = $this->getAlias($resource_name);
+        $aliases[] = $main_alias;
+        $joins[] = "FROM $schema_name.$resource_name {$main_alias}";
+
+        $fields[$main_alias] = $this->getFields($params);
+
+        $fkey_maps = $this->getForeignKeyMaps($params);
+
+        $count = 0;
+        foreach ($fkey_maps as $map) {
+            $count++;
+
+            $alias = $this->getAlias($map['table_name']) . $count;
+
+            $cur_params = array(
+                'schema_name'   => $map['schema_name'],
+                'resource_name' => $map['table_name']
+            );
+
+            $fields[$alias] = $this->getFields($cur_params);
+            $aliases[] = $alias;
+
+            $joins[] = "LEFT JOIN {$map['schema_name']}.{$map['table_name']} {$alias} ON {$main_alias}.{$map['src_field_name']} = {$alias}.{$map['dest_field_name']}";
+        }
+
+        $sql = "SELECT \n\t" . implode(".*,\n\t", $aliases) . ".*";
+        $sql .= "\n" . implode("\n", $joins);
+
+        $sql .="\n\n/*\n";
+
+        foreach ($fields as $alias => $cur_fields) {
+            foreach ($cur_fields as $field)
+            $sql .= "\t" . $alias . "." . $field['field_name'] . ",\n";
+        }
+
+        $sql .= "*/";
+
+        return $sql;
+    }
+
+    /**
      * Get table INSERT query
      **/
     public function getInsertSql(array $params = array())
@@ -396,5 +492,25 @@ class SqlTable extends ResourceAbstract
         $sql .= "\nWHERE <condition>;";
 
         return $sql;
+    }
+
+    /**
+     * Gets an alias for a table name
+     **/
+    public function getAlias($table_name = null)
+    {
+        $alias = "";
+
+        if ( ! $table_name) {
+            return "";
+        }
+
+        $parts = explode("_", $table_name);
+
+        foreach ($parts as $part) {
+            $alias .= $part[0];
+        }
+
+        return $alias;
     }
 }
