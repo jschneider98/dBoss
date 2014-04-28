@@ -91,9 +91,10 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index'  => 'Application\Controller\IndexController',
-            'Application\Controller\Query'  => 'Application\Controller\QueryController',
-            'Application\Controller\Schema' => 'Application\Controller\SchemaController',
+            'Application\Controller\Index'   => 'Application\Controller\IndexController',
+            'Application\Controller\Query'   => 'Application\Controller\QueryController',
+            'Application\Controller\Schema'  => 'Application\Controller\SchemaController',
+            'Application\Controller\Console' => 'Application\Controller\ConsoleController',
         ),
     ),
     'view_manager' => array(
@@ -116,6 +117,26 @@ return array(
     'console' => array(
         'router' => array(
             'routes' => array(
+                'test' => array(
+                    'options' => array(
+                        'route' => 'test',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Application\Controller',
+                            'controller'    => 'Console',
+                            'action'        => 'index'
+                        ),
+                    ),
+                ),
+                'load-sqlite' => array(
+                    'options' => array(
+                        'route' => 'load-sqlite [--unlink|-u] [--withdata|-wd]',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Application\Controller',
+                            'controller'    => 'Console',
+                            'action'        => 'load-sqlite'
+                        ),
+                    ),
+                ),
             ),
         ),
     ),
