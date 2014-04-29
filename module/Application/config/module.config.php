@@ -2,8 +2,8 @@
 /**
  * 
  */
-
 return array(
+    'module_dir' => dirname(__DIR__),
     'router' => array(
         'routes' => array(
             'home' => array(
@@ -134,6 +134,16 @@ return array(
                             '__NAMESPACE__' => 'Application\Controller',
                             'controller'    => 'Console',
                             'action'        => 'load-sqlite'
+                        ),
+                    ),
+                ),
+                'list-tables' => array(
+                    'options' => array(
+                        'route' => 'list-tables',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Application\Controller',
+                            'controller'    => 'Console',
+                            'action'        => 'list-tables'
                         ),
                     ),
                 ),

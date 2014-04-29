@@ -11,6 +11,20 @@
  * file.
  */
 
+$root_dir = dirname(__DIR__) . '/..';
+
 return array(
-    // ...
+    'root_dir' => $root_dir,
+    'db' => array(
+        'driver' => 'Pdo_sqlite',
+        'database' => $root_dir . '/data/db/system.db'
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
+        ),
+        'aliases' => array(
+            'db' => 'Zend\Db\Adapter\Adapter',
+        ),
+    ),
 );

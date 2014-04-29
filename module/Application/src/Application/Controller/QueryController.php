@@ -72,7 +72,7 @@ class QueryController extends AbstractActionController
 
         // @TEMP
         $config = $this->getServiceLocator()->get('config');
-        $db = new Adapter($config['db']);
+        $db = new Adapter($config['temp_db']);
 
         $params = array(
             'resource_type' => 'table',
@@ -100,7 +100,7 @@ class QueryController extends AbstractActionController
     {
         // @TEMP
         $config = $this->getServiceLocator()->get('config');
-        $db = new Adapter($config['db']);
+        $db = new Adapter($config['temp_db']);
 
         $params = array(
             //'user_id'            => $this->_getIdentity()->user_id,

@@ -20,7 +20,7 @@ Edit config/autoload/local.php as follows:
     <?php
 
     return array(
-        'db' => array(
+        'temp_db' => array(
             'driver'   => 'Pdo_Pgsql',
             'database' => '<db name>',
             'hostname' => '<hostname>',

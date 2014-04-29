@@ -53,7 +53,7 @@ class SchemaController extends AbstractActionController
 
                 // @TEMP
                 $config = $this->getServiceLocator()->get('config');
-                $db = new Adapter($config['db']);
+                $db = new Adapter($config['temp_db']);
 
                 $params = array(
                     'resource_type' => $resource_type,
@@ -97,7 +97,7 @@ class SchemaController extends AbstractActionController
 
         // @TEMP
         $config = $this->getServiceLocator()->get('config');
-        $db = new Adapter($config['db']);
+        $db = new Adapter($config['temp_db']);
 
         $params = array(
             'resource_type' => $resource_type,
