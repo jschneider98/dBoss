@@ -24,8 +24,6 @@ class ConsoleController extends AbstractActionController
             throw new RuntimeException('FATAL ERROR: Tried to use console action in a non-console context');
         }
 
-        echo "\nYou're console controller is working correctly. Good job.\n\n";
-
         $db = $this->getServiceLocator()->get('db');
 
         $sql = "
@@ -36,6 +34,20 @@ class ConsoleController extends AbstractActionController
         $statement = $db->query($sql);
         $rows = $statement->execute();
 
+        echo "roles\n";
+        foreach ($rows as $row) {
+            echo implode(", ", $row) . "\n";
+        }
+
+        $sql = "
+            SELECT *
+            FROM data_type
+        ";
+
+        $statement = $db->query($sql);
+        $rows = $statement->execute();
+
+        echo "data_types\n";
         foreach ($rows as $row) {
             echo implode(", ", $row) . "\n";
         }
