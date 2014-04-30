@@ -1,0 +1,46 @@
+name=bigint	aliases=int8	description=signed eight-byte integer	driver=pdo_pgsql
+name=bigserial	aliases=serial8	description=autoincrementing eight-byte integer	driver=pdo_pgsql
+name=bit	description=fixed-length bit string	driver=pdo_pgsql
+name=bit varying(n)	aliases=varbit(n)	description=variable-length bit string	driver=pdo_pgsql
+name=boolean	aliases=bool	description=logical Boolean (true/false)	driver=pdo_pgsql
+name=box	description=rectangular box in the plane	driver=pdo_pgsql
+name=bytea	description=binary data	driver=pdo_pgsql
+name=character varying(n)	aliases=varchar(n)	description=variable-length character string	driver=pdo_pgsql
+name=character(n)	aliases=char(n)	description=fixed-length character string	driver=pdo_pgsql
+name=cidr	description=IPv4 or IPv6 network address	driver=pdo_pgsql
+name=circle	description=circle in the plane	driver=pdo_pgsql
+name=date	description=calendar date (year, month, day)	driver=pdo_pgsql
+name=double precision	aliases=float8	description=double precision floating-point number	driver=pdo_pgsql
+name=inet	description=IPv4 or IPv6 host address	driver=pdo_pgsql
+name=integer	aliases=int, int4	description=signed four-byte integer	driver=pdo_pgsql
+name=interval(p)	description=time span	driver=pdo_pgsql
+name=line	description=infinite line in the plane (not fully implemented)	driver=pdo_pgsql
+name=lseg	description=line segment in the plane	driver=pdo_pgsql
+name=macaddr	description=MAC address	driver=pdo_pgsql
+name=money	description=currency amount	driver=pdo_pgsql
+name=numeric [ (p, s) ]	aliases=decimal [ (p, s) ]	description=exact numeric with selectable precision	driver=pdo_pgsql
+name=path	description=open and closed geometric path in the plane	driver=pdo_pgsql
+name=point	description=geometric point in the plane	driver=pdo_pgsql
+name=polygon	description=closed geometric path in the plane	driver=pdo_pgsql
+name=real	aliases=float4	description=single precision floating-point number	driver=pdo_pgsql
+name=smallint	aliases=int2	description=signed two-byte integer	driver=pdo_pgsql
+name=serial	aliases=serial4	description=autoincrementing four-byte integer	driver=pdo_pgsql
+name=text	description=variable-length character string	driver=pdo_pgsql
+name=time [ (p) ] [ without time zone ]	description=time of day	driver=pdo_pgsql
+name=time [ (p) ] with time zone	aliases=timetz	description=time of day, including time zone	driver=pdo_pgsql
+name=timestamp [ (p) ] [ without time zone ]	aliases=timestamp	description=date and time	driver=pdo_pgsql
+name=timestamp [ (p) ] with time zone	aliases=timestamptz	description=date and time, including time zone	driver=pdo_pgsql
+name=bit	description=fixed-length bit string	driver=standard
+name=bit varying(n)	description=variable-length bit string	driver=standard
+name=boolean	description=logical Boolean (true/false)	driver=standard
+name=character varying(n)	aliases=varchar(n)	description=variable-length character string	driver=standard
+name=character(n)	aliases=char(n)	description=fixed-length character string	driver=standard
+name=date	description=calendar date (year, month, day)	driver=standard
+name=double precision	description=double precision floating-point number	driver=standard
+name=integer	aliases=int, int4	description=signed four-byte integer	driver=standard
+name=interval(p)	description=time span	driver=standard
+name=numeric [ (p, s) ]	aliases=decimal [ (p, s) ]	description=exact numeric with selectable precision	driver=standard
+name=real	description=single precision floating-point number	driver=standard
+name=smallint	description=signed two-byte integer	driver=standard
+name=time	description=time of day, including time zone	driver=standard
+name=timestamp	description=date and time	driver=standard

@@ -25,6 +25,20 @@ class ConsoleController extends AbstractActionController
         }
 
         echo "\nYou're console controller is working correctly. Good job.\n\n";
+
+        $db = $this->getServiceLocator()->get('db');
+
+        $sql = "
+            SELECT *
+            FROM role
+        ";
+
+        $statement = $db->query($sql);
+        $rows = $statement->execute();
+
+        foreach ($rows as $row) {
+            echo implode(", ", $row) . "\n";
+        }
     }
 
     /**
@@ -67,7 +81,11 @@ class ConsoleController extends AbstractActionController
             $statement->execute();
         }
 
-        echo "Done.\n";
+        echo "Schema load complete.\n";
+
+        if ($with_data) {
+            $this->loadData();
+        }
     }
 
     /**
@@ -103,5 +121,74 @@ class ConsoleController extends AbstractActionController
         }
 
         echo "\nDone.\n";
+    }
+
+    // ************* Non-Action Methods ******************
+
+    /**
+     * 
+     **/
+    protected function loadData()
+    {
+        $sm = $this->getServiceLocator();
+        $config = $sm->get('config');
+
+        $params = array(
+            'table' => $sm->get('Application\Model\RoleTable'),
+            'entity' => new \Application\Model\Role(),
+            'file_name' => $config['module_dir'] . "/script/roles.txt"
+        );
+
+        $this->loadFileData($params);
+
+        $params = array(
+            'table' => $sm->get('Application\Model\DataTypeTable'),
+            'entity' => new \Application\Model\DataType(),
+            'file_name' => $config['module_dir'] . "/script/data_types.txt"
+        );
+
+        $this->loadFileData($params);
+    }
+
+    /**
+     * 
+     **/
+    protected function loadFileData(array $params = array())
+    {
+        $table = null;
+        $entity = null;
+        $file_name = null;
+
+        extract($params, EXTR_IF_EXISTS);
+
+        if ( ! $table || ! $entity || ! $file_name) {
+            throw new RuntimeException('FATAL ERROR: Invalid parameters passed to ' . __METHOD__);
+        }
+
+        $fh = fopen($file_name , "r");
+
+        if ( ! $fh) {
+            throw new RuntimeException('FATAL ERROR: Could not open file ($file_name) in ' . __METHOD__);
+        }
+
+        echo "Loading $file_name data...";
+
+        while (($line = fgets($fh, 4096)) !== false) {
+            $parts = explode("\t", $line);
+
+            $data = array();
+            foreach ($parts as $part) {
+                list($key, $value) = explode("=", $part);
+                $data[$key] = $value;
+            }
+
+            $entity->exchangeArray($data);
+            $table->save($entity);
+
+            echo ".";
+        }
+
+        echo "done.\n";
+        fclose($fh);
     }
 }

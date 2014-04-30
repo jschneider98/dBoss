@@ -1,0 +1,3 @@
+role_level=1	role_name=boss	display_name=Boss
+role_level=2	role_name=normal	display_name=Normal
+role_level=3	role_name=limited	display_name=Limited

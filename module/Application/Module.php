@@ -7,6 +7,13 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+
+use Application\Model\Role;
+use Application\Model\RoleTable;
+use Application\Model\DataType;
+use Application\Model\DataTypeTable;
 
 class Module
 {
@@ -31,6 +38,39 @@ class Module
                     'Dboss' => __DIR__ . '/../../vendor/dboss/library/Dboss'
                 ),
             ),
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Application\Model\RoleTable' =>  function($sm) {
+                    $table_gateway = $sm->get('Application\Model\RoleTableGateway');
+                    return new RoleTable($table_gateway);
+                },
+                'Application\Model\RoleTableGateway' => function ($sm) {
+                    $db = $sm->get('db');
+                    $hydrator = new \Application\Hydrator\TableEntityMapper();
+                    $rowset_prototype = new \Application\Model\Role;
+                    $result_set = new \Zend\Db\ResultSet\HydratingResultSet($hydrator, $rowset_prototype);
+
+                    return new TableGateway('role', $db, null, $result_set);
+                },
+
+                'Application\Model\DataTypeTable' =>  function($sm) {
+                    $table_gateway = $sm->get('Application\Model\DataTypeTableGateway');
+                    return new DataTypeTable($table_gateway);
+                },
+                'Application\Model\DataTypeTableGateway' => function ($sm) {
+                    $db = $sm->get('db');
+                    $hydrator = new \Application\Hydrator\TableEntityMapper();
+                    $rowset_prototype = new \Application\Model\DataType;
+                    $result_set = new \Zend\Db\ResultSet\HydratingResultSet($hydrator, $rowset_prototype);
+
+                    return new TableGateway('data_type', $db, null, $result_set);
+                },
+            )
         );
     }
 }
