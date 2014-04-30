@@ -179,7 +179,7 @@ class ConsoleController extends AbstractActionController
             $data = array();
             foreach ($parts as $part) {
                 list($key, $value) = explode("=", $part);
-                $data[$key] = $value;
+                $data[trim($key)] = trim($value);
             }
 
             $entity->exchangeArray($data);
