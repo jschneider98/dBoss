@@ -45,7 +45,20 @@ class Module
     {
         return array(
             'factories' => array(
-                'Application\Model\RoleTable' =>  function($sm) {
+                'Application\Model\UserTable' => function($sm) {
+                    $table_gateway = $sm->get('Application\Model\UserTableGateway');
+                    return new UserTable($table_gateway);
+                },
+                'Application\Model\UserTableGateway' => function ($sm) {
+                    $db = $sm->get('db');
+                    $hydrator = new \Application\Hydrator\TableEntityMapper();
+                    $rowset_prototype = new \Application\Model\User;
+                    $result_set = new \Zend\Db\ResultSet\HydratingResultSet($hydrator, $rowset_prototype);
+
+                    return new TableGateway('user', $db, null, $result_set);
+                },
+
+                'Application\Model\RoleTable' => function($sm) {
                     $table_gateway = $sm->get('Application\Model\RoleTableGateway');
                     return new RoleTable($table_gateway);
                 },
@@ -58,7 +71,7 @@ class Module
                     return new TableGateway('role', $db, null, $result_set);
                 },
 
-                'Application\Model\DataTypeTable' =>  function($sm) {
+                'Application\Model\DataTypeTable' => function($sm) {
                     $table_gateway = $sm->get('Application\Model\DataTypeTableGateway');
                     return new DataTypeTable($table_gateway);
                 },

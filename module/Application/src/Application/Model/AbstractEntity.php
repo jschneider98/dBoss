@@ -7,8 +7,12 @@ abstract class AbstractEntity
     /**
      * 
      **/
-    public function __construct(array $data = array())
+    public function __construct(array $params = array())
     {
+        $data = array();
+
+        extract($params, EXTR_IF_EXISTS);
+
         $this->exchangeArray($data);
     }
 

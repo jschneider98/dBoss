@@ -45,13 +45,19 @@ abstract class AbstractTable
     /**
      * 
      **/
-    public function fetchRow($id)
+    public function fetchRow($param = null)
     {
-        if ( ! $id) {
+        if (is_null($param)) {
             return null;
         }
 
-        $rowset = $this->table_gateway->select(array($this->pkey => $id));
+        if (is_integer($param)) {
+            $where = array($this->pkey => $param)
+        } else {
+            $where = $param;
+        }
+
+        $rowset = $this->table_gateway->select($where);
         return $rowset->current();
     }
 

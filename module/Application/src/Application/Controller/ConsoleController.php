@@ -10,6 +10,8 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\Db\Adapter\Adapter;
 use RuntimeException;
 
+// @TEMP
+use Application\Model\User;
 
 class ConsoleController extends AbstractActionController
 {
@@ -24,33 +26,17 @@ class ConsoleController extends AbstractActionController
             throw new RuntimeException('FATAL ERROR: Tried to use console action in a non-console context');
         }
 
-        $db = $this->getServiceLocator()->get('db');
+        $sm = $this->getServiceLocator();
+        $config = $sm->get('config');
+        $user = new User(array('security' => $config['security']));
+        $user->password = "mypass";
+        $user->user_name = "jschneider";
+        echo "pass:" . $user->password . "\n";
+        echo "raw_user: " . $user->getRawUserName() . "\n";
+        echo "user: " . $user->user_name . "\n";
 
-        $sql = "
-            SELECT *
-            FROM role
-        ";
-
-        $statement = $db->query($sql);
-        $rows = $statement->execute();
-
-        echo "roles\n";
-        foreach ($rows as $row) {
-            echo implode(", ", $row) . "\n";
-        }
-
-        $sql = "
-            SELECT *
-            FROM data_type
-        ";
-
-        $statement = $db->query($sql);
-        $rows = $statement->execute();
-
-        echo "data_types\n";
-        foreach ($rows as $row) {
-            echo implode(", ", $row) . "\n";
-        }
+        //$data = $user->getArrayCopy();
+        //var_dump($data) . "\n";
     }
 
     /**
