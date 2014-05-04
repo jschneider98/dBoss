@@ -52,7 +52,7 @@ abstract class AbstractTable
         }
 
         if (is_integer($param)) {
-            $where = array($this->pkey => $param)
+            $where = array($this->pkey => $param);
         } else {
             $where = $param;
         }

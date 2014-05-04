@@ -26,17 +26,61 @@ class ConsoleController extends AbstractActionController
             throw new RuntimeException('FATAL ERROR: Tried to use console action in a non-console context');
         }
 
-        $sm = $this->getServiceLocator();
-        $config = $sm->get('config');
-        $user = new User(array('security' => $config['security']));
-        $user->password = "mypass";
-        $user->user_name = "jschneider";
-        echo "pass:" . $user->password . "\n";
-        echo "raw_user: " . $user->getRawUserName() . "\n";
-        echo "user: " . $user->user_name . "\n";
+        $om = $this
+            ->getServiceLocator()
+            ->get('Doctrine\ORM\EntityManager');
 
-        //$data = $user->getArrayCopy();
-        //var_dump($data) . "\n";
+        $config = $this->getServiceLocator()->get('config');
+        $security = $config['security'];
+
+        /*
+        $role = new \Application\Entity\Role();
+
+        $role->role_level = 1;
+        $role->role_name = "boss";
+        $role->display_name = "Boss";
+        $om->persist($role);
+        
+        $user = new \Application\Entity\User();
+        $user->security = $security;
+        $user->user_name = 'jschneider';
+        $user->first_name = 'James';
+        $user->last_name = 'Schneider';
+        $user->password = 'test';
+        $user->role = $role;
+        $om->persist($user);
+
+        $query1 = new \Application\Entity\Query();
+        $query2 = new \Application\Entity\Query();
+
+        $query1->query_name = "Query1";
+        $query1->query = "SELECT 1";
+        $query1->query_hash = md5("SELECT 1");
+        $query1->user = $user;
+        $om->persist($query1);
+
+        $query2->query_name = "Query2";
+        $query2->query = "SELECT 2";
+        $query2->query_hash = md5("SELECT 2");
+        $query2->user = $user;
+        $om->persist($query2);
+
+        $user->queries->add($query1);
+        $user->queries->add($query2);
+
+        $om->flush();
+        */
+
+        $user = $om->find('\Application\Entity\User', 1);
+
+        echo "Boss: " . $user->isaBoss() . "\n";
+        echo "Limited: " . $user->isLimited() . "\n";
+        echo "Q1: " . $user->isMyQuery(1) . "\n";
+        echo "Q2: " . $user->isMyQuery(2) . "\n";
+        echo "Q999: " . $user->isMyQuery(999) . "\n";
+
+        $query = $user->getMyQuery(1);
+        echo "Q: " . $query->query . "\n";
     }
 
     /**

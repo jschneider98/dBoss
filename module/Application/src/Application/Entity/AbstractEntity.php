@@ -6,6 +6,26 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AbstractEntity
 {
     /**
+     * 
+     **/
+    public function exchangeArray($data = array())
+    {
+        $properties = $this->getArrayCopy();
+
+        foreach ($properties as $property => $value) {
+            $this->$property = (isset($data[$property])) ? $data[$property] : null;
+        }
+    }
+
+    /**
+     * 
+     **/
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+
+    /**
      * Magic setter
      **/
     public function __set($field_name, $value)
