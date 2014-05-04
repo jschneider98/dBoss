@@ -1,6 +1,6 @@
 -- scripts/schema.sqlite.sql
 --
--- You will need load your database schema with this SQL.
+-- You will need to load your database schema with this SQL.
 
 -- ** Role Table **
 
@@ -50,8 +50,8 @@ CREATE TABLE query (
     query_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     query_name VARCHAR(255),
-    sql TEXT NOT NULL,
-    sql_hash VARCHAR(255),
+    query TEXT NOT NULL,
+    query_hash VARCHAR(255),
     creation_date DATETIME NOT NULL,
     modification_date DATETIME NOT NULL,
     deletion_date DATETIME,
