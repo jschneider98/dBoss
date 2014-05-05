@@ -10,6 +10,10 @@ use Zend\Mvc\MvcEvent;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
+use Application\Entity\EntityInjector;
+use Application\Service\UserService;
+
+
 use Application\Model\Role;
 use Application\Model\RoleTable;
 use Application\Model\DataType;
@@ -19,9 +23,19 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
+        $event_manager  = $e->getApplication()->getEventManager();
+        $module_route_listener = new ModuleRouteListener();
+        $module_route_listener->attach($event_manager);
+
+        // Doctrine events
+        $service_manager = $e->getApplication()->getServiceManager();
+        $object_manager = $service_manager->get('Doctrine\ORM\EntityManager');
+        $doc_event_manager = $object_manager->getEventManager();
+
+        $doc_event_manager->addEventListener(
+            array(\Doctrine\ORM\Events::postLoad),
+            new EntityInjector($service_manager)
+        );
     }
 
     public function getConfig()
@@ -45,6 +59,13 @@ class Module
     {
         return array(
             'factories' => array(
+                'Application\Service\UserService' => function($sm) {
+                    $object_manager = $sm->get('Doctrine\ORM\EntityManager');
+                    $params = array('object_manager' => $object_manager);
+                    return new UserService($params);
+                },
+
+                // @TODO: Remove these because we're switching to doctrine style entities etc
                 'Application\Model\UserTable' => function($sm) {
                     $table_gateway = $sm->get('Application\Model\UserTableGateway');
                     return new UserTable($table_gateway);

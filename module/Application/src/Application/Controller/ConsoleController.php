@@ -26,6 +26,7 @@ class ConsoleController extends AbstractActionController
             throw new RuntimeException('FATAL ERROR: Tried to use console action in a non-console context');
         }
 
+        /*
         $om = $this
             ->getServiceLocator()
             ->get('Doctrine\ORM\EntityManager');
@@ -33,7 +34,6 @@ class ConsoleController extends AbstractActionController
         $config = $this->getServiceLocator()->get('config');
         $security = $config['security'];
 
-        /*
         $role = new \Application\Entity\Role();
 
         $role->role_level = 1;
@@ -71,8 +71,10 @@ class ConsoleController extends AbstractActionController
         $om->flush();
         */
 
-        $user = $om->find('\Application\Entity\User', 1);
+        $user_service = $this->getServiceLocator()->get('Application\Service\UserService');
+        $user = $user_service->findOneBy(array('user_id' => 1));
 
+        var_dump($user->security);
         echo "Boss: " . $user->isaBoss() . "\n";
         echo "Limited: " . $user->isLimited() . "\n";
         echo "Q1: " . $user->isMyQuery(1) . "\n";
