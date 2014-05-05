@@ -39,7 +39,7 @@ abstract class AbstractObjectManagerService
      **/
     public function findAll()
     {
-        return $this->object_manager->getRepository($this->entity_class)->findAll();
+        return $this->getRepository()->findAll();
     }
 
     /**
@@ -47,7 +47,7 @@ abstract class AbstractObjectManagerService
      **/
     public function findBy($criteria = null)
     {
-        return $this->object_manager->getRepository($this->entity_class)->findBy($criteria);
+        return $this->getRepository()->findBy($criteria);
     }
 
     /**
@@ -55,7 +55,15 @@ abstract class AbstractObjectManagerService
      **/
     public function findOneBy($criteria = null)
     {
-        return $this->object_manager->getRepository($this->entity_class)->findOneBy($criteria);
+        return $this->getRepository()->findOneBy($criteria);
+    }
+
+    /**
+     * 
+     **/
+    public function getRepository()
+    {
+        return $this->object_manager->getRepository($this->entity_class);
     }
 
     /**
@@ -86,7 +94,7 @@ abstract class AbstractObjectManagerService
     {
         // soft delete
         if (property_exists($entity, 'deletion_date')) {
-            $entity->deletion_date = date("Y-m-d H:i:s");
+            $entity->deletion_date = new \DateTime("now");
             $this->save($entity);
             return;
         }
