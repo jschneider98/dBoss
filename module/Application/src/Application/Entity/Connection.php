@@ -4,14 +4,14 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\Entity @ORM\HasLifecycleCallbacks */
-class Database extends AbstractEntity
+class Connection extends AbstractEntity
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false)
      **/
-    protected $database_id;
+    protected $connection_id;
 
     /** @ORM\Column(type="integer", nullable=false) */
     protected $user_id;
@@ -20,7 +20,7 @@ class Database extends AbstractEntity
     protected $display_name;
 
     /** @ORM\Column(type="string", unique=true, nullable=true) */
-    protected $name;
+    protected $database_name;
 
     /** @ORM\Column(type="string", nullable=true) */
     protected $user_name;
@@ -41,7 +41,7 @@ class Database extends AbstractEntity
     protected $modification_date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="databases")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="connections")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      **/
     protected $user;

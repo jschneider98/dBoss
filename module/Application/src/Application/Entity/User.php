@@ -52,14 +52,9 @@ class User extends AbstractEntity
     protected $queries;
 
     /**
-     * @ORM\OneToMany(targetEntity="Server", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Connection", mappedBy="user")
      **/
-    protected $servers;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Database", mappedBy="user")
-     **/
-    protected $databases;
+    protected $connections;
 
     protected $security;
 
@@ -211,19 +206,19 @@ class User extends AbstractEntity
     }
 
     /**
-     * Checks to see if a database belongs to the user
+     * Checks to see if a connection belongs to the user
      * 
-     * @param int A database_id
+     * @param int connection_id
      * 
      * @return boolean
      **/
-    public function isMyDatabase($database_id = null)
+    public function isMyConnection($connection_id = null)
     {
         if (! $this->user_id || ! is_numeric($this->user_id)) {
             return false;
         }
 
-        if (! $database_id || ! is_numeric($database_id)) {
+        if (! $connection_id || ! is_numeric($connection_id)) {
             return false;
         }
 
@@ -238,52 +233,14 @@ class User extends AbstractEntity
 
         $criteria->andWhere(
             $criteria->expr()->eq(
-                'database_id',
-                $database_id
+                'connection_id',
+                $connection_id
             )
         );
 
-        $database = $this->databases->matching($criteria);
+        $connection = $this->connections->matching($criteria);
 
-        return ($database->count()) ? true : false;
-    }
-
-    /**
-     * Checks to see if a server belongs to the user
-     * 
-     * @param int A server_id
-     * 
-     * @return boolean
-     **/
-    public function isMyServer($server_id = null)
-    {
-        if ( ! $this->user_id || ! is_numeric($this->user_id)) {
-            return false;
-        }
-
-        if ( ! $server_id || ! is_numeric($server_id)) {
-            return false;
-        }
-
-        $criteria = new Criteria();
-
-        $criteria->andWhere(
-            $criteria->expr()->eq(
-                'user_id',
-                $this->user_id
-            )
-        );
-
-        $criteria->andWhere(
-            $criteria->expr()->eq(
-                'server_id',
-                $server_id
-            )
-        );
-
-        $server = $this->servers->matching($criteria);
-
-        return ($server->count()) ? true : false;
+        return ($connection->count()) ? true : false;
     }
 
     /**
