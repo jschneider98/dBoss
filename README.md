@@ -27,6 +27,11 @@ Edit config/autoload/local.php as follows:
             'username' => '<username>',
             'password' => '<password>',
         ),
+        'security' => array(
+            'salt_key' => 'dBoss_salt',
+            'iteration_count' => 8,
+            'portable_hashes' => 0,
+        ),
     );
 
 NOTE: local.php is ignored by git, so it's safe to add connection info to it.
