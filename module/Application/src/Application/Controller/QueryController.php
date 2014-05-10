@@ -5,14 +5,14 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+//use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Db\Adapter\Adapter;
 use Application\Form\QueryForm;
 use Dboss\Schema\Resource\ResourceFactory;
 use Dboss\QueryRunner;
 
-class QueryController extends AbstractActionController
+class QueryController extends DbossActionController
 {
     public function indexAction()
     {
@@ -70,13 +70,9 @@ class QueryController extends AbstractActionController
 
         extract($params, EXTR_IF_EXISTS);
 
-        // @TEMP
-        $config = $this->getServiceLocator()->get('config');
-        $db = new Adapter($config['temp_db']);
-
         $params = array(
             'resource_type' => 'table',
-            'db'            => $db
+            'db'            => $this->db
         );
 
         $resource_factory = new ResourceFactory($params);
@@ -98,17 +94,13 @@ class QueryController extends AbstractActionController
      */
     protected function runSql($sql = null)
     {
-        // @TEMP
-        $config = $this->getServiceLocator()->get('config');
-        $db = new Adapter($config['temp_db']);
-
         $params = array(
             //'user_id'            => $this->_getIdentity()->user_id,
             'sql'                => $sql,
             //'query_name'         => $post_vals['query_name'],
             //'run_in_transaction' => $post_vals['run_in_transaction'],
             //'multiple_queries'   => $post_vals['multiple_queries'],
-            'db'                 => $db,
+            'db'                 => $this->db,
             //'sys_db'             => $this->getFrontController()->getParam('bootstrap')->getResource('db')
         );
 

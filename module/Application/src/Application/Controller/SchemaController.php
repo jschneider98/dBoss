@@ -12,7 +12,7 @@ use Application\Form\SchemaSearchForm;
 use Dboss\Schema\Resource\ResourceFactory;
 use Dboss\Schema\Resource\Null;
 
-class SchemaController extends AbstractActionController
+class SchemaController extends DbossActionController
 {
     /**
      * 
@@ -51,13 +51,9 @@ class SchemaController extends AbstractActionController
                     $search = trim($search_parts[1]);
                 }
 
-                // @TEMP
-                $config = $this->getServiceLocator()->get('config');
-                $db = new Adapter($config['temp_db']);
-
                 $params = array(
                     'resource_type' => $resource_type,
-                    'db'            => $db
+                    'db'            => $this->db
                 );
 
                 $resource_factory = new ResourceFactory($params);
@@ -95,13 +91,9 @@ class SchemaController extends AbstractActionController
 
         $template = array();
 
-        // @TEMP
-        $config = $this->getServiceLocator()->get('config');
-        $db = new Adapter($config['temp_db']);
-
         $params = array(
             'resource_type' => $resource_type,
-            'db'            => $db
+            'db'            => $this->db
         );
 
         $resource_factory = new ResourceFactory($params);

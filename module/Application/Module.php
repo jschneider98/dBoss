@@ -19,14 +19,14 @@ use Application\Service\UserService;
 
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(MvcEvent $event)
     {
-        $event_manager  = $e->getApplication()->getEventManager();
+        $event_manager  = $event->getApplication()->getEventManager();
         $module_route_listener = new ModuleRouteListener();
         $module_route_listener->attach($event_manager);
 
         // Doctrine events
-        $service_manager = $e->getApplication()->getServiceManager();
+        $service_manager = $event->getApplication()->getServiceManager();
         $object_manager = $service_manager->get('Doctrine\ORM\EntityManager');
         $doc_event_manager = $object_manager->getEventManager();
 

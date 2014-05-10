@@ -13,8 +13,11 @@ use RuntimeException;
 // @TEMP
 use Application\Model\User;
 
-class ConsoleController extends AbstractActionController
+class ConsoleController extends DbossActionController
 {
+    public $require_login = false;
+    public $require_connection = false;
+
     /**
      * Simple console test action
      **/
