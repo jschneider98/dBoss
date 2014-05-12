@@ -3,7 +3,11 @@
 namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\Entity @ORM\HasLifecycleCallbacks */
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="data_type")
+ **/
 class DataType extends AbstractEntity
 {
     /**

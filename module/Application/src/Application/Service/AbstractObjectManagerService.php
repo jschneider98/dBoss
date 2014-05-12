@@ -1,6 +1,7 @@
 <?php
 namespace Application\Service;
 
+use Application\Entity\AbstractEntity;
 use Doctrine\ORM\EntityManager;
 use Zend\Stdlib\Exception;
 
@@ -71,6 +72,8 @@ abstract class AbstractObjectManagerService
      **/
     public function save(AbstractEntity $entity)
     {
+        $this->object_manager->detach($entity);
+
         $meta = $this->object_manager->getClassMetadata(get_class($entity));
         $identifier = $meta->getSingleIdentifierFieldName();
 
@@ -100,6 +103,7 @@ abstract class AbstractObjectManagerService
         }
 
         // hard delete
+        $this->object_manager->detach($entity);
         $this->object_manager->remove($entity);
         $this->object_manager->flush();
     }

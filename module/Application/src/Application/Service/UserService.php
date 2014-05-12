@@ -9,4 +9,20 @@ class UserService extends AbstractObjectManagerService
         $params['entity_class'] = '\Application\Entity\User';
         parent::__construct($params);
     }
+
+    /**
+     * 
+     **/
+    public function findActiveUsers()
+    {
+        return $this->getRepository()->findActiveUsers();
+    }
+
+    /**
+     * 
+     **/
+    public function findInactiveUsers()
+    {
+        return $this->getRepository()->findInactiveUsers();
+    }
 }

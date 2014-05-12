@@ -9,7 +9,11 @@ use Zend\Stdlib\Exception;
 use Dboss\PasswordHash;
 use Dboss\Xtea;
 
-/** @ORM\Entity @ORM\HasLifecycleCallbacks */
+/**
+ * @ORM\Entity (repositoryClass="\Application\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="user")
+ **/
 class User extends AbstractEntity
 {
     /**

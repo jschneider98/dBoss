@@ -13,11 +13,8 @@ use RuntimeException;
 // @TEMP
 use Application\Model\User;
 
-class ConsoleController extends DbossActionController
+class ConsoleController extends AbstractActionController
 {
-    public $require_login = false;
-    public $require_connection = false;
-
     /**
      * Simple console test action
      **/
@@ -28,6 +25,47 @@ class ConsoleController extends DbossActionController
         if ( ! $request instanceof ConsoleRequest){
             throw new RuntimeException('FATAL ERROR: Tried to use console action in a non-console context');
         }
+
+        $user_service = $this->getServiceLocator()->get('Application\Service\UserService');
+        $role_service = $this->getServiceLocator()->get('Application\Service\RoleService');
+        $query_service = $this->getServiceLocator()->get('Application\Service\QueryService');
+
+        $boss_role = $role_service->findOneBy(array('role_name' => 'boss'));
+        $normal_role = $role_service->findOneBy(array('role_name' => 'normal'));
+        $limited_role = $role_service->findOneBy(array('role_name' => 'limited'));
+
+        $config = $this->getServiceLocator()->get('config');
+        $security = $config['security'];
+
+        $user = new \Application\Entity\User();
+        $user->security = $security;
+        $user->user_name = 'jschneider';
+        $user->first_name = 'James';
+        $user->last_name = 'Schneider';
+        $user->password = 'test';
+        $user->role = $boss_role;
+
+        $user_service->save($user);
+
+        $user = new \Application\Entity\User();
+        $user->security = $security;
+        $user->user_name = 'jdoe';
+        $user->first_name = 'Jon';
+        $user->last_name = 'Doe';
+        $user->password = 'djon';
+        $user->role = $normal_role;
+
+        $user_service->save($user);
+
+        $user = new \Application\Entity\User();
+        $user->security = $security;
+        $user->user_name = 'jadoe';
+        $user->first_name = 'Jane';
+        $user->last_name = 'Doe';
+        $user->password = 'djon';
+        $user->role = $limited_role;
+
+        $user_service->save($user);
 
         /*
         $om = $this
@@ -44,13 +82,7 @@ class ConsoleController extends DbossActionController
         $role->display_name = "Boss";
         $om->persist($role);
         
-        $user = new \Application\Entity\User();
-        $user->security = $security;
-        $user->user_name = 'jschneider';
-        $user->first_name = 'James';
-        $user->last_name = 'Schneider';
-        $user->password = 'test';
-        $user->role = $role;
+
         $om->persist($user);
 
         $query1 = new \Application\Entity\Query();
@@ -74,10 +106,23 @@ class ConsoleController extends DbossActionController
         $om->flush();
         */
 
-        $user_service = $this->getServiceLocator()->get('Application\Service\UserService');
-        $user = $user_service->findOneBy(array('user_id' => 1));
+        $user = $user_service->findOneBy(array('first_name' => 'James'));
 
-        var_dump($user->security);
+        $query1 = new \Application\Entity\Query();
+        $query2 = new \Application\Entity\Query();
+
+        $query1->query_name = "Query1";
+        $query1->query = "SELECT 1";
+        $query1->query_hash = md5("SELECT 1");
+        $query1->user = $user;
+        $query_service->save($query1);
+
+        $query2->query_name = "Query2";
+        $query2->query = "SELECT 2";
+        $query2->query_hash = md5("SELECT 2");
+        $query2->user = $user;
+        $query_service->save($query2);
+
         echo "Boss: " . $user->isaBoss() . "\n";
         echo "Limited: " . $user->isLimited() . "\n";
         echo "Q1: " . $user->isMyQuery(1) . "\n";
@@ -181,16 +226,16 @@ class ConsoleController extends DbossActionController
         $config = $sm->get('config');
 
         $params = array(
-            'table' => $sm->get('Application\Model\RoleTable'),
-            'entity' => new \Application\Model\Role(),
+            'table' => $sm->get('Application\Service\RoleService'),
+            'entity' => new \Application\Entity\Role(),
             'file_name' => $config['module_dir'] . "/script/roles.txt"
         );
 
         $this->loadFileData($params);
 
         $params = array(
-            'table' => $sm->get('Application\Model\DataTypeTable'),
-            'entity' => new \Application\Model\DataType(),
+            'table' => $sm->get('Application\Service\DataTypeService'),
+            'entity' => new \Application\Entity\DataType(),
             'file_name' => $config['module_dir'] . "/script/data_types.txt"
         );
 

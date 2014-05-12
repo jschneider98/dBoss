@@ -52,7 +52,7 @@ abstract class AbstractEntity
     /** @ORM\PrePersist */
     public function onPrePersist()
     {
-        if (property_exists($this,'creation_date')) {
+        if (property_exists($this,'creation_date') && ! $this->creation_date) {
             $this->creation_date = new \DateTime("now");
         }
 
@@ -64,9 +64,7 @@ abstract class AbstractEntity
     /** @ORM\PreUpdate */
     public function onPreUpdate()
     {
-        if (property_exists($this,'modification_date')) {
-            $this->modification_date = new \DateTime("now");
-        }
+        $this->onPrePersist();
     }
 
     /**

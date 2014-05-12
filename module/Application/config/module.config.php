@@ -16,6 +16,17 @@ return array(
                     ),
                 ),
             ),
+            'admin' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/admin[/:action[/:user_id]]',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller'    => 'Admin',
+                        'action'        => 'index',
+                    ),
+                ),
+            ),
             'query' => array(
                 'type' => 'segment',
                 'options' => array(
@@ -91,6 +102,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
+            'Application\Controller\Admin'   => 'Application\Controller\AdminController',
             'Application\Controller\Index'   => 'Application\Controller\IndexController',
             'Application\Controller\Query'   => 'Application\Controller\QueryController',
             'Application\Controller\Schema'  => 'Application\Controller\SchemaController',
