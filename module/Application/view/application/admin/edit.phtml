@@ -1,1 +1,28 @@
-edit
+<?php
+$title = 'Edit User';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+
+<?php
+echo $this->bootstrapAlert("testing alert");
+$form = $this->form;
+$form->setAttribute('action', $this->url(
+    'admin',
+    array(
+        'action' => 'edit',
+        'user_id'     => $this->user_id,
+    )
+));
+
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('user_id'));
+echo $this->formRow($form->get('user_name')) . "<br>";
+echo $this->formRow($form->get('first_name')) . "<br>";
+echo $this->formRow($form->get('last_name')) . "<br>";
+echo $this->formRow($form->get('password')) . "<br>";
+echo $this->formRow($form->get('verify_password')) . "<br>";
+echo $this->formSubmit($form->get('save_submit')) . "<br>";
+echo $this->form()->closeTag();

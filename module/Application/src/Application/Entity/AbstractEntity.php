@@ -13,7 +13,8 @@ abstract class AbstractEntity
         $properties = $this->getArrayCopy();
 
         foreach ($properties as $property => $value) {
-            $this->$property = (isset($data[$property])) ? $data[$property] : null;
+            $value = (isset($data[$property])) ? $data[$property] : null;
+            $this->__set($property, $value);
         }
     }
 
@@ -22,17 +23,24 @@ abstract class AbstractEntity
      **/
     public function getArrayCopy()
     {
-        return get_object_vars($this);
+        $data = array();
+        $properties = get_object_vars($this);
+
+        foreach ($properties as $property => $value) {
+            $data[$property] = $this->__get($property);
+        }
+
+        return $data;
     }
 
     /**
      * Magic setter
      **/
-    public function __set($field_name, $value)
+    public function __set($property, $value)
     {
-        switch ($field_name) {
+        switch ($property) {
             default:
-                $this->$field_name = $value;
+                $this->$property = $value;
                 break;
         }
     }
@@ -40,11 +48,11 @@ abstract class AbstractEntity
     /**
      * Magic getter
      **/
-    public function __get($field_name)
+    public function __get($property)
     {
-        switch ($field_name) {
+        switch ($property) {
             default:
-                return $this->$field_name;
+                return $this->$property;
                 break;
         }
     }

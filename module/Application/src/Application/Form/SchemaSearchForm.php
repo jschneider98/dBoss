@@ -25,7 +25,7 @@ class SchemaSearchForm extends Form
             'attributes' => array(
                 'type'  => 'submit',
                 'value' => 'Search',
-                'id' => 'search_button',
+                'id'    => 'search_button',
             ),
         ));
     }

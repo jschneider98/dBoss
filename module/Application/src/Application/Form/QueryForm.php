@@ -25,7 +25,7 @@ class QueryForm extends Form
             'attributes' => array(
                 'type'  => 'submit',
                 'value' => 'Run',
-                'id' => 'run_button',
+                'id'    => 'run_button',
             ),
         ));
     }

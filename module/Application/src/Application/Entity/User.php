@@ -5,7 +5,13 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
+
 use Zend\Stdlib\Exception;
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilter as InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
+
 use Dboss\PasswordHash;
 use Dboss\Xtea;
 
@@ -14,7 +20,7 @@ use Dboss\Xtea;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="user")
  **/
-class User extends AbstractEntity
+class User extends AbstractEntity implements InputFilterAwareInterface
 {
     /**
      * @ORM\Id
@@ -61,6 +67,7 @@ class User extends AbstractEntity
     protected $connections;
 
     protected $security;
+    protected $input_filter;
 
     /**
      *
@@ -73,11 +80,135 @@ class User extends AbstractEntity
     }
 
     /**
+     * 
+     **/
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("setInputFilter not used in " . __METHOD__);
+    }
+
+    /**
+     * 
+     **/
+    public function getInputFilter()
+    {
+        if (! $this->input_filter) {
+            $input_filter = new InputFilter();
+            $factory = new InputFactory();
+
+            $input_filter->add($factory->createInput(array(
+                'name'     => 'user_id',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            )));
+
+            $input_filter->add($factory->createInput(array(
+                'name'     => 'user_name',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+
+            $input_filter->add($factory->createInput(array(
+                'name'     => 'first_name',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+
+            $input_filter->add($factory->createInput(array(
+                'name'     => 'last_name',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+
+            $input_filter->add($factory->createInput(array(
+                'name'     => 'password',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+
+            $input_filter->add($factory->createInput(array(
+                'name'     => 'verify_password',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+
+            $this->input_filter = $input_filter;
+        }
+
+        return $this->input_filter;
+    }
+
+    /**
      * Magic setter
      **/
-    public function __set($field_name, $value)
+    public function __set($property, $value)
     {
-        switch ($field_name) {
+        switch ($property) {
             case "password":
                 $this->setPassword($value);
                 break;
@@ -88,7 +219,7 @@ class User extends AbstractEntity
                 $this->setSecurity($value);
                 break;
             default:
-                $this->$field_name = $value;
+                $this->$property = $value;
                 break;
         }
     }
@@ -96,14 +227,14 @@ class User extends AbstractEntity
     /**
      * Magic getter
      **/
-    public function __get($field_name)
+    public function __get($property)
     {
-        switch ($field_name) {
+        switch ($property) {
             case "user_name":
                 return $this->getUserName();
                 break;
             default:
-                return $this->$field_name;
+                return $this->$property;
                 break;
         }
     }
