@@ -43,9 +43,10 @@ class AdminController extends DbossActionController
     public function editAction()
     {
         $user_id = (int) $this->params()->fromRoute('user_id', 0);
-        $user = $this->getUserService()->findOneBy(array('user_id' => $user_id));
+        $user = $this->getUserService()->findOrCreate($user_id);
+        $user->password = null;
 
-        $template = array();
+        $template = array('user' => $user);
         $form = new UserForm();
         $form->setup();
         $form->bind($user);
@@ -57,11 +58,9 @@ class AdminController extends DbossActionController
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                //$user->exchangeArray($form->getData());
-                //$this->getAlbumTable()->saveRow($album);
+                $this->getUserService()->save($form->getData());
 
-                // Redirect to list of albums
-                return $this->redirect()->toRoute('index');
+                return $this->redirect()->toRoute('admin');
             }
         }
 

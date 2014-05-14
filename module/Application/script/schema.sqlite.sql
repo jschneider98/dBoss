@@ -63,28 +63,13 @@ CREATE INDEX "query_user_id" ON "query" ("user_id");
 CREATE INDEX "query_query_name" ON "query" ("query_name");
 CREATE INDEX "query_modificatoin_date" ON "query" ("modification_date");
 
--- ** Server Table **
+-- ** Connection Table **
 
-CREATE TABLE server (
-    server_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    name VARCHAR(255),
-    user_name VARCHAR(255),
-    password VARCHAR(255),
-    host VARCHAR(255),
-    driver VARCHAR(255),
-    creation_date DATETIME NOT NULL,
-    modification_date DATETIME NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user_id (user_id)
-);
-
--- ** Database Table **
-
-CREATE TABLE database (
-    database_id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE connection (
+    connection_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     display_name VARCHAR(255),
-    name VARCHAR(255),
+    database_name VARCHAR(255),
     user_name VARCHAR(255),
     password VARCHAR(255),
     host VARCHAR(255),

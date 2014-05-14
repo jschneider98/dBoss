@@ -6,15 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AbstractEntity
 {
     /**
+     * Only the properties that should be hydrated
+     **/
+    abstract public function getFields();
+
+    /**
      * 
      **/
-    public function exchangeArray($data = array())
+    public function exchangeArray(array $data = array())
     {
-        $properties = $this->getArrayCopy();
-
-        foreach ($properties as $property => $value) {
-            $value = (isset($data[$property])) ? $data[$property] : null;
-            $this->__set($property, $value);
+        foreach ($this->getFields() as $field_name) {
+            $value = (isset($data[$field_name])) ? $data[$field_name] : null;
+            $this->__set($field_name, $value);
         }
     }
 
@@ -24,10 +27,9 @@ abstract class AbstractEntity
     public function getArrayCopy()
     {
         $data = array();
-        $properties = get_object_vars($this);
 
-        foreach ($properties as $property => $value) {
-            $data[$property] = $this->__get($property);
+        foreach ($this->getFields() as $field_name) {
+            $data[$field_name] = $this->__get($field_name);
         }
 
         return $data;

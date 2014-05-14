@@ -18,6 +18,7 @@ class UserForm extends Form
     {
         $this->addUserId();
         $this->addUserName();
+        $this->addRoleId();
         $this->addFirstName();
         $this->addLastName();
         $this->addFirstName();
@@ -44,13 +45,39 @@ class UserForm extends Form
      **/
     public function addUserName()
     {
+        $label = 'User Name';
+
         $this->add(array(
             'name' => 'user_name',
             'attributes' => array(
-                'type'  => 'text',
+                'type'        => 'text',
+                'placeholder' => $label,
+                'class'       => "form-control input-lg",
             ),
             'options' => array(
-                'label' => 'User Name',
+                'label'            => $label,
+                'label_attributes' => array("style" => "width: 100%"),
+            ),
+        ));
+    }
+
+    /**
+     * 
+     **/
+    public function addRoleId()
+    {
+        $label = 'Role';
+
+        $this->add(array(
+            'name' => 'role_id',
+            'attributes' => array(
+                'type'        => 'text',
+                'placeholder' => $label,
+                'class'       => "form-control input-lg",
+            ),
+            'options' => array(
+                'label'            => $label,
+                'label_attributes' => array("style" => "width: 100%"),
             ),
         ));
     }
@@ -60,13 +87,18 @@ class UserForm extends Form
      **/
     public function addFirstName()
     {
+        $label = 'First Name';
+
         $this->add(array(
             'name' => 'first_name',
             'attributes' => array(
-                'type'  => 'text',
+                'type'        => 'text',
+                'placeholder' => $label,
+                'class'       => "form-control input-lg",
             ),
             'options' => array(
-                'label' => 'First Name',
+                'label'            => $label,
+                'label_attributes' => array("style" => "width: 100%"),
             ),
         ));
     }
@@ -76,13 +108,18 @@ class UserForm extends Form
      **/
     public function addLastName()
     {
+        $label = 'Last Name';
+
         $this->add(array(
             'name' => 'last_name',
             'attributes' => array(
-                'type'  => 'text',
+                'type'        => 'text',
+                'placeholder' => $label,
+                'class'       => "form-control input-lg",
             ),
             'options' => array(
-                'label' => 'Last Name',
+                'label'            => $label,
+                'label_attributes' => array("style" => "width: 100%"),
             ),
         ));
     }
@@ -92,13 +129,18 @@ class UserForm extends Form
      **/
     public function addPassword()
     {
+        $label = 'Password';
+
         $this->add(array(
             'name' => 'password',
             'attributes' => array(
-                'type'  => 'password',
+                'type'        => 'password',
+                'placeholder' => $label,
+                'class'       => "form-control input-lg",
             ),
             'options' => array(
-                'label' => 'Password',
+                'label'            => $label,
+                'label_attributes' => array("style" => "width: 100%"),
             ),
         ));
     }
@@ -108,13 +150,18 @@ class UserForm extends Form
      **/
     public function addVerifyPassword()
     {
+        $label = 'Verify Password';
+
         $this->add(array(
             'name' => 'verify_password',
             'attributes' => array(
-                'type'  => 'password',
+                'type'        => 'password',
+                'placeholder' => $label,
+                'class'       => "form-control input-lg",
             ),
             'options' => array(
-                'label' => 'Verify Password',
+                'label'            => $label,
+                'label_attributes' => array("style" => "width: 100%"),
             ),
         ));
     }
@@ -130,6 +177,7 @@ class UserForm extends Form
                 'type'  => 'submit',
                 'value' => 'Submit',
                 'id'    => 'save_button',
+                'class' => "btn btn-success btn-lg",
             ),
         ));
     }

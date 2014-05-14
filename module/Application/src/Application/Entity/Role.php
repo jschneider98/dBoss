@@ -34,4 +34,23 @@ class Role extends AbstractEntity
 
     /** @ORM\Column(type="datetime", nullable=true) */
     protected $deletion_date;
+
+    /**
+     * Only the properties that should be hydrated
+     **/
+    public function getFields()
+    {
+        if ($this->fields) {
+            return $this->fields;
+        }
+
+        $this->fields = array(
+            'role_id',
+            'role_level',
+            'role_name',
+            'display_name',
+        );
+
+        return $this->fields;
+    }
 }

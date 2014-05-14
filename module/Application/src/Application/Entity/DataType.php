@@ -37,4 +37,24 @@ class DataType extends AbstractEntity
 
     /** @ORM\Column(type="datetime", unique=true, nullable=true) */
     protected $deletion_date;
+
+    /**
+     * Only the properties that should be hydrated
+     **/
+    public function getFields()
+    {
+        if ($this->fields) {
+            return $this->fields;
+        }
+
+        $this->fields = array(
+            'data_type_id',
+            'name',
+            'aliases',
+            'description',
+            'driver',
+        );
+
+        return $this->fields;
+    }
 }

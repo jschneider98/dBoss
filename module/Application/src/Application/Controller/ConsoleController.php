@@ -36,7 +36,7 @@ class ConsoleController extends AbstractActionController
 
         $config = $this->getServiceLocator()->get('config');
         $security = $config['security'];
-
+        /*
         $user = new \Application\Entity\User();
         $user->security = $security;
         $user->user_name = 'jschneider';
@@ -66,6 +66,7 @@ class ConsoleController extends AbstractActionController
         $user->role = $limited_role;
 
         $user_service->save($user);
+        */
 
         /*
         $om = $this

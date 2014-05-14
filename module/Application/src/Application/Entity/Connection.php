@@ -49,4 +49,27 @@ class Connection extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      **/
     protected $user;
+
+    /**
+     * Only the properties that should be hydrated
+     **/
+    public function getFields()
+    {
+        if ($this->fields) {
+            return $this->fields;
+        }
+
+        $this->fields = array(
+            'connection_id',
+            'user_id',
+            'display_name',
+            'database_name',
+            'user_name',
+            'password',
+            'host',
+            'driver'
+        );
+
+        return $this->fields;
+    }
 }

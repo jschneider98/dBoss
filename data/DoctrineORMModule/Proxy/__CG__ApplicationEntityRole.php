@@ -195,7 +195,18 @@ class Role extends \Application\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function exchangeArray($data = array (
+    public function getFields()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFields', array());
+
+        return parent::getFields();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function exchangeArray(array $data = array (
 ))
     {
 

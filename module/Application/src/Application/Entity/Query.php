@@ -43,4 +43,24 @@ class Query extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      **/
     protected $user;
+
+    /**
+     * Only the properties that should be hydrated
+     **/
+    public function getFields()
+    {
+        if ($this->fields) {
+            return $this->fields;
+        }
+
+        $this->fields = array(
+            'query_id',
+            'user_id',
+            'query_name',
+            'query',
+            'query_hash',
+        );
+
+        return $this->fields;
+    }
 }

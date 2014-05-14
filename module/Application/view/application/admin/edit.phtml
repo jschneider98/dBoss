@@ -1,11 +1,9 @@
 <?php
-$title = 'Edit User';
+$title = ($user->user_id) ? 'Edit User' : 'Add User';
 $this->headTitle($title);
 ?>
-<h3><?php echo $this->escapeHtml($title); ?></h3>
 
 <?php
-echo $this->bootstrapAlert("testing alert");
 $form = $this->form;
 $form->setAttribute('action', $this->url(
     'admin',
@@ -15,14 +13,88 @@ $form->setAttribute('action', $this->url(
     )
 ));
 
-$form->prepare();
+$this->formElementErrors()
+        ->setMessageOpenFormat('<div class="alert alert-danger">')
+        ->setMessageSeparatorString('</div><div class="alert alert-danger">')
+        ->setMessageCloseString('</div>');
 
+$form->prepare();
 echo $this->form()->openTag($form);
 echo $this->formHidden($form->get('user_id'));
-echo $this->formRow($form->get('user_name')) . "<br>";
-echo $this->formRow($form->get('first_name')) . "<br>";
-echo $this->formRow($form->get('last_name')) . "<br>";
-echo $this->formRow($form->get('password')) . "<br>";
-echo $this->formRow($form->get('verify_password')) . "<br>";
-echo $this->formSubmit($form->get('save_submit')) . "<br>";
-echo $this->form()->closeTag();
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <h2><?php echo $this->escapeHtml($title); ?></h2>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('user_name');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('role_id');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('first_name');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('last_name');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('password');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('verify_password');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <?php echo $this->formSubmit($form->get('save_submit')) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php echo $this->form()->closeTag() ?>

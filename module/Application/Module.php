@@ -79,7 +79,13 @@ class Module
                 },
                 'Application\Service\UserService' => function($sm) {
                     $object_manager = $sm->get('Doctrine\ORM\EntityManager');
-                    $params = array('object_manager' => $object_manager);
+                    $config = $sm->get('config');
+
+                    $params = array(
+                        'object_manager' => $object_manager,
+                        'security'       => $config['security'],
+                    );
+
                     return new UserService($params);
                 },
             )

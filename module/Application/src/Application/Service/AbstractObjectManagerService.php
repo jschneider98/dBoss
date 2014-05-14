@@ -3,6 +3,7 @@ namespace Application\Service;
 
 use Application\Entity\AbstractEntity;
 use Doctrine\ORM\EntityManager;
+use Doctrine\DBAL\LockMode;
 use Zend\Stdlib\Exception;
 
 abstract class AbstractObjectManagerService
@@ -38,6 +39,30 @@ abstract class AbstractObjectManagerService
     /**
      * 
      **/
+    public function find($id, $lock_mode = LockMode::NONE, $lock_version = null)
+    {
+        return $this->getRepository()->find($id, $lock_mode, $lock_version);
+    }
+
+    /**
+     * 
+     **/
+    public function findOrCreate($id, $lock_mode = LockMode::NONE, $lock_version = null)
+    {
+        if (! is_null($id)) {
+            $entity = $this->find($id, $lock_mode, $lock_version);
+
+            if ($entity) {
+                return $entity;
+            }
+        }
+
+        return $this->create();
+    }
+
+    /**
+     * 
+     **/
     public function findAll()
     {
         return $this->getRepository()->findAll();
@@ -46,17 +71,26 @@ abstract class AbstractObjectManagerService
     /**
      * 
      **/
-    public function findBy($criteria = null)
+    public function findBy(array $criteria = null, array $order_by = null, integer $limit = null, integer $offset = null)
     {
-        return $this->getRepository()->findBy($criteria);
+        return $this->getRepository()->findBy($criteria, $order_by, $limit, $offset);
     }
 
     /**
      * 
      **/
-    public function findOneBy($criteria = null)
+    public function findOneBy(array $criteria, array $order_by = null)
     {
-        return $this->getRepository()->findOneBy($criteria);
+        return $this->getRepository()->findOneBy($criteria, $order_by);
+    }
+
+    /**
+     * 
+     **/
+    public function create()
+    {
+        $entity_name = $this->getRepository()->getClassName();
+        return new $entity_name();
     }
 
     /**
@@ -72,18 +106,17 @@ abstract class AbstractObjectManagerService
      **/
     public function save(AbstractEntity $entity)
     {
-        $this->object_manager->detach($entity);
+        $row = null;
 
         $meta = $this->object_manager->getClassMetadata(get_class($entity));
         $identifier = $meta->getSingleIdentifierFieldName();
 
-        $criteria = array(
-            $identifier => $entity->{$identifier}
-        );
-
-        $row = $this->findOneBy($criteria);
+        if (! is_null($entity->{$identifier})) {
+            $row = $this->find($entity->{$identifier});
+        }
 
         if (! $row) {
+            $this->object_manager->detach($entity);
             $this->object_manager->persist($entity);
         }
 

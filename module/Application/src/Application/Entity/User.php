@@ -29,6 +29,9 @@ class User extends AbstractEntity implements InputFilterAwareInterface
      **/
     protected $user_id;
 
+    /** @ORM\Column(type="integer", nullable=false) */
+    protected $role_id;
+
     /** @ORM\Column(type="string", unique=true, nullable=false) */
     protected $user_name;
 
@@ -66,6 +69,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
      **/
     protected $connections;
 
+    protected $fields;
     protected $security;
     protected $input_filter;
 
@@ -77,6 +81,27 @@ class User extends AbstractEntity implements InputFilterAwareInterface
         $this->queries = new ArrayCollection();
         $this->servers = new ArrayCollection();
         $this->databases = new ArrayCollection();
+    }
+
+    /**
+     * Only the properties that should be hydrated
+     **/
+    public function getFields()
+    {
+        if ($this->fields) {
+            return $this->fields;
+        }
+
+        $this->fields = array(
+            'user_id',
+            'role_id',
+            'user_name',
+            'first_name',
+            'last_name',
+            'password'
+        );
+
+        return $this->fields;
     }
 
     /**
@@ -244,6 +269,11 @@ class User extends AbstractEntity implements InputFilterAwareInterface
      **/
     public function setPassword($password)
     {
+        if (is_null($password)) {
+            $this->password = null;
+            return;
+        }
+
         $salt_key = null;
         $iteration_count = null;
         $portable_hashes = null;
@@ -259,6 +289,11 @@ class User extends AbstractEntity implements InputFilterAwareInterface
      **/
     public function setUserName($user_name)
     {
+        if (is_null($user_name)) {
+            $this->user_name = null;
+            return;
+        }
+
         $xtea = new Xtea($this->security['salt_key']);
         $this->user_name = $xtea->encrypt($user_name);
     }
@@ -268,6 +303,10 @@ class User extends AbstractEntity implements InputFilterAwareInterface
      **/
     public function getUserName()
     {
+        if (is_null($this->user_name)) {
+            return null;
+        }
+
         $xtea = new Xtea($this->security['salt_key']);
         return $xtea->decrypt($this->user_name);
     }
