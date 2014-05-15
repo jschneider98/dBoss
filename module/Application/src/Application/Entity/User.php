@@ -130,6 +130,11 @@ class User extends AbstractEntity implements InputFilterAwareInterface
             )));
 
             $input_filter->add($factory->createInput(array(
+                'name'     => 'role_id',
+                'required' => true,
+            )));
+
+            $input_filter->add($factory->createInput(array(
                 'name'     => 'user_name',
                 'required' => true,
                 'filters'  => array(
