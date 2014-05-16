@@ -181,4 +181,12 @@ return array(
             'bootstrapAlert' => 'Application\View\Helper\Alert',
         )
     ),
+    'view_helper_config' => array(
+        'flashmessenger' => array(
+            'message_open_format'      => '<div%s><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>',
+            'message_separator_string' => '<br>',
+            'message_close_string'     => '</div>',
+            
+        )
+    ),
 );

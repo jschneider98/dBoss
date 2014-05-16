@@ -60,6 +60,7 @@ class AdminController extends DbossActionController
             if ($form->isValid()) {
                 $this->getUserService()->save($form->getData());
 
+                $this->flashMessenger()->setNamespace('success')->addMessage("Data saved successfully");
                 return $this->redirect()->toRoute('admin');
             }
         }

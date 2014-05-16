@@ -52,7 +52,14 @@
             </div>
         </nav>
         <div class="container">
-            <?php echo $this->content; ?>
+            <?php
+                echo $this->flashMessenger()->render('error',   array('alert', 'alert-dismissable', 'alert-danger'));
+                echo $this->flashMessenger()->render('info',    array('alert', 'alert-dismissable', 'alert-info'));
+                echo $this->flashMessenger()->render('default', array('alert', 'alert-dismissable', 'alert-warning'));
+                echo $this->flashMessenger()->render('success', array('alert', 'alert-dismissable', 'alert-success'));
+                
+                echo $this->content;
+            ?>
             <hr>
             <footer>
                 <p>Database management that doesn't suck.</p>
