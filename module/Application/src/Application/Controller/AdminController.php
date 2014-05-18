@@ -8,12 +8,16 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Form\UserForm;
+use Application\Form\ConnectionForm;
 use Application\Entity\User;
 
 class AdminController extends DbossActionController
 {
     public $require_login = true;
     public $require_connection = false;
+
+    protected $user_service;
+    protected $connection_service;
 
     /**
      * 
@@ -104,7 +108,38 @@ class AdminController extends DbossActionController
      **/
     public function connectionEditAction()
     {
-        return array();
+        $user_id = (int) $this->params()->fromRoute('user_id', 0);
+        $connection_id = (int) $this->params()->fromRoute('connection_id', 0);
+        $user = $this->getUserService()->findOrCreate($user_id);
+        $connection = $this->getConnectionService()->findOrCreate($connection_id);
+
+        $template = array(
+            'user'        => $user,
+            'connnection' => $connnection
+        );
+
+        $form = new ConnectionForm();
+        $form->setup();
+        //$form->bind($connection);
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+            //$form->setInputFilter($user->getInputFilter());
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $this->getConnectionService()->save($form->getData());
+
+                $this->flashMessenger()->setNamespace('success')->addMessage("Data saved successfully");
+                return $this->redirect()->toRoute('admin');
+            }
+        }
+
+        $template['form'] = $form;
+        $template['user_id'] = $user_id;
+
+        return $template;
     }
 
     /**
@@ -116,5 +151,16 @@ class AdminController extends DbossActionController
             $this->user_service = $this->getServiceLocator()->get('Application\Service\UserService');
         }
         return $this->user_service;
+    }
+
+    /**
+     * 
+     **/
+    protected function getConnectionService()
+    {
+        if (! $this->connection_service) {
+            $this->connection_service = $this->getServiceLocator()->get('Application\Service\ConnectionService');
+        }
+        return $this->connection_service;
     }
 }
