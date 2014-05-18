@@ -18,6 +18,7 @@ class AdminController extends DbossActionController
 
     protected $user_service;
     protected $connection_service;
+    protected $role_service;
 
     /**
      * 
@@ -62,7 +63,11 @@ class AdminController extends DbossActionController
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $this->getUserService()->save($form->getData());
+                $user = $form->getData();
+                $role = $this->getRoleService()->find($user->role_id);
+                $user->role = $role;
+
+                $this->getUserService()->save($user);
 
                 $this->flashMessenger()->setNamespace('success')->addMessage("Data saved successfully");
                 return $this->redirect()->toRoute('admin');
@@ -151,6 +156,17 @@ class AdminController extends DbossActionController
             $this->user_service = $this->getServiceLocator()->get('Application\Service\UserService');
         }
         return $this->user_service;
+    }
+
+    /**
+     * 
+     **/
+    protected function getRoleService()
+    {
+        if (! $this->role_service) {
+            $this->role_service = $this->getServiceLocator()->get('Application\Service\RoleService');
+        }
+        return $this->role_service;
     }
 
     /**
