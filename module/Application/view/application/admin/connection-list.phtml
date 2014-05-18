@@ -1,0 +1,46 @@
+<?php if ($user): ?>
+    <div class="page-header">
+        <h3>
+            <strong><?php echo $user->first_name . " " . $user->last_name ?>: Connections</strong>
+        </h3>
+    </div>
+    <div class="row">
+        <div style="overflow-x: auto;">
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>Display Name</th>
+                    <th>Driver</th>
+                    <th>Host</th>
+                    <th>Database Name</th>
+                    <th>User Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($user->connections as $connection): ?>
+                <tr>
+                    <td>
+                        <?php echo $connection->display_name ?>
+                    </td>
+                    <td>
+                        <?php echo $user->driver ?>
+                    </td>
+                    <td>
+                        <?php echo $user->host ?>
+                    </td>
+                    <td>
+                        <?php echo $user->database_name ?>
+                    </td>
+                    <td>
+                        <?php echo $user->user_name ?>
+                    </td>
+                </tr>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+            <div class="well">
+                <a href="<?php echo $this->url('admin', array('action' => 'connectionEdit')) ?>" class="btn btn-success">Add</a>
+            </div>
+        </div>
+    </div>
+<?php endif ?>

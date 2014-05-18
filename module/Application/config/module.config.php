@@ -186,7 +186,6 @@ return array(
             'message_open_format'      => '<div%s><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>',
             'message_separator_string' => '<br>',
             'message_close_string'     => '</div>',
-            
         )
     ),
 );

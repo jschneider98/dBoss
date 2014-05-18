@@ -74,6 +74,42 @@ class AdminController extends DbossActionController
     /**
      * 
      **/
+    public function connectionListAction()
+    {
+        $user_id = (int) $this->params()->fromRoute('user_id', 0);
+
+        if (! $this->user->canEditUser($user_id)) {
+            $this->flashMessenger()
+                    ->setNamespace('error')
+                    ->addMessage("You do not have access to this user");
+            return array();
+        }
+
+        $user = $this->getUserService()->find($user_id);
+
+        if (! $user) {
+            $this->flashMessenger()
+                    ->setNamespace('error')
+                    ->addMessage("User not found");
+            return array();
+        }
+
+        $template = array('user' => $user);
+
+        return $template;
+    }
+
+    /**
+     * 
+     **/
+    public function connectionEditAction()
+    {
+        return array();
+    }
+
+    /**
+     * 
+     **/
     protected function getUserService()
     {
         if (! $this->user_service) {

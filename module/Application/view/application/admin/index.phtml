@@ -12,6 +12,7 @@
                     <th>User Name</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,6 +25,11 @@
                     </td>
                     <td><?php echo $user->first_name ?></td>
                     <td><?php echo $user->last_name ?></td>
+                    <td>
+                        <a href="<?php echo $this->url('admin', array('action' => 'connectionList', 'user_id' => $user->user_id)) ?>">
+                            Modify Connections
+                        </a>
+                    </td>
                 </tr>
                 <?php endforeach ?>
                 </tbody>
