@@ -39,7 +39,13 @@
                 </tbody>
             </table>
             <div class="well">
-                <a href="<?php echo $this->url('admin', array('action' => 'connectionEdit')) ?>" class="btn btn-success">Add</a>
+                <?php
+                    $params = array(
+                        'action'  => 'connectionEdit',
+                        'user_id' => $user->user_id,
+                    );
+                ?>
+                <a href="<?php echo $this->url('admin', $params) ?>" class="btn btn-success">Add</a>
             </div>
         </div>
     </div>

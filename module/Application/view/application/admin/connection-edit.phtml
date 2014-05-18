@@ -1,5 +1,6 @@
 <?php
 $title = ($user->connection_id) ? 'Edit Connection' : 'Add Connection';
+$title = $user->first_name . " " . $user->last_name . ": " . $title;
 $this->headTitle($title);
 ?>
 
@@ -26,75 +27,95 @@ echo $this->formHidden($form->get('connection_id'));
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
             <h2><?php echo $this->escapeHtml($title); ?></h2>
-            <hr>
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <?php
-                            $element = $form->get('display_name');
-                            echo $this->formRow($element, null, false);
-                            echo $this->formElementErrors($element);
-                        ?>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <?php
-                            $element = $form->get('host');
-                            echo $this->formRow($element, null, false);
-                            echo $this->formElementErrors($element);
-                        ?>
-                    </div>
-                </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-9"><hr></div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('display_name');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
             </div>
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <?php
-                            $element = $form->get('user_name');
-                            echo $this->formRow($element, null, false);
-                            echo $this->formElementErrors($element);
-                        ?>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <?php
-                            $element = $form->get('database_name');
-                            echo $this->formRow($element, null, false);
-                            echo $this->formElementErrors($element);
-                        ?>
-                    </div>
-                </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('driver');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
             </div>
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <?php
-                            $element = $form->get('password');
-                            echo $this->formRow($element, null, false);
-                            echo $this->formElementErrors($element);
-                        ?>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <?php
-                            $element = $form->get('verify_password');
-                            echo $this->formRow($element, null, false);
-                            echo $this->formElementErrors($element);
-                        ?>
-                    </div>
-                </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('host');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-xs-6">
-                    <?php echo $this->formSubmit($form->get('save_submit')) ?>
-                </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('user_name');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
             </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('database_name');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('password');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('verify_password');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-9"><hr></div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <?php echo $this->formSubmit($form->get('save_submit')) ?>
         </div>
     </div>
 </div>
