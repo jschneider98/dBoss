@@ -47,7 +47,11 @@ class AdminController extends DbossActionController
      **/
     public function editAction()
     {
-        $user_id = (int) $this->params()->fromRoute('user_id', 0);
+        $user_id = (int) $this->params()->fromRoute(
+            'user_id',
+            $this->params()->fromPost('user_id', 0)
+        );
+
         $user = $this->getUserService()->findOrCreate($user_id);
         $user->password = null;
 
@@ -113,10 +117,22 @@ class AdminController extends DbossActionController
      **/
     public function connectionEditAction()
     {
-        $user_id = (int) $this->params()->fromRoute('user_id', 0);
-        $connection_id = (int) $this->params()->fromRoute('connection_id', 0);
+        $user_id = (int) $this->params()->fromRoute(
+            'user_id',
+            $this->params()->fromPost('user_id', 0)
+        );
+
+        $connection_id = (int) $this->params()->fromRoute(
+            'connection_id',
+            $this->params()->fromPost('connection_id', 0)
+        );
+
         $user = $this->getUserService()->findOrCreate($user_id);
         $connection = $this->getConnectionService()->findOrCreate($connection_id);
+
+        if (! $connection->user_id) {
+            $connection->user_id = $user->user_id;
+        }
 
         $template = array(
             'user'        => $user,
@@ -125,19 +141,29 @@ class AdminController extends DbossActionController
 
         $form = new ConnectionForm();
         $form->setup();
-        //$form->bind($connection);
+        $form->bind($connection);
 
         $request = $this->getRequest();
 
         if ($request->isPost()) {
-            //$form->setInputFilter($user->getInputFilter());
+            $form->setInputFilter($connection->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $this->getConnectionService()->save($form->getData());
+                $connection = $form->getData();
+                $user = $this->getUserService()->find($connection->user_id);
+                $connection->user = $user;
+
+                $this->getConnectionService()->save($connection);
 
                 $this->flashMessenger()->setNamespace('success')->addMessage("Data saved successfully");
-                return $this->redirect()->toRoute('admin');
+                
+                return $this->redirect()->toRoute(
+                    'admin',
+                    array(
+                        'user_id' => $connection->user_id
+                    )
+                );
             }
         }
 

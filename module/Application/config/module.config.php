@@ -19,7 +19,7 @@ return array(
             'admin' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/admin[/:action[/:user_id]]',
+                    'route'    => '/admin[/:action[/:user_id][/:connection_id]]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Admin',

@@ -20,19 +20,28 @@
                 <?php foreach ($user->connections as $connection): ?>
                 <tr>
                     <td>
-                        <?php echo $connection->display_name ?>
+                        <?php
+                            $params = array(
+                                'action'        => 'connectionEdit',
+                                'user_id'       => $connection->user_id,
+                                'connection_id' => $connection->connection_id,
+                            );
+                        ?>
+                        <a href="<?php echo $this->url('admin', $params) ?>">
+                            <?php echo $connection->display_name ?>
+                        </a>
                     </td>
                     <td>
-                        <?php echo $user->driver ?>
+                        <?php echo $connection->driver ?>
                     </td>
                     <td>
-                        <?php echo $user->host ?>
+                        <?php echo $connection->host ?>
                     </td>
                     <td>
-                        <?php echo $user->database_name ?>
+                        <?php echo $connection->database_name ?>
                     </td>
                     <td>
-                        <?php echo $user->user_name ?>
+                        <?php echo $connection->user_name ?>
                     </td>
                 </tr>
                 <?php endforeach ?>
