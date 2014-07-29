@@ -15,6 +15,10 @@ Using Composer (recommended)
 
 *Temporary Config* (while user connections aren't added)
 --------------------------------------------------------
+
+- Clone dBoss
+- Run ./composer.phar install (from dBoss root)
+
 Edit config/autoload/local.php as follows:
 
     <?php
@@ -36,20 +40,22 @@ Edit config/autoload/local.php as follows:
 
 NOTE: local.php is ignored by git, so it's safe to add connection info to it.
 
+dBoss system configuration:
+---------------------------
+
 Edit config/auotload/database.local.php as follows:
 
     <?php
+    
+    $root_dir = dirname(__DIR__) . '/..';
+    
     return array(
       'doctrine' => array(
         'connection' => array(
           'orm_default' => array(
-            'driverClass' => 'Doctrine\DBAL\Driver\PDOPgSql\Driver',
+            'driverClass' => 'Doctrine\DBAL\Driver\PDOSqlite\Driver',
             'params' => array(
-              'host'     => '<hostname>',
-              'port'     => '5432',
-              'user'     => '<username>',
-              'password' => '<password>',
-              'dbname'   => '<db name>'
+                'path' => $root_dir . "/data/db/system.db"
             )
           )
         )
@@ -57,6 +63,14 @@ Edit config/auotload/database.local.php as follows:
     );
     
 NOTE: database.local.php is ignored by git, so it's safe to add connection info to it.
+
+Run from dBoss root directory:
+
+php public/index.php load-sqlite --withdata
+
+If your system db already exists and you want to unlink it and reload the data:
+
+php public/index.php load-sqlite --unlink --withdata
 
 Web Server Setup
 ----------------
