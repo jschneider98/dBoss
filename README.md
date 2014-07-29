@@ -66,11 +66,11 @@ NOTE: database.local.php is ignored by git, so it's safe to add connection info 
 
 Run from dBoss root directory:
 
-php public/index.php load-sqlite --withdata
+*php public/index.php load-sqlite --withdata*
 
 If your system db already exists and you want to unlink it and reload the data:
 
-php public/index.php load-sqlite --unlink --withdata
+*php public/index.php load-sqlite --unlink --withdata*
 
 Web Server Setup
 ----------------
