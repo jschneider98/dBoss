@@ -36,6 +36,27 @@ Edit config/autoload/local.php as follows:
 
 NOTE: local.php is ignored by git, so it's safe to add connection info to it.
 
+Edit config/auotload/database.local.php as follows:
+
+    <?php
+    return array(
+      'doctrine' => array(
+        'connection' => array(
+          'orm_default' => array(
+            'driverClass' => 'Doctrine\DBAL\Driver\PDOPgSql\Driver',
+            'params' => array(
+              'host'     => '<hostname>',
+              'port'     => '5432',
+              'user'     => '<username>',
+              'password' => '<password>',
+              'dbname'   => '<db name>'
+            )
+          )
+        )
+      ),
+    );
+    
+NOTE: database.local.php is ignored by git, so it's safe to add connection info to it.
 
 Web Server Setup
 ----------------
