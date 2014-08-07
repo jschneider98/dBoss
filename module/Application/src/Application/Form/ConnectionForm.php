@@ -25,6 +25,7 @@ class ConnectionForm extends Form
         $this->addUserName();
         $this->addPassword();
         $this->addVerifyPassword();
+        $this->addIsServerConnection();
         $this->addSubmit();
     }
 
@@ -191,6 +192,27 @@ class ConnectionForm extends Form
             'name' => 'verify_password',
             'attributes' => array(
                 'type'        => 'password',
+                'placeholder' => $label,
+                'class'       => "form-control input-lg",
+            ),
+            'options' => array(
+                'label'            => $label,
+                'label_attributes' => array("style" => "width: 100%"),
+            ),
+        ));
+    }
+
+    /**
+     * 
+     **/
+    public function addIsServerConnection()
+    {
+        $label = 'Is Server Connection';
+
+        $this->add(array(
+            'name' => 'is_server_connection',
+            'attributes' => array(
+                'type'        => 'text',
                 'placeholder' => $label,
                 'class'       => "form-control input-lg",
             ),

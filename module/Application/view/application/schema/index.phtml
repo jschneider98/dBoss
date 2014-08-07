@@ -1,7 +1,13 @@
 <div class="row-fluid">
     <div class="span8">
 
-        <form action="<?php echo $this->url('schema', array('action' => 'index')) ?>" id="schema_form" method="get">
+        <?php
+            $params = array(
+                'connection_string' => $this->connection_string,
+                'action'            => 'index'
+            );
+        ?>
+        <form action="<?php echo $this->url('schema', $params) ?>" id="schema_form" method="get">
              <div class="input-group">
                 <span class="input-group-btn">
                     <button name="search_submit" id="search_button" class="btn btn-default" type="submit">Search</button>
@@ -28,14 +34,14 @@
                             <td>
                                 <a name="<?php echo $encoded_id ?>" href="<?php echo $this->url('schema',
                                             array(
-                                                'action'              => 'definition',
-                                                // 'encoded_database_id' => $this->database->getEncodedDatabaseId(),
-                                                'schema_name'         => $row['schema_name'],
-                                                'table_name'          => $table_name,
-                                                'resource_name'       => $row['resource_name'],
-                                                'resource_arguments'  => $args,
-                                                'resource_type'       => $row['resource_type'],
-                                                'resource_value'      => $row['display']
+                                                'action'             => 'definition',
+                                                'connection_string'  => $this->connection_string,
+                                                'schema_name'        => $row['schema_name'],
+                                                'table_name'         => $table_name,
+                                                'resource_name'      => $row['resource_name'],
+                                                'resource_arguments' => $args,
+                                                'resource_type'      => $row['resource_type'],
+                                                'resource_value'     => $row['display']
                                             )
                                         ) ?>"><?php echo $row['display'] ?></a>
                                 <em style="color: #999999"><?php echo $row['resource_type'] ?></em>

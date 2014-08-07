@@ -1,17 +1,23 @@
 <?php
+
 $title = ($user->connection_id) ? 'Edit Connection' : 'Add Connection';
 $title = $user->first_name . " " . $user->last_name . ": " . $title;
 $this->headTitle($title);
-?>
 
-<?php
 $form = $this->form;
+
+$params = array(
+    'action'        => 'connectionEdit',
+    'connection_id' => $this->connection_id,
+);
+
+if ($this->connection_string) {
+    $params['connection_string'] = $this->connection_string;
+}
+
 $form->setAttribute('action', $this->url(
     'admin',
-    array(
-        'action' => 'connectionEdit',
-        'connection_id'     => $this->connection_id,
-    )
+    $params
 ));
 
 $this->formElementErrors()
@@ -51,6 +57,15 @@ echo $this->formHidden($form->get('connection_id'));
             <div class="form-group">
                 <?php
                     $element = $form->get('driver');
+                    echo $this->formRow($element, null, false);
+                    echo $this->formElementErrors($element);
+                ?>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <?php
+                    $element = $form->get('is_server_connection');
                     echo $this->formRow($element, null, false);
                     echo $this->formElementErrors($element);
                 ?>

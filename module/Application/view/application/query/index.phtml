@@ -2,7 +2,13 @@
 // module/Application/view/query/index.phtml:
 
 $form = $this->form;
-$form->setAttribute('action', $this->url('query', array('action' => 'index')));
+
+$params = array(
+    'action'            => 'index',
+    'connection_string' => $this->connection_string,
+);
+
+$form->setAttribute('action', $this->url('query', $params));
 $form->prepare();
 ?>
 

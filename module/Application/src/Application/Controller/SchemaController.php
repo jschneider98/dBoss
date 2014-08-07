@@ -1,6 +1,6 @@
 <?php
 /**
- * Default index controller. Default page with dBoss info and links.
+ * Schema controller. Search and display schema info
  */
 
 namespace Application\Controller;
@@ -20,11 +20,10 @@ class SchemaController extends DbossActionController
     public function indexAction()
     {
         $search = "";
-        $template = array();
-
         $resource_type = "table";
 
         $template = array(
+            'connection_string' => $this->connection_string,
             'results' => array(),
             'errors'  => array()
         );
@@ -89,7 +88,9 @@ class SchemaController extends DbossActionController
 
         extract($params, EXTR_IF_EXISTS);
 
-        $template = array();
+        $template = array(
+            'connection_string' => $this->connection_string,
+        );
 
         $params = array(
             'resource_type' => $resource_type,

@@ -1,3 +1,13 @@
+<?php
+
+$params = array();
+
+if ($this->connection_string) {
+    $params['connection_string'] = $this->connection_string;
+}
+
+?>
+
 <?php if ($user): ?>
     <div class="page-header">
         <h3>
@@ -21,11 +31,9 @@
                 <tr>
                     <td>
                         <?php
-                            $params = array(
-                                'action'        => 'connectionEdit',
-                                'user_id'       => $connection->user_id,
-                                'connection_id' => $connection->connection_id,
-                            );
+                            $params['action']        = 'connectionEdit';
+                            $params['user_id']       = $connection->user_id;
+                            $params['connection_id'] = $connection->connection_id;
                         ?>
                         <a href="<?php echo $this->url('admin', $params) ?>">
                             <?php echo $connection->display_name ?>
@@ -49,10 +57,9 @@
             </table>
             <div class="well">
                 <?php
-                    $params = array(
-                        'action'  => 'connectionEdit',
-                        'user_id' => $user->user_id,
-                    );
+                    $params['action']  = 'connectionEdit';
+                    $params['user_id'] = $user->user_id;
+                    unset($params['connection_id']);
                 ?>
                 <a href="<?php echo $this->url('admin', $params) ?>" class="btn btn-success">Add</a>
             </div>

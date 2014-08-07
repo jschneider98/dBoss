@@ -1,71 +1,57 @@
 <div class="row">
     <?php if ($this->resource_type == "table"): ?>
+
+    <?php
+        $params = array(
+            'action'            => 'index',
+            'schema_name'       => $this->schema_name,
+            'resource_name'     => $this->resource_name,
+            'connection_string' => $this->connection_string,
+        );
+    ?>
     <div class="col-md-2">
         <ul class="nav nav-list">
             <li class="nav-header">
                 Actions
             </li>
             <li>
-                <a href="<?php echo $this->url(
-                    'query',
-                    array(
-                        'action'           => 'index',
-                        'query_type'       => 'Select',
-                        'schema_name'      => $this->schema_name,
-                        'resource_name'    => $this->resource_name,
-                        'with_field_names' => 0
-                )) ?>">SELECT *</a>
+                <?php
+                    $params['query_type']       = 'Select';
+                    $params['with_field_names'] = 0;
+                ?>
+                <a href="<?php echo $this->url('query', $params) ?>">SELECT *</a>
             </li>
             <li>
-                <a href="<?php echo $this->url(
-                    'query',
-                    array(
-                        'action'           => 'index',
-                        'query_type'       => 'Select',
-                        'schema_name'      => $this->schema_name,
-                        'resource_name'    => $this->resource_name,
-                        'with_field_names' => 1
-                )) ?>">SELECT FIELDS</a>
+                <?php
+                    $params['query_type']       = 'Select';
+                    $params['with_field_names'] = 1;
+                ?>
+                <a href="<?php echo $this->url('query', $params) ?>">SELECT FIELDS</a>
             </li>
             <li>
-                <a href="<?php echo $this->url(
-                    'query',
-                    array(
-                        'action'           => 'index',
-                        'query_type'       => 'SelectJoin',
-                        'schema_name'      => $this->schema_name,
-                        'resource_name'    => $this->resource_name,
-                )) ?>">SELECT+JOINS</a>
+                <?php
+                    $params['query_type'] = 'SelectJoin';
+                    unset($params['with_field_names']);
+                ?>
+                <a href="<?php echo $this->url('query', $params) ?>">SELECT+JOINS</a>
             </li>
             <li>
-                <a href="<?php echo $this->url(
-                    'query',
-                    array(
-                        'action'           => 'index',
-                        'query_type'       => 'Insert',
-                        'schema_name'      => $this->schema_name,
-                        'resource_name'    => $this->resource_name
-                )) ?>">INSERT</a>
+                <?php
+                    $params['query_type'] = 'Insert';
+                ?>
+                <a href="<?php echo $this->url('query', $params) ?>">INSERT</a>
             </li>
             <li>
-                <a href="<?php echo $this->url(
-                    'query',
-                    array(
-                        'action'           => 'index',
-                        'query_type'       => 'Update',
-                        'schema_name'      => $this->schema_name,
-                        'resource_name'    => $this->resource_name
-                )) ?>">UPDATE</a>
+                <?php
+                    $params['query_type'] = 'Update';
+                ?>
+                <a href="<?php echo $this->url('query', $params) ?>">UPDATE</a>
             </li>
             <li>
-                <a href="<?php echo $this->url(
-                    'query',
-                    array(
-                        'action'           => 'index',
-                        'query_type'       => 'Delete',
-                        'schema_name'      => $this->schema_name,
-                        'resource_name'    => $this->resource_name
-                )) ?>">DELETE</a>
+                <?php
+                    $params['query_type'] = 'Delete';
+                ?>
+                <a href="<?php echo $this->url('query', $params) ?>">DELETE</a>
             </li>
         </ul>
     </div>

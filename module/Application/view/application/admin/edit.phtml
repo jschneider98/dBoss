@@ -1,16 +1,22 @@
 <?php
+
 $title = ($user->user_id) ? 'Edit User' : 'Add User';
 $this->headTitle($title);
-?>
 
-<?php
 $form = $this->form;
+
+$params = array(
+    'action'  => 'edit',
+    'user_id' => $this->user_id,
+);
+
+if ($this->connection_string) {
+    $params['connection_string'] = $this->connection_string;
+}
+
 $form->setAttribute('action', $this->url(
     'admin',
-    array(
-        'action' => 'edit',
-        'user_id'     => $this->user_id,
-    )
+    $params
 ));
 
 $this->formElementErrors()

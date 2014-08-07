@@ -8,6 +8,10 @@ use Zend\InputFilter\InputFilter as InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
+use Dboss\Connection\ConnectionFactory;
+use Dboss\Schema\Resource\ResourceFactory;
+use Dboss\Schema\Resource\Null;
+
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
@@ -43,6 +47,9 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
     /** @ORM\Column(type="string", nullable=true) */
     protected $driver;
 
+    /** @ORM\Column(type="boolean", nullable=true) */
+    protected $is_server_connection;
+
     /** @ORM\Column(type="datetime", nullable=false) */
     protected $creation_date;
 
@@ -72,7 +79,8 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
             'user_name',
             'password',
             'host',
-            'driver'
+            'driver',
+            'is_server_connection'
         );
 
         return $this->fields;
@@ -227,5 +235,55 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
         }
 
         return $this->input_filter;
+    }
+
+    /**
+     * Connect to the db
+     * 
+     * @return Zend\Db\Adapter\Adapter Zf2 db adapter
+     **/
+    public function connect()
+    {
+        $connection_factory = new ConnectionFactory(array('connection' => $this));
+
+        return $connection_factory->getConnection();
+    }
+
+    /**
+     * 
+     **/
+    public function getDatabaseNames()
+    {
+        if (! $this->is_server_connection) {
+            return array($this->database_name);
+        }
+
+        $db = $this->connect();
+
+        $params = array(
+            'resource_type' => 'db',
+            'db'            => $db
+        );
+
+        $resource_factory = new ResourceFactory($params);
+        $schema_resource = $resource_factory->getResource();
+
+        if ($schema_resource instanceof Null) {
+            return array();
+        }
+
+        $databases = $schema_resource->getEncodedResourceList(array('search' => '%'));
+
+        if (! $databases) {
+            return array();
+        }
+
+        $database_names = array();
+
+        foreach ($databases as $database) {
+            $database_names[] = $database['resource_name'];
+        }
+
+        return $database_names;
     }
 }

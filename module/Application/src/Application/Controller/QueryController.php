@@ -27,8 +27,9 @@ class QueryController extends DbossActionController
         }
 
         $template = array(
-            'results' => array(),
-            'errors'  => array()
+            'connection_string' => $this->connection_string,
+            'results'           => array(),
+            'errors'            => array()
         );
 
         $form = new QueryForm();
@@ -95,7 +96,7 @@ class QueryController extends DbossActionController
     protected function runSql($sql = null)
     {
         $params = array(
-            //'user_id'            => $this->_getIdentity()->user_id,
+            'user_id'            => $this->user_id,
             'sql'                => $sql,
             //'query_name'         => $post_vals['query_name'],
             //'run_in_transaction' => $post_vals['run_in_transaction'],

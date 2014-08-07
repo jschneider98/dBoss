@@ -7,11 +7,12 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/home[/connection_string/:connection_string]',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller' => 'Index',
                         'action'     => 'index',
                     ),
                 ),
@@ -19,7 +20,7 @@ return array(
             'admin' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/admin[/:action[/:user_id][/:connection_id]]',
+                    'route'    => '/admin[/:action[/user_id/:user_id][/connection_id/:connection_id][/connection_string/:connection_string]]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Admin',
@@ -30,7 +31,7 @@ return array(
             'query' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/query[/:action[/:query_type][/:schema_name][/:resource_name][/:with_field_names]]',
+                    'route'    => '/query[/:action[/query_type/:query_type][/schema_name/:schema_name][/resource_name/:resource_name][/connection_string/:connection_string][/with_field_names/:with_field_names]]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Query',
@@ -38,10 +39,21 @@ return array(
                     ),
                 ),
             ),
+            'database' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/database[/connection_string/:connection_string]',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller'    => 'Database',
+                        'action'        => 'index',
+                    ),
+                ),
+            ),
             'schema' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/schema[/:action[/:schema_name][/:table_name][/:resource_name][/:resource_arguments][/:resource_type][/:resource_value]]',
+                    'route'    => '/schema[/:action[/schema_name/:schema_name][/table_name/:table_name][/resource_name/:resource_name][/resource_arguments/:resource_arguments][/resource_type/:resource_type][/resource_value/:resource_value][/connection_string/:connection_string]]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Schema',
@@ -102,11 +114,12 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Admin'   => 'Application\Controller\AdminController',
-            'Application\Controller\Index'   => 'Application\Controller\IndexController',
-            'Application\Controller\Query'   => 'Application\Controller\QueryController',
-            'Application\Controller\Schema'  => 'Application\Controller\SchemaController',
-            'Application\Controller\Console' => 'Application\Controller\ConsoleController',
+            'Application\Controller\Admin'    => 'Application\Controller\AdminController',
+            'Application\Controller\Index'    => 'Application\Controller\IndexController',
+            'Application\Controller\Query'    => 'Application\Controller\QueryController',
+            'Application\Controller\Database' => 'Application\Controller\DatabaseController',
+            'Application\Controller\Schema'   => 'Application\Controller\SchemaController',
+            'Application\Controller\Console'  => 'Application\Controller\ConsoleController',
         ),
     ),
     'view_manager' => array(

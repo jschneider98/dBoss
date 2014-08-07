@@ -36,7 +36,7 @@ class ConsoleController extends AbstractActionController
 
         $config = $this->getServiceLocator()->get('config');
         $security = $config['security'];
-        /*
+        
         $user = new \Application\Entity\User();
         $user->security = $security;
         $user->user_name = 'jschneider';
@@ -46,6 +46,7 @@ class ConsoleController extends AbstractActionController
         $user->role = $boss_role;
 
         $user_service->save($user);
+
 
         $user = new \Application\Entity\User();
         $user->security = $security;
@@ -66,6 +67,7 @@ class ConsoleController extends AbstractActionController
         $user->role = $limited_role;
 
         $user_service->save($user);
+        /*
         */
 
         /*
@@ -107,6 +109,7 @@ class ConsoleController extends AbstractActionController
         $om->flush();
         */
 
+        /*
         $user = $user_service->findOneBy(array('first_name' => 'James'));
 
         $query1 = new \Application\Entity\Query();
@@ -132,6 +135,7 @@ class ConsoleController extends AbstractActionController
 
         $query = $user->getMyQuery(1);
         echo "Q: " . $query->query . "\n";
+        */
     }
 
     /**

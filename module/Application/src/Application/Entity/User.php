@@ -495,4 +495,24 @@ class User extends AbstractEntity implements InputFilterAwareInterface
 
         return ($this->isaBoss() || $user_id == $this->user_id);
     }
+
+    /**
+     * 
+     **/
+    public function getConnectionInfo()
+    {
+        $connection_info = array();
+
+        foreach ($this->connections as $connection) {
+            $database_names = $connection->getDatabaseNames();
+
+            foreach ($database_names as $database_name) {
+                $connection_info[$connection->connection_id . "-" . $database_name] = $database_name . "-" . $connection->host;
+            }
+        }
+        
+        asort($connection_info);
+
+        return $connection_info;
+    }
 }

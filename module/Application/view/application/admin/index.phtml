@@ -1,3 +1,13 @@
+<?php
+
+$params = array();
+
+if ($this->connection_string) {
+    $params['connection_string'] = $this->connection_string;
+}
+
+?>
+
 <?php if ($users): ?>
     <div class="page-header">
         <h3>
@@ -19,14 +29,22 @@
                 <?php foreach ($users as $user): ?>
                 <tr>
                     <td>
-                        <a href="<?php echo $this->url('admin', array('action' => 'edit', 'user_id' => $user->user_id)) ?>">
+                        <?php
+                            $params['action']  = 'edit';
+                            $params['user_id'] = $user->user_id;
+                        ?>
+                        <a href="<?php echo $this->url('admin', $params) ?>">
                             <?php echo $user->user_name ?>
                         </a>
                     </td>
                     <td><?php echo $user->first_name ?></td>
                     <td><?php echo $user->last_name ?></td>
                     <td>
-                        <a href="<?php echo $this->url('admin', array('action' => 'connectionList', 'user_id' => $user->user_id)) ?>">
+                        <?php
+                            $params['action']  = 'connectionList';
+                            $params['user_id'] = $user->user_id;
+                        ?>
+                        <a href="<?php echo $this->url('admin', $params) ?>">
                             Modify Connections
                         </a>
                     </td>
@@ -35,7 +53,11 @@
                 </tbody>
             </table>
             <div class="well">
-                <a href="<?php echo $this->url('admin', array('action' => 'edit')) ?>" class="btn btn-success">Add</a>
+                <?php
+                    $params['action'] = 'edit';
+                    unset($params['user_id']);
+                ?>
+                <a href="<?php echo $this->url('admin', $params) ?>" class="btn btn-success">Add</a>
             </div>
         </div>
     </div>

@@ -25,10 +25,22 @@ class AdminController extends DbossActionController
      **/
     public function indexAction()
     {
-        $template = array();
+        $template = array(
+            'connection_string' => $this->connection_string
+        );
 
         if ($this->user->isLimited()) {
-            // no access, redirect
+            $this->flashMessenger()
+                    ->setNamespace('error')
+                    ->addMessage("You do not have access to administration");
+
+            $params = array();
+
+            if ($this->connection_string) {
+                $params['connection_string'] = $this->connection_string;
+            }
+
+            return $this->redirect()->toRoute('home', $params);
         }
 
         $user_service = $this->getUserService();
@@ -36,7 +48,9 @@ class AdminController extends DbossActionController
         if ($this->user->isaBoss()) {
             $template['users'] = $user_service->findActiveUsers();
         } else {
-            $template['users'] = $user_service->findInactiveUsers();
+            $template['users'] = array(
+                $user_service->findOneBy(array('user_id' => $this->user->user_id))
+            );
         }
 
         return $template;
@@ -55,7 +69,11 @@ class AdminController extends DbossActionController
         $user = $this->getUserService()->findOrCreate($user_id);
         $user->password = null;
 
-        $template = array('user' => $user);
+        $template = array(
+            'connection_string' => $this->connection_string,
+            'user' => $user
+        );
+
         $form = new UserForm();
         $form->setup();
         $form->bind($user);
@@ -74,7 +92,14 @@ class AdminController extends DbossActionController
                 $this->getUserService()->save($user);
 
                 $this->flashMessenger()->setNamespace('success')->addMessage("Data saved successfully");
-                return $this->redirect()->toRoute('admin');
+
+                $params = array();
+
+                if ($this->connection_string) {
+                    $params['connection_string'] = $this->connection_string;
+                }
+
+                return $this->redirect()->toRoute('admin', $params);
             }
         }
 
@@ -107,7 +132,10 @@ class AdminController extends DbossActionController
             return array();
         }
 
-        $template = array('user' => $user);
+        $template = array(
+            'connection_string' => $this->connection_string,
+            'user' => $user
+        );
 
         return $template;
     }
@@ -135,6 +163,7 @@ class AdminController extends DbossActionController
         }
 
         $template = array(
+            'connection_string' => $this->connection_string,
             'user'        => $user,
             'connnection' => $connnection
         );
@@ -158,11 +187,15 @@ class AdminController extends DbossActionController
 
                 $this->flashMessenger()->setNamespace('success')->addMessage("Data saved successfully");
                 
+                $params = array('user_id' => $connection->user_id);
+
+                if ($this->connection_string) {
+                    $params['connection_string'] = $this->connection_string;
+                }
+
                 return $this->redirect()->toRoute(
                     'admin',
-                    array(
-                        'user_id' => $connection->user_id
-                    )
+                    $params
                 );
             }
         }

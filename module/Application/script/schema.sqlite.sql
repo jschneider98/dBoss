@@ -74,6 +74,7 @@ CREATE TABLE connection (
     password VARCHAR(255),
     host VARCHAR(255),
     driver VARCHAR(255),
+    is_server_connection BOOLEAN,
     creation_date DATETIME NOT NULL,
     modification_date DATETIME NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user_id (user_id)

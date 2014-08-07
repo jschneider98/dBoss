@@ -25,7 +25,7 @@ class SqlIndex extends ResourceAbstract
      */
     public function getResourceListSql(array $params = array())
     {
-        $exclude_order_by = FALSE;
+        $exclude_order_by = false;
 
         extract($params, EXTR_IF_EXISTS);
         
@@ -60,9 +60,9 @@ class SqlIndex extends ResourceAbstract
      */
     public function getResourceDefinition(array $params = array())
     {
-        $schema_name = NULL;
-        $resource_name = NULL;
-        $resource_arguments = NULL;
+        $schema_name = null;
+        $resource_name = null;
+        $resource_arguments = null;
 
         extract($params, EXTR_IF_EXISTS);
 

@@ -1,0 +1,23 @@
+<div class="row">
+    <input id="database_search" name="database_search" type="text" class="form-control" placeholder="Search Databases">
+</div>
+<hr>
+
+<ul class="nav nav-pills nav-stacked">
+
+<?php foreach ($this->connection_info as $connection_string => $connection_info): ?>
+    <?php list($database_name, $host) = explode("-", $connection_info); ?>
+    
+    <li class="database" data-database_name="<?php echo $database_name ?>" data-host_name="<?php echo $host ?>">
+        <?php
+            $params = array(
+                'connection_string' => $connection_string,
+            );
+        ?>
+        <a href="<?php echo $this->url('query', $params) ?>"><?php echo $database_name ?> <em style="color: #999999"><?php echo $host ?></em></a>
+    </li>
+<?php endforeach ?>
+
+</ul>
+
+<script type="text/javascript" charset="utf-8" src="<?php echo $this->basePath('js/database_search.js') ?>"></script>
