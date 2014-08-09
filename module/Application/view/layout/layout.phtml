@@ -29,7 +29,8 @@
     </head>
     <body>
         <?php
-            $params = ($this->connection_string) ? array('connection_string' => $this->connection_string) : null;
+            $params = ($this->connection_string) ? array('connection_string' => $this->connection_string) : array();
+            $params['action'] = 'index';
 
             $connection_name = null;
 
@@ -64,7 +65,9 @@
                         <li><a href="<?php echo $this->url('query', $params) ?>"><?php echo $this->translate('Query') ?></a></li>
                     </ul>
                     <ul class="nav navbar-nav">
-                        <li><a href="<?php echo $this->url('home', $params) ?>"><?php echo $this->translate('History') ?></a></li>
+                        <?php $params['action'] = 'history' ?>
+                        <li><a href="<?php echo $this->url('query', $params) ?>"><?php echo $this->translate('History') ?></a></li>
+                        <?php $params['action'] = 'index' ?>
                     </ul>
                     <ul class="nav navbar-nav">
                         <li><a href="<?php echo $this->url('home', $params) ?>"><?php echo $this->translate('Saved') ?></a></li>

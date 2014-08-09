@@ -31,7 +31,7 @@ return array(
             'query' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/query[/:action[/query_type/:query_type][/schema_name/:schema_name][/resource_name/:resource_name][/connection_string/:connection_string][/with_field_names/:with_field_names]]',
+                    'route'    => '/query[/:action[/query_type/:query_type][/schema_name/:schema_name][/resource_name/:resource_name][/connection_string/:connection_string][/with_field_names/:with_field_names][/query_id/:query_id]]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Query',

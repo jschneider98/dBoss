@@ -24,9 +24,6 @@ abstract class DbossActionController extends AbstractActionController
 
         $controller = $this;
         $events->attach('dispatch', function ($event) use ($controller) {
-            // $request = $event->getRequest();
-            // $method  = $request->getMethod();
-            
             $controller->user = $this->getUser();
             
             $controller->connection_string = $this->getConnectionString();

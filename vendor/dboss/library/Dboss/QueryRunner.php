@@ -7,6 +7,7 @@
 namespace Dboss;
 
 use Dboss\SqlFormatter;
+use Application\Entity\Query;
 
 class QueryRunner
 {
@@ -14,9 +15,9 @@ class QueryRunner
     protected $query_name;
     protected $run_in_transaction;
     protected $db;
-    protected $sys_db;
+    protected $query_service;
     protected $results = array();
-    protected $user_id = null;
+    protected $user = null;
 
     protected $errors = array();
     protected $status = array();
@@ -27,25 +28,26 @@ class QueryRunner
         $sql = null;
         $query_name = null;
         $db = null;
-        $sys_db = null;
-        $user_id = null;
+        $query_service = null;
+        $user = null;
         $multiple_queries = true;
         $run_in_transaction = true;
 
         extract($params, EXTR_IF_EXISTS);
 
-        /*
-        if ( ! $user_id) {
-
-            throw new Exception("Invalid user_id in " . __METHOD__);
+        if (! $user) {
+            throw new \Exception("Invalid user in " . __METHOD__);
         }
-        */
-        
-        $this->user_id = $user_id;
+
+        if (! $query_service) {
+            throw new \Exception("Invalid query_service in " . __METHOD__);
+        }
+
+        $this->user = $user;
         $this->query_name = $query_name;
         $this->sql = $sql;
         $this->db = $db;
-        $this->sys_db = $sys_db;
+        $this->query_service = $query_service;
         $this->multiple_queries = $multiple_queries;
         $this->run_in_transaction = $run_in_transaction;
 
@@ -73,8 +75,8 @@ class QueryRunner
             return false;
         }
 
-        // $params = array('force_query_history' => true);
-        // $this->saveData($params);
+        $params = array('force_query_history' => true);
+        $this->saveData($params);
 
         try {
             if ($this->run_in_transaction) {
@@ -111,35 +113,46 @@ class QueryRunner
     /**
      * Process the query data (eg., save query and log for query history)
      */
-    /*
     public function saveData(array $params = array())
     {
         $force_query_history = false;
 
         extract($params, EXTR_IF_EXISTS);
 
-        $sql_hash = md5($this->sql);
+        $query_hash = md5($this->sql);
 
         $data = array(
-            'user_id'       => $this->user_id,
-            'sql'           => $this->sql,
-            'sql_hash'      => $sql_hash,
-            'deletion_date' => null
+            'query'      => $this->sql,
+            'query_hash' => $query_hash,
         );
 
         if ($this->query_name && ! $force_query_history) {
-        
-            $where = "user_id = {$this->user_id} AND query_name = " . $this->sys_db->quote($this->query_name);
+            $criteria = array(
+                'user_id'    => $this->user->user_id,
+                'query_name' => $this->query_name
+            );
+
             $data['query_name'] = $this->query_name;
         }
         else {
-
-            $where = "user_id = {$this->user_id} AND query_name IS null AND sql_hash = " . $this->sys_db->quote($sql_hash);
+            $criteria = array(
+                'user_id'    => $this->user->user_id,
+                'query_name' => null,
+                'query_hash' => $query_hash
+            );
         }
 
-        $this->admitQuery($data, $where);
+        $query = $this->query_service->findOneBy($criteria);
+
+        if (! $query) {
+            $query = $this->query_service->create();
+        }
+
+        $query->exchangeArray($data);
+        $query->user = $this->user;
+
+        $this->query_service->save($query);
     }
-    */
 
     /**
      * Parses object's SQL into one or more queries
@@ -247,26 +260,4 @@ class QueryRunner
     {
         return (stripos(trim($statement->queryString), "select") === 0) ? true : false;
     }
-
-    /**
-     * Does dynamic insert/update depending on the existence of a record
-     *
-     * @param array Associative array key = field name, value = field value
-     * @param string A string of where conditions (without the 'WHERE' keyword)
-     *
-     * @return mixed The primary key value
-     **/
-    /*
-    public function admitQuery($data, $where = null)
-    {   
-        if (empty($data) || !is_array($data)) {
-            throw new Exception("Invalid data ($data) passed to " . __METHOD__);
-        }
-
-        $query_db_row = Application_Model_DbTable_Row_Query::getOrCreateRow(array('where' => $where));
-            
-        $query_db_row->setFromArray($data);
-        $query_db_row->save();
-    }
-    */
 }

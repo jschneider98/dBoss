@@ -16,8 +16,11 @@ abstract class AbstractEntity
     public function exchangeArray(array $data = array())
     {
         foreach ($this->getFields() as $field_name) {
-            $value = (isset($data[$field_name])) ? $data[$field_name] : null;
-            $this->__set($field_name, $value);
+
+            if (array_key_exists($field_name, $data)) {
+                $value = (isset($data[$field_name])) ? $data[$field_name] : null;
+                $this->__set($field_name, $value);
+            }
         }
     }
 

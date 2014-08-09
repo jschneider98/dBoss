@@ -14,16 +14,44 @@ use Dboss\QueryRunner;
 
 class QueryController extends DbossActionController
 {
+    protected $query_service;
+
+    /**
+     * 
+     **/
     public function indexAction()
     {
         $query_type = null;
+        $query_id = null;
 
         $params = $this->params()->fromRoute();
 
         extract($params, EXTR_IF_EXISTS);
 
+        $sql = null;
+
         if ($query_type) {
             $sql = $this->getSql($params);
+        }
+
+        if ($query_id && is_numeric($query_id)) {
+
+            if ($this->user->isMyQuery($query_id)) {
+                $this->getQueryService();
+                $query = $this->query_service->find($query_id);
+
+                if ($query) {
+                    $sql = $query->query;
+                } else {
+                    $this->flashMessenger()
+                            ->setNamespace('error')
+                            ->addMessage("Invalid query");
+                }
+            } else {
+                $this->flashMessenger()
+                        ->setNamespace('error')
+                        ->addMessage("You do not have access to this query");
+            }
         }
 
         $template = array(
@@ -58,6 +86,30 @@ class QueryController extends DbossActionController
         return $template;
     }
 
+
+    /**
+     * 
+     **/
+    public function historyAction()
+    {
+        $criteria = array(
+            'user_id'       => $this->user->user_id,
+            'query_name'    => null,
+            'deletion_date' => null
+        );
+
+        $order_by = array("modification_date" => "DESC");
+
+        $limit = null;
+        //$limit = 100;
+
+        $template = array(
+            'connection_string' => $this->connection_string,
+            'queries' => $this->getQueryService()->findBy($criteria, $order_by, $limit),
+        );
+
+        return $template;
+    }
 
     /**
      * Generate various SQL queries (SELECT, INSERT, UPDATE, etc)
@@ -96,13 +148,13 @@ class QueryController extends DbossActionController
     protected function runSql($sql = null)
     {
         $params = array(
-            'user_id'            => $this->user_id,
+            'user'               => $this->user,
             'sql'                => $sql,
             //'query_name'         => $post_vals['query_name'],
             //'run_in_transaction' => $post_vals['run_in_transaction'],
             //'multiple_queries'   => $post_vals['multiple_queries'],
             'db'                 => $this->db,
-            //'sys_db'             => $this->getFrontController()->getParam('bootstrap')->getResource('db')
+            'query_service'      => $this->getQueryService(),
         );
 
         $query_runner = new QueryRunner($params);
@@ -114,5 +166,16 @@ class QueryController extends DbossActionController
         } else {
             return array(false, $query_runner->getErrors());
         }
+    }
+
+    /**
+     * 
+     **/
+    protected function getQueryService()
+    {
+        if (! $this->query_service) {
+            $this->query_service = $this->getServiceLocator()->get('Application\Service\QueryService');
+        }
+        return $this->query_service;
     }
 }
