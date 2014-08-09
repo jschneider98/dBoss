@@ -29,13 +29,13 @@ class DataType extends AbstractEntity
     /** @ORM\Column(type="string", unique=true, nullable=false) */
     protected $driver;
 
-    /** @ORM\Column(type="datetime", unique=true, nullable=false) */
+    /** @ORM\Column(type="datetime", nullable=false) */
     protected $creation_date;
 
-    /** @ORM\Column(type="datetime", unique=true, nullable=false) */
+    /** @ORM\Column(type="datetime", nullable=false) */
     protected $modification_date;
 
-    /** @ORM\Column(type="datetime", unique=true, nullable=true) */
+    /** @ORM\Column(type="datetime", nullable=true) */
     protected $deletion_date;
 
     /**

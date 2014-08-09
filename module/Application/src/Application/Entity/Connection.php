@@ -29,10 +29,10 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
     /** @ORM\Column(type="integer", nullable=false) */
     protected $user_id;
 
-    /** @ORM\Column(type="string", unique=true, nullable=true) */
+    /** @ORM\Column(type="string", nullable=true) */
     protected $display_name;
 
-    /** @ORM\Column(type="string", unique=true, nullable=true) */
+    /** @ORM\Column(type="string", nullable=true) */
     protected $database_name;
 
     /** @ORM\Column(type="string", nullable=true) */

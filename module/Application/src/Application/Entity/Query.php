@@ -20,7 +20,7 @@ class Query extends AbstractEntity
     /** @ORM\Column(type="integer", nullable=false) */
     protected $user_id;
 
-    /** @ORM\Column(type="string", unique=true, nullable=true) */
+    /** @ORM\Column(type="string", nullable=true) */
     protected $query_name;
 
     /** @ORM\Column(type="text", nullable=false) */

@@ -89,7 +89,14 @@ abstract class DbossActionController extends AbstractActionController
         }
 
         if ($connection->is_server_connection) {
-            $connection->database_name = $database_name;
+            // Clone the connection so we don't accidently make changes to the orginal
+            $data = $connection->getArrayCopy();
+            $data['database_name'] = $database_name;
+            unset($data['connection_id']);
+
+
+            $connection = $connection_service->create();
+            $connection->exchangeArray($data);
         }
 
         $this->db = $connection->connect();
