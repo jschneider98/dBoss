@@ -16,7 +16,49 @@ class QueryForm extends Form
                 'type'  => 'textarea',
             ),
             'options' => array(
-                'label' => 'SQL',
+                'label' => 'Query',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'query_name',
+            'attributes' => array(
+                'type'  => 'text',
+            ),
+            'options' => array(
+                'label' => 'Query Name',
+            ),
+        ));
+
+        $this->add(array(
+            'type'  => 'Zend\Form\Element\Select',
+            'name'  => 'multiple_queries',
+            'attributes' => array(
+                'value' => '1',
+                'type'  => 'select',
+            ),
+            'options' => array(
+                'label' => 'Multiple queries?',
+                'value_options' => array(
+                    '1' => 'Yes',
+                    '0' => 'No'
+                )
+            ),
+        ));
+
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'run_in_transaction',
+            'attributes' => array(
+                'value' => '1',
+                'type'  => 'select',
+            ),
+            'options' => array(
+                'label' => 'Run in transaction?',
+                'value_options' => array(
+                    '1' => 'Yes',
+                    '0' => 'No'
+                )
             ),
         ));
 
@@ -26,6 +68,15 @@ class QueryForm extends Form
                 'type'  => 'submit',
                 'value' => 'Run',
                 'id'    => 'run_button',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'save_query',
+            'attributes' => array(
+                'type'  => 'submit',
+                'value' => 'Save Query',
+                'id'    => 'save_query',
             ),
         ));
     }

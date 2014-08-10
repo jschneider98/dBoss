@@ -73,7 +73,15 @@ class QueryController extends DbossActionController
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                list($success, $results) = $this->runSql($form->get('sql')->getValue());
+
+                $params = array(
+                    'sql'                => $form->get('sql')->getValue(),
+                    'query_name'         => $form->get('query_name')->getValue(),
+                    'multiple_queries'   => $form->get('multiple_queries')->getValue(),
+                    'run_in_transaction' => $form->get('run_in_transaction')->getValue(),
+                );
+
+                list($success, $results) = $this->runSql($params);
 
                 if ($success) {
                     $template['results'] = $results;
@@ -143,21 +151,28 @@ class QueryController extends DbossActionController
     }
 
     /**
-     * @TEMP: Just testing
-     */
-    protected function runSql($sql = null)
+     * 
+     **/
+    protected function runSql(array $params = array())
     {
-        $params = array(
+        $sql = null;
+        $query_name = null;
+        $run_in_transaction = false;
+        $multiple_queries = true;
+
+        extract($params, EXTR_IF_EXISTS);
+
+        $query_params = array(
             'user'               => $this->user,
             'sql'                => $sql,
-            //'query_name'         => $post_vals['query_name'],
-            //'run_in_transaction' => $post_vals['run_in_transaction'],
-            //'multiple_queries'   => $post_vals['multiple_queries'],
+            'query_name'         => $query_name,
+            'run_in_transaction' => $run_in_transaction,
+            'multiple_queries'   => $multiple_queries,
             'db'                 => $this->db,
             'query_service'      => $this->getQueryService(),
         );
 
-        $query_runner = new QueryRunner($params);
+        $query_runner = new QueryRunner($query_params);
 
         $results = $query_runner->execSql($sql);
 

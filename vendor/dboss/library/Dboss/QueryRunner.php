@@ -26,10 +26,10 @@ class QueryRunner
     public function __construct(array $params = array())
     {
         $sql = null;
-        $query_name = null;
         $db = null;
-        $query_service = null;
         $user = null;
+        $query_name = null;
+        $query_service = null;
         $multiple_queries = true;
         $run_in_transaction = true;
 
@@ -51,13 +51,10 @@ class QueryRunner
         $this->multiple_queries = $multiple_queries;
         $this->run_in_transaction = $run_in_transaction;
 
-        // @TEMP
-        $this->run_in_transaction = false;
         /*
         $platform = $db->getDatabasePlatform();
 
         if ( ! $platform->supportsTransactions()) {
-
             $this->run_in_transaction = false;
         }
         */
@@ -80,7 +77,7 @@ class QueryRunner
 
         try {
             if ($this->run_in_transaction) {
-                $this->db->beginTransaction();
+                $this->begin();
             }
 
             $queries = $this->getQueries($this->sql);
@@ -95,7 +92,7 @@ class QueryRunner
             }
 
             if ($this->run_in_transaction) {
-                $this->db->commit();
+                $this->commit();
             }
 
             return $this->results;
@@ -103,7 +100,7 @@ class QueryRunner
             $this->errors[] = $e->getMessage();
 
             if ($this->run_in_transaction) {
-                $this->db->rollback();
+                $this->rollback();
             }
 
             return false;
@@ -259,5 +256,32 @@ class QueryRunner
     public static function isSelect($statement)
     {
         return (stripos(trim($statement->queryString), "select") === 0) ? true : false;
+    }
+
+    /**
+     * 
+     **/
+    public function begin()
+    {
+        $statement = $this->db->query("BEGIN");
+        $this->results[] = $statement->execute();
+    }
+
+    /**
+     * 
+     **/
+    public function commit()
+    {
+        $statement = $this->db->query("COMMIT");
+        $this->results[] = $statement->execute();
+    }
+
+    /**
+     * 
+     **/
+    public function rollback()
+    {
+        $statement = $this->db->query("ROLLBACK");
+        $this->results[] = $statement->execute();
     }
 }
