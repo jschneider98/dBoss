@@ -71,7 +71,7 @@ class QueryController extends DbossActionController
 
         if ($request->isPost()) {
             $form->setData($request->getPost());
-            
+
             if ($form->isValid()) {
 
                 $params = array(
@@ -81,19 +81,23 @@ class QueryController extends DbossActionController
                     'run_in_transaction' => $form->get('run_in_transaction')->getValue(),
                 );
 
-                list($success, $results) = $this->runSql($params);
-
-                if ($success) {
-                    $template['results'] = $results;
+                if ($request->getPost('save_query')) {
+                    $this->saveSql($params);
+                    $this->flashMessenger()->setNamespace('success')->addMessage("Query saved successfully");
                 } else {
-                    $template['errors'] = $results;
+                    list($success, $results) = $this->runSql($params);
+
+                    if ($success) {
+                        $template['results'] = $results;
+                    } else {
+                        $template['errors'] = $results;
+                    }
                 }
             }
         }
 
         return $template;
     }
-
 
     /**
      * 
@@ -113,7 +117,29 @@ class QueryController extends DbossActionController
 
         $template = array(
             'connection_string' => $this->connection_string,
-            'queries' => $this->getQueryService()->findBy($criteria, $order_by, $limit),
+            'queries'           => $this->getQueryService()->findBy($criteria, $order_by, $limit),
+        );
+
+        return $template;
+    }
+
+    /**
+     * 
+     **/
+    public function savedAction()
+    {
+        $criteria = array(
+            'user_id' => $this->user->user_id,
+        );
+
+        $order_by = array("modification_date" => "DESC");
+
+        $limit = null;
+        //$limit = 100;
+
+        $template = array(
+            'connection_string' => $this->connection_string,
+            'queries'           => $this->getQueryService()->findSavedQueries($criteria, $order_by, $limit),
         );
 
         return $template;
@@ -181,6 +207,28 @@ class QueryController extends DbossActionController
         } else {
             return array(false, $query_runner->getErrors());
         }
+    }
+
+    /**
+     * 
+     **/
+    protected function saveSql(array $params = array())
+    {
+        $sql = null;
+        $query_name = null;
+
+        extract($params, EXTR_IF_EXISTS);
+
+        $query_params = array(
+            'user'               => $this->user,
+            'sql'                => $sql,
+            'query_name'         => $query_name,
+            'db'                 => $this->db,
+            'query_service'      => $this->getQueryService(),
+        );
+
+        $query_runner = new QueryRunner($query_params);
+        $query_runner->saveData();
     }
 
     /**

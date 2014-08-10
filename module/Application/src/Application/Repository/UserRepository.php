@@ -20,11 +20,7 @@ class UserRepository extends EntityRepository
      **/
     public function findInactiveUsers() {
         $qb = $this->createQueryBuilder('u');
-        $qb->where(
-            $qb->expr()->not(
-                $qb->expr()->eq('u.deletion_date', null)
-            )
-        );
+        $qb->where($qb->expr()->isNotNull('u.deletion_date'));
 
         return $qb->getQuery()->getResult();
     }

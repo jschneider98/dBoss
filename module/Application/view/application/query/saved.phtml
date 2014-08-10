@@ -1,0 +1,30 @@
+<?php
+    $params = ($this->connection_string) ? array('connection_string' => $this->connection_string) : array();
+?>
+
+<?php foreach ($this->queries as $query): ?>
+    
+    <?php
+        $params['action'] = "connection-list";
+        $params['user_id'] = $query->user->user_id;
+    ?>
+    <a href="<?php echo $this->url('admin', $params) ?>"><?php echo $query->user->user_name ?></a>
+    <?php echo " / " ?>
+
+    <?php
+        $params['action'] = "index";
+        $params['query_id'] = $query->query_id;
+    ?>
+    <a href="<?php echo $this->url('query', $params) ?>"><?php echo "query #" . $query->query_id ?></a>
+    
+    <div>
+        <small class="text-muted">Created: <?php echo $query->creation_date->format("l F d, Y (m-d-Y)") . " at " . $query->creation_date->format("h:i a") ?></small>
+    </div>
+
+    <div>
+        <strong><?php echo $query->query_name ?></strong>
+    </div>
+
+    <pre><?php echo $query->query ?></pre>
+    <hr>
+<?php endforeach ?>

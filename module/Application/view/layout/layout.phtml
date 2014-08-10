@@ -67,10 +67,11 @@
                     <ul class="nav navbar-nav">
                         <?php $params['action'] = 'history' ?>
                         <li><a href="<?php echo $this->url('query', $params) ?>"><?php echo $this->translate('History') ?></a></li>
-                        <?php $params['action'] = 'index' ?>
                     </ul>
                     <ul class="nav navbar-nav">
-                        <li><a href="<?php echo $this->url('home', $params) ?>"><?php echo $this->translate('Saved') ?></a></li>
+                        <?php $params['action'] = 'saved' ?>
+                        <li><a href="<?php echo $this->url('query', $params) ?>"><?php echo $this->translate('Saved') ?></a></li>
+                        <?php $params['action'] = 'index' ?>
                     </ul>
                     <ul class="nav navbar-nav">
                         <li><a href="<?php echo $this->url('database', $params) ?>"><?php echo $this->translate('Databases') ?></a></li>
