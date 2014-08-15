@@ -33,8 +33,7 @@ Edit config/autoload/local.php as follows:
 
 NOTE: local.php is ignored by git, so it's safe to add connection info to it.
 
-dBoss system configuration:
----------------------------
+dBoss system db configuration:
 
 Edit config/auotload/database.local.php as follows:
 
