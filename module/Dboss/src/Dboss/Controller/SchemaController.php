@@ -22,14 +22,15 @@ class SchemaController extends DbossActionController
         $search = "";
         $resource_type = "table";
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-            'results' => array(),
-            'errors'  => array()
+        $this->view_model->setVariables(
+            array(
+                'results' => array(),
+                'errors'  => array()
+            )
         );
 
         $form = new SchemaSearchForm();
-        $template['form'] = $form;
+        $this->view_model->setVariable('form', $form);
 
         $request = $this->getRequest();
 
@@ -59,17 +60,20 @@ class SchemaController extends DbossActionController
                 $schema_resource = $resource_factory->getResource();
 
                 if ($schema_resource instanceof Null) {
-                    $template['not_implemented'] = "This feature is either not supported by your database platform or it has not been implemented yet.";
+                    $this->view_model->setVariable(
+                        'not_implemented',
+                        "This feature is either not supported by your database platform or it has not been implemented yet."
+                    );
                 }
 
                 $results = $schema_resource->getEncodedResourceList(array('search' => $search));
                 
-                $template['results'] = $results;
-                $template['row_count'] = count($results);
+                $this->view_model->setVariable('results', $results);
+                $this->view_model->setVariable('row_count', count($results));
             }
         }
 
-        return $template;
+        return $this->view_model;
     }
 
     /**
@@ -88,10 +92,6 @@ class SchemaController extends DbossActionController
 
         extract($params, EXTR_IF_EXISTS);
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-        );
-
         $params = array(
             'resource_type' => $resource_type,
             'db'            => $this->db
@@ -107,13 +107,12 @@ class SchemaController extends DbossActionController
             'resource_arguments' => $resource_arguments
         );
         
-        $template['definition'] = $schema_resource->getResourceDefinition($params);
-        $template['schema_name'] = $schema_name;
-        $template['resource_name'] = $resource_name;
-        $template['resource'] = $resource_value;
-        $template['resource_type'] = $resource_type;
-        //$template['database'] = $this->_helper->getHelper('Database')->getDatabase();
+        $this->view_model->setVariable('definition', $schema_resource->getResourceDefinition($params));
+        $this->view_model->setVariable('schema_name', $schema_name);
+        $this->view_model->setVariable('resource_name', $resource_name);
+        $this->view_model->setVariable('resource', $resource_value);
+        $this->view_model->setVariable('resource_type', $resource_type);
 
-        return $template;
+        return $this->view_model;
     }
 }

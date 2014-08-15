@@ -54,14 +54,15 @@ class QueryController extends DbossActionController
             }
         }
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-            'results'           => array(),
-            'errors'            => array()
+        $this->view_model->setVariables(
+            array(
+                'results'           => array(),
+                'errors'            => array()
+            )
         );
 
         $form = new QueryForm();
-        $template['form'] = $form;
+        $this->view_model->setVariable('form', $form);
 
         if ($sql) {
             $form->setData(array('sql' => $sql));
@@ -88,15 +89,15 @@ class QueryController extends DbossActionController
                     list($success, $results) = $this->runSql($params);
 
                     if ($success) {
-                        $template['results'] = $results;
+                        $this->view_model->setVariable('results', $results);
                     } else {
-                        $template['errors'] = $results;
+                        $this->view_model->setVariable('errors', $results);
                     }
                 }
             }
         }
 
-        return $template;
+        return $this->view_model;
     }
 
     /**
@@ -115,12 +116,14 @@ class QueryController extends DbossActionController
         $limit = null;
         //$limit = 100;
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-            'queries'           => $this->getQueryService()->findBy($criteria, $order_by, $limit),
+        $this->view_model->setVariables(
+            array(
+                'connection_string' => $this->connection_string,
+                'queries'           => $this->getQueryService()->findBy($criteria, $order_by, $limit),
+            )
         );
 
-        return $template;
+        return $this->view_model;
     }
 
     /**
@@ -137,12 +140,14 @@ class QueryController extends DbossActionController
         $limit = null;
         //$limit = 100;
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-            'queries'           => $this->getQueryService()->findSavedQueries($criteria, $order_by, $limit),
+        $this->view_model->setVariables(
+            array(
+                'connection_string' => $this->connection_string,
+                'queries'           => $this->getQueryService()->findSavedQueries($criteria, $order_by, $limit),
+            )
         );
 
-        return $template;
+        return $this->view_model;
     }
 
     /**

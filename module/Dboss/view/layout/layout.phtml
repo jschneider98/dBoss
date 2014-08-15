@@ -80,6 +80,9 @@
                         <li><a href="<?php echo $this->url('admin', $params) ?>"><?php echo $this->translate('Admin') ?></a></li>
                     </ul>
                     <ul class="nav navbar-nav pull-right">
+                        <?php if ($this->signed_in_user): ?>
+                            <li><a href="<?php echo $this->url('admin', $params) ?>"><?php echo $this->signed_in_user->user_name ?></a></li>
+                        <?php endif ?>
                         <?php if ($connection_name): ?>
                             <li><a href="<?php echo $this->url('database', $params) ?>"><?php echo $connection_name ?></a></li>
                         <?php endif ?>

@@ -15,6 +15,6 @@ class IndexController extends DbossActionController
 
     public function indexAction()
     {
-        return array('connection_string' => $this->connection_string);
+        return $this->view_model;
     }
 }

@@ -15,6 +15,8 @@ abstract class DbossActionController extends AbstractActionController
 {
     public $require_login = true;
     public $require_connection = true;
+
+    public $view_model = null;
     public $user;
     public $db;
     public $connection_string = null;
@@ -29,24 +31,31 @@ abstract class DbossActionController extends AbstractActionController
             $controller->user = $this->getUser();
             
             $controller->connection_string = $this->getConnectionString();
-            $controller->layout()->connection_string = $this->connection_string;
+            $controller->layout()->connection_string = $controller->connection_string;
+            $controller->layout()->signed_in_user = $controller->user;
             
             $controller->db = $this->getDb();
             $controller->layout()->host_name = $this->host_name;
             
-            if ($controller->require_connection && ! $this->db) {
+            if ($controller->require_connection && ! $controller->db) {
                 $this->flashMessenger()
                         ->setNamespace('error')
                         ->addMessage("This action requires a database connection and you haven't selected one yet. Please select one below.");
                 return $this->redirect()->toRoute('database');
             }
 
-            if ($controller->require_login && ! $this->user) {
+            if ($controller->require_login && ! $controller->user) {
                 $this->flashMessenger()
                         ->setNamespace('error')
                         ->addMessage("This action requires you to be logged in. Please enter your user name and password below.");
                 return $this->redirect()->toRoute('auth');
             }
+
+            $this->view_model = new ViewModel(
+                array(
+                    'connection_string' => $controller->connection_string,
+                )
+            );
         }, 100);
     }
 

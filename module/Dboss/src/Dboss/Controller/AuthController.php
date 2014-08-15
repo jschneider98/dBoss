@@ -37,8 +37,6 @@ class AuthController extends DbossActionController
             return $this->redirect()->toRoute('home', $params);
         }
 
-        $template = array('connection_string' => $this->connection_string);
-
         $form = new AuthForm();
         $form->setup();
 
@@ -87,9 +85,9 @@ class AuthController extends DbossActionController
             }
         }
 
-        $template['form'] = $form;
+        $this->view_model->setVariable('form', $form);
 
-        return $template;
+        return $this->view_model;
     }
 
     /**

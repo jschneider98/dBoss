@@ -22,14 +22,11 @@ class DatabaseController extends DbossActionController
      **/
     public function indexAction()
     {
-        $template = array(
-            'connection_info' => $this->user->getConnectionInfo()
+        $this->view_model->setVariable(
+            'connection_info',
+            $this->user->getConnectionInfo()
         );
 
-        if ($this->connection_string) {
-            $template['connection_string'] = $this->connection_string;
-        }
-
-        return $template;
+        return $this->view_model;
     }
 }

@@ -25,10 +25,6 @@ class AdminController extends DbossActionController
      **/
     public function indexAction()
     {
-        $template = array(
-            'connection_string' => $this->connection_string
-        );
-
         if ($this->user->isLimited()) {
             $this->flashMessenger()
                     ->setNamespace('error')
@@ -46,14 +42,20 @@ class AdminController extends DbossActionController
         $user_service = $this->getUserService();
 
         if ($this->user->isaBoss()) {
-            $template['users'] = $user_service->findActiveUsers();
+            $this->view_model->setVariable(
+                'users',
+                $user_service->findActiveUsers()
+            );
         } else {
-            $template['users'] = array(
-                $user_service->findOneBy(array('user_id' => $this->user->user_id))
+            $this->view_model->setVariable(
+                'users',
+                array(
+                    $user_service->findOneBy(array('user_id' => $this->user->user_id))
+                )
             );
         }
 
-        return $template;
+        return $this->view_model;
     }
 
     /**
@@ -69,9 +71,9 @@ class AdminController extends DbossActionController
         $user = $this->getUserService()->findOrCreate($user_id);
         $user->password = null;
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-            'user' => $user
+        $this->view_model->setVariable(
+            'user',
+            $user
         );
 
         $form = new UserForm();
@@ -103,10 +105,10 @@ class AdminController extends DbossActionController
             }
         }
 
-        $template['form'] = $form;
-        $template['user_id'] = $user_id;
+        $this->view_model->setVariable('form', $form);
+        $this->view_model->setVariable('user_id', $user_id);
 
-        return $template;
+        return $this->view_model;
     }
 
     /**
@@ -132,12 +134,12 @@ class AdminController extends DbossActionController
             return array();
         }
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-            'user' => $user
+        $this->view_model->setVariable(
+            'user',
+            $user
         );
 
-        return $template;
+        return $this->view_model;
     }
 
     /**
@@ -162,10 +164,11 @@ class AdminController extends DbossActionController
             $connection->user_id = $user->user_id;
         }
 
-        $template = array(
-            'connection_string' => $this->connection_string,
-            'user'        => $user,
-            'connnection' => $connnection
+        $this->view_model->setVariables(
+            array(
+                'user'        => $user,
+                'connnection' => $connnection
+            )
         );
 
         $form = new ConnectionForm();
@@ -200,10 +203,10 @@ class AdminController extends DbossActionController
             }
         }
 
-        $template['form'] = $form;
-        $template['user_id'] = $user_id;
+        $this->view_model->setVariable('form', $form);
+        $this->view_model->setVariable('user_id', $user_id);
 
-        return $template;
+        return $this->view_model;
     }
 
     /**
