@@ -24,15 +24,8 @@ Edit config/autoload/local.php as follows:
     <?php
 
     return array(
-        'temp_db' => array(
-            'driver'   => 'Pdo_Pgsql',
-            'database' => '<db name>',
-            'hostname' => '<hostname>',
-            'username' => '<username>',
-            'password' => '<password>',
-        ),
         'security' => array(
-            'salt_key' => 'dBoss_salt',
+            'salt_key' => 'your_salt_here',
             'iteration_count' => 8,
             'portable_hashes' => 0,
         ),
