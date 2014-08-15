@@ -13,7 +13,7 @@ Using Composer (recommended)
 
 @TODO
 
-*Temporary Config* (while user connections aren't added)
+*Temporary Manual Config* (while setup script isn't done)
 --------------------------------------------------------
 
 - Clone dBoss
@@ -24,15 +24,8 @@ Edit config/autoload/local.php as follows:
     <?php
 
     return array(
-        'temp_db' => array(
-            'driver'   => 'Pdo_Pgsql',
-            'database' => '<db name>',
-            'hostname' => '<hostname>',
-            'username' => '<username>',
-            'password' => '<password>',
-        ),
         'security' => array(
-            'salt_key' => 'dBoss_salt',
+            'salt_key' => 'your_salt_here',
             'iteration_count' => 8,
             'portable_hashes' => 0,
         ),
@@ -40,10 +33,9 @@ Edit config/autoload/local.php as follows:
 
 NOTE: local.php is ignored by git, so it's safe to add connection info to it.
 
-dBoss system configuration:
----------------------------
+dBoss system db configuration:
 
-Edit config/auotload/database.local.php as follows:
+Edit config/autoload/database.local.php as follows:
 
     <?php
     
