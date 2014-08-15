@@ -13,7 +13,7 @@ Using Composer (recommended)
 
 @TODO
 
-*Temporary Config* (while user connections aren't added)
+*Temporary Manual Config* (while setup script isn't done)
 --------------------------------------------------------
 
 - Clone dBoss
