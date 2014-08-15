@@ -35,7 +35,7 @@ NOTE: local.php is ignored by git, so it's safe to add connection info to it.
 
 dBoss system db configuration:
 
-Edit config/auotload/database.local.php as follows:
+Edit config/autoload/database.local.php as follows:
 
     <?php
     
