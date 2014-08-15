@@ -80,7 +80,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     {
         $this->queries = new ArrayCollection();
         $this->servers = new ArrayCollection();
-        $this->databases = new ArrayCollection();
+        $this->connections = new ArrayCollection();
     }
 
     /**
@@ -287,6 +287,28 @@ class User extends AbstractEntity implements InputFilterAwareInterface
 
         $hasher = new PasswordHash($iteration_count, $portable_hashes);
         $this->password = $hasher->HashPassword($salt_key.$password);
+    }
+
+    /**
+     * Checks to see if passed password matches the user's password
+     * 
+     * @param string Password to check
+     * @return bool True if the password matches, false otherwise
+     */
+    public function checkPassword($password = null)
+    {
+        if (is_null($password)) {
+            return false;
+        }
+
+        $salt_key = null;
+        $iteration_count = null;
+        $portable_hashes = null;
+
+        extract($this->security, EXTR_IF_EXISTS);
+
+        $hasher = new PasswordHash($iteration_count, $portable_hashes);
+        return $hasher->CheckPassword($salt_key.$password, $this->password);
     }
 
     /**

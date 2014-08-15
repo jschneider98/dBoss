@@ -8,6 +8,8 @@ namespace Dboss\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\EventManager\EventManagerInterface;
 use Zend\View\Model\ViewModel;
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Storage\Session as ZendSession;
 
 abstract class DbossActionController extends AbstractActionController
 {
@@ -38,6 +40,13 @@ abstract class DbossActionController extends AbstractActionController
                         ->addMessage("This action requires a database connection and you haven't selected one yet. Please select one below.");
                 return $this->redirect()->toRoute('database');
             }
+
+            if ($controller->require_login && ! $this->user) {
+                $this->flashMessenger()
+                        ->setNamespace('error')
+                        ->addMessage("This action requires you to be logged in. Please enter your user name and password below.");
+                return $this->redirect()->toRoute('auth');
+            }
         }, 100);
     }
 
@@ -50,9 +59,13 @@ abstract class DbossActionController extends AbstractActionController
             return $this->user;
         }
 
-        // @TODO: Replace with Zend\Authentication\AuthenticationService etc
-        $user_service = $this->getServiceLocator()->get('Dboss\Service\UserService');
-        $this->user = $user_service->findOneBy(array('user_id' => 1));
+        $auth_service = new AuthenticationService();
+        $auth_service->setStorage(new ZendSession('dBoss_Auth'));
+
+        if ($auth_service->hasIdentity()) {
+            $user_id = $auth_service->getIdentity();
+            $this->user = $this->getServiceLocator()->get('Dboss\Service\UserService')->find($user_id);
+        }
 
         return $this->user;
     }
@@ -67,6 +80,11 @@ abstract class DbossActionController extends AbstractActionController
         }
 
         $this->getUser();
+
+        if (! $this->user) {
+            return;
+        }
+
         $this->getConnectionString();
 
         list($connection_id, $database_name) = explode("-", $this->connection_string);
@@ -89,7 +107,7 @@ abstract class DbossActionController extends AbstractActionController
         }
 
         if ($connection->is_server_connection) {
-            // Clone the connection so we don't accidently make changes to the orginal
+            // Copy the connection so we don't accidently make changes to the orginal
             $data = $connection->getArrayCopy();
             $data['database_name'] = $database_name;
             unset($data['connection_id']);
@@ -101,9 +119,6 @@ abstract class DbossActionController extends AbstractActionController
 
         $this->db = $connection->connect();
         $this->host_name = $connection->host;
-
-        // $config = $this->getServiceLocator()->get('config');
-        // $this->db = new Adapter($config['temp_db']);
 
         return $this->db;
     }

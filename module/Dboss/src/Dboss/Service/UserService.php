@@ -39,6 +39,14 @@ class UserService extends AbstractObjectManagerService
     /**
      * 
      **/
+    public function findByUserName($user_name = null)
+    {
+        return $this->getRepository()->findByUserName($this->security, $user_name);
+    }
+
+    /**
+     * 
+     **/
     public function create()
     {
         $entity_name = $this->getRepository()->getClassName();

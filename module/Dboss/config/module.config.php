@@ -28,6 +28,17 @@ return array(
                     ),
                 ),
             ),
+            'auth' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/auth[/:action[/connection_string/:connection_string]]',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Dboss\Controller',
+                        'controller'    => 'Auth',
+                        'action'        => 'index',
+                    ),
+                ),
+            ),
             'query' => array(
                 'type' => 'segment',
                 'options' => array(
@@ -115,6 +126,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Dboss\Controller\Admin'    => 'Dboss\Controller\AdminController',
+            'Dboss\Controller\Auth'     => 'Dboss\Controller\AuthController',
             'Dboss\Controller\Index'    => 'Dboss\Controller\IndexController',
             'Dboss\Controller\Query'    => 'Dboss\Controller\QueryController',
             'Dboss\Controller\Database' => 'Dboss\Controller\DatabaseController',

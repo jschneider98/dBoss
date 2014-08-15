@@ -1,0 +1,64 @@
+<?php
+
+$title = "User Authentication";
+$this->headTitle($title);
+
+$form = $this->form;
+
+$params = array(
+    'action'  => 'index',
+);
+
+if ($this->connection_string) {
+    $params['connection_string'] = $this->connection_string;
+}
+
+$form->setAttribute('action', $this->url(
+    'auth',
+    $params
+));
+
+$this->formElementErrors()
+        ->setMessageOpenFormat('<div class="alert alert-danger">')
+        ->setMessageSeparatorString('</div><div class="alert alert-danger">')
+        ->setMessageCloseString('</div>');
+
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <h2><?php echo $this->escapeHtml($title); ?></h2>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('user_name');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <?php
+                            $element = $form->get('password');
+                            echo $this->formRow($element, null, false);
+                            echo $this->formElementErrors($element);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <?php echo $this->formSubmit($form->get('save_submit')) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php echo $this->form()->closeTag() ?>
