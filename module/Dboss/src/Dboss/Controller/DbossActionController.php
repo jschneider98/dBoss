@@ -28,30 +28,30 @@ abstract class DbossActionController extends AbstractActionController
 
         $controller = $this;
         $events->attach('dispatch', function ($event) use ($controller) {
-            $controller->user = $this->getUser();
+            $controller->user = $controller->getUser();
             
-            $controller->connection_string = $this->getConnectionString();
+            $controller->connection_string = $controller->getConnectionString();
             $controller->layout()->connection_string = $controller->connection_string;
             $controller->layout()->signed_in_user = $controller->user;
             
-            $controller->db = $this->getDb();
-            $controller->layout()->host_name = $this->host_name;
+            $controller->db = $controller->getDb();
+            $controller->layout()->host_name = $controller->host_name;
             
             if ($controller->require_connection && ! $controller->db) {
-                $this->flashMessenger()
+                $controller->flashMessenger()
                         ->setNamespace('error')
                         ->addMessage("This action requires a database connection and you haven't selected one yet. Please select one below.");
-                return $this->redirect()->toRoute('database');
+                return $controller->redirect()->toRoute('database');
             }
 
             if ($controller->require_login && ! $controller->user) {
-                $this->flashMessenger()
+                $controller->flashMessenger()
                         ->setNamespace('error')
                         ->addMessage("This action requires you to be logged in. Please enter your user name and password below.");
-                return $this->redirect()->toRoute('auth');
+                return $controller->redirect()->toRoute('auth');
             }
 
-            $this->view_model = new ViewModel(
+            $controller->view_model = new ViewModel(
                 array(
                     'connection_string' => $controller->connection_string,
                 )
