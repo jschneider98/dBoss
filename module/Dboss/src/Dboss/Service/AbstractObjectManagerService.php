@@ -71,7 +71,7 @@ abstract class AbstractObjectManagerService
     /**
      * 
      **/
-    public function findBy(array $criteria = null, array $order_by = null, integer $limit = null, integer $offset = null)
+    public function findBy(array $criteria = null, array $order_by = null, $limit = null, $offset = null)
     {
         return $this->getRepository()->findBy($criteria, $order_by, $limit, $offset);
     }
