@@ -83,10 +83,10 @@ class Role extends \Dboss\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'role_id', 'role_level', 'role_name', 'display_name', 'creation_date', 'modification_date', 'deletion_date');
+            return array('__isInitialized__', 'role_id', 'role_level', 'role_name', 'display_name', 'creation_date', 'modification_date', 'deletion_date', 'fields');
         }
 
-        return array('__isInitialized__', 'role_id', 'role_level', 'role_name', 'display_name', 'creation_date', 'modification_date', 'deletion_date');
+        return array('__isInitialized__', 'role_id', 'role_level', 'role_name', 'display_name', 'creation_date', 'modification_date', 'deletion_date', 'fields');
     }
 
     /**
