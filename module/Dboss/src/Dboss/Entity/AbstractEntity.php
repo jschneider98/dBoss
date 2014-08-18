@@ -5,6 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractEntity
 {
+    protected $fields = array();
+
     /**
      * Only the properties that should be hydrated
      **/
@@ -18,8 +20,10 @@ abstract class AbstractEntity
         foreach ($this->getFields() as $field_name) {
 
             if (array_key_exists($field_name, $data)) {
-                $value = (isset($data[$field_name])) ? $data[$field_name] : null;
+                $value = (isset($data[$field_name]) || $data[$field_name] === 0) ? $data[$field_name] : null;
                 $this->__set($field_name, $value);
+            } else {
+                $this->__set($field_name, null);
             }
         }
     }
