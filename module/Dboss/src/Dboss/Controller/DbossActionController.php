@@ -62,7 +62,7 @@ abstract class DbossActionController extends AbstractActionController
     /**
      * 
      **/
-    protected function getUser()
+    public function getUser()
     {
         if ($this->user) {
             return $this->user;
@@ -82,7 +82,7 @@ abstract class DbossActionController extends AbstractActionController
     /**
      * 
      **/
-    protected function getDb()
+    public function getDb()
     {
         if ($this->db) {
             return $this->db;
@@ -135,7 +135,7 @@ abstract class DbossActionController extends AbstractActionController
     /**
      * 
      **/
-    protected function getConnectionString()
+    public function getConnectionString()
     {
         if ($this->connection_string) {
             return $this->connection_string;
