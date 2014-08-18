@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="Bootstrap.php">
+<phpunit bootstrap="Bootstrap.php"
+         colors="true"
+         backupGlobals="false"
+         backupStaticAttributes="false">
     <testsuites>
         <testsuite name="dBoss">
             <directory>./DbossTest</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory>../src</directory>
+            <file>../Module.php</file>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html"
+             title="dBoss Coverage"
+             target="coverage"
+             charset="UTF-8"
+             yui="true"
+             highlight="true"
+             lowUpperBound="35"
+             highLowerBound="70"/>
+        <log type="junit"
+             target="coverage/tests.xml"
+             logIncompleteSkipped="true"/>
+        <log type="coverage-clover"
+             target="coverage/coverage.xml"/>
+    </logging>
 </phpunit>
