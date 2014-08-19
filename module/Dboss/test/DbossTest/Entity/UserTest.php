@@ -367,5 +367,48 @@ class UserTest extends PHPUnit_Framework_TestCase
             "Is limited should return true"
         );
     }
+
+    /**
+     * 
+     */
+    public function testCanEditUser()
+    {
+        $role = new Role();
+        $role->role_name = "boss";
+
+        $this->user->user_id = 1;
+        $this->user->role = $role;
+
+        $user_id = 2;
+
+        $this->assertSame(
+            false,
+            $this->user->canEditUser(null),
+            "'null' user_id should always return false"
+        );
+
+        $this->assertSame(
+            true,
+            $this->user->canEditUser($user_id),
+            "Boss user should always return true"
+        );
+
+        $role->role_name = "not_a_boss";
+        $user_id = $this->user->user_id;
+
+        $this->assertSame(
+            true,
+            $this->user->canEditUser($user_id),
+            "Matching user_ids should always return true"
+        );
+
+        $user_id = 2;
+
+        $this->assertSame(
+            false,
+            $this->user->canEditUser($user_id),
+            "Mis-matching user_ids should return false"
+        );
+    }
 }
 
