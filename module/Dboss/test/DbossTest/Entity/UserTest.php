@@ -334,5 +334,38 @@ class UserTest extends PHPUnit_Framework_TestCase
             "Is a boss should return true"
         );
     }
+
+    /**
+     * 
+     */
+    public function testIsLimited()
+    {
+        $role = new Role();
+
+        $this->user->role = null;
+
+        $this->assertSame(
+            true,
+            $this->user->isLimited(),
+            "'null' role should always return true"
+        );
+
+        $role->role_name = "not_limited";
+        $this->user->role = $role;
+
+        $this->assertSame(
+            false,
+            $this->user->isLimited(),
+            "Not-Limited should return false"
+        );
+
+        $role->role_name = "limited";
+
+        $this->assertSame(
+            true,
+            $this->user->isLimited(),
+            "Is limited should return true"
+        );
+    }
 }
 
