@@ -209,6 +209,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
                 ),
             )));
 
+            /*
             $input_filter->add($factory->createInput(array(
                 'name'     => 'verify_password',
                 'required' => true,
@@ -226,6 +227,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
                     ),
                 ),
             )));
+            */
 
             $this->input_filter = $input_filter;
         }

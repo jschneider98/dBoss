@@ -62,6 +62,8 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
      **/
     protected $user;
 
+    protected $input_filter;
+
     /**
      * Only the properties that should be hydrated
      **/
@@ -177,6 +179,25 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
             )));
 
             $input_filter->add($factory->createInput(array(
+                'name'     => 'database_name',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+
+            $input_filter->add($factory->createInput(array(
                 'name'     => 'host',
                 'required' => true,
                 'filters'  => array(
@@ -192,6 +213,14 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
                             'max'      => 255,
                         ),
                     ),
+                ),
+            )));
+
+            $input_filter->add($factory->createInput(array(
+                'name'     => 'is_server_connection',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'Boolean'),
                 ),
             )));
 
@@ -213,6 +242,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
                 ),
             )));
 
+            /*
             $input_filter->add($factory->createInput(array(
                 'name'     => 'verify_password',
                 'required' => true,
@@ -230,6 +260,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
                     ),
                 ),
             )));
+            */
 
             $this->input_filter = $input_filter;
         }

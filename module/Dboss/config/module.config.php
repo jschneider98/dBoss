@@ -184,6 +184,16 @@ return array(
                         ),
                     ),
                 ),
+                'create-entity-test' => array(
+                    'options' => array(
+                        'route' => 'create-entity-test --name=',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Dboss\Controller',
+                            'controller'    => 'Console',
+                            'action'        => 'create-entity-test'
+                        ),
+                    ),
+                ),
             ),
         ),
     ),

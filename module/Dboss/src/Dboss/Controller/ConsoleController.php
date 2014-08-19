@@ -220,6 +220,164 @@ class ConsoleController extends AbstractActionController
         echo "\nDone.\n";
     }
 
+
+    /**
+     * 
+     */
+    protected function createEntityTestAction()
+    {
+        $request = $this->getRequest();
+
+        if ( ! $request instanceof ConsoleRequest){
+            throw new RuntimeException('FATAL ERROR: Tried to use console action in a non-console context');
+        }
+
+        $entity_name = $request->getParam('name', false);
+        $class = "\\Dboss\Entity\\" . $entity_name;
+        $object_name = strtolower($entity_name);
+
+        $entity = new $class();
+
+        $null_checks = array();
+        $data = array();
+        $assert_same = array();
+        $input_filter_checks = array();
+
+        foreach ($entity->getFields() as $field_name) {
+$null_checks[] = <<<CODE
+        \$this->assertNull(
+            \${$object_name}->{$field_name},
+            "{$field_name} should initially be null"
+        );
+
+
+CODE;
+
+$data[] = <<<CODE
+            "{$field_name}" => "{$field_name}",
+CODE;
+
+$assert_same[] = <<<CODE
+        \$this->assertSame(
+            \$data['{$field_name}'],
+            \${$object_name}->{$field_name},
+            "{$field_name} was not set correctly"
+        );
+
+
+CODE;
+
+$input_filter_checks[] = <<<CODE
+        \$this->assertTrue(\$input_filter->has('{$field_name}'));
+CODE;
+        }
+
+        $null_checks_str = implode("", $null_checks);
+        $data_str = implode("\n", $data);
+        $assert_same_str = implode("", $assert_same);
+        $input_filter_checks_str = implode("\n", $input_filter_checks);
+        $field_count = count($entity->getFields());
+
+echo <<<CODE
+<?php
+namespace DbossTest\Entity;
+
+use Dboss\Entity\\{$entity_name};
+use PHPUnit_Framework_TestCase;
+
+class {$entity_name}Test extends PHPUnit_Framework_TestCase
+{
+    /**
+     * 
+     */
+    public function test{$entity_name}InitialState()
+    {
+        \${$object_name} = new {$entity_name}();
+
+{$null_checks_str}
+    }
+
+    /**
+     * 
+     */
+    public function testExchangeArraySetsPropertiesCorrectly()
+    {
+        \${$object_name} = new {$entity_name}();
+
+        \$data  = array(
+{$data_str}
+        );
+
+        \${$object_name}->exchangeArray(\$data);
+
+{$assert_same_str}
+    }
+
+    /**
+     * 
+     */
+    public function testExchangeArraySetsPropertiesToNullIfKeysAreNotPresent()
+    {
+        \${$object_name} = new {$entity_name}();
+
+        \$data  = array(
+{$data_str}
+        );
+
+        \${$object_name}->exchangeArray(\$data);
+        \${$object_name}->exchangeArray(array());
+
+{$null_checks_str}
+    }
+
+    /**
+     * 
+     */
+    public function testGetArrayCopyReturnsAnArrayWithPropertyValues()
+    {
+        \${$object_name} = new {$entity_name}();
+
+        \$original_data  = array(
+{$data_str}
+        );
+
+        \${$object_name}->exchangeArray(\$original_data);
+        \$data = \${$object_name}->getArrayCopy();
+
+{$assert_same_str}
+    }
+}
+
+    /**
+     * 
+     */
+    public function testSetInputFilterFails()
+    {
+        \${$object_name} = new {$entity_name}();
+        \$input_filter = \${$object_name}->getInputFilter();
+        
+        \$this->setExpectedException("\Exception");
+        \${$object_name}->setInputFilter(\$input_filter);
+    }
+
+
+    /**
+     * 
+     */
+    public function testInputFiltersAreSetCorrectly()
+    {
+        \${$object_name} = new {$entity_name}();
+
+        \$input_filter = \${$object_name}->getInputFilter();
+
+        \$this->assertSame({$field_count}, \$input_filter->count());
+
+{$input_filter_checks_str}
+    }
+
+CODE;
+    }
+
     // ************* Non-Action Methods ******************
 
     /**
