@@ -3,6 +3,7 @@ namespace DbossTest\Entity;
 
 use Dboss\Entity\User;
 use Dboss\Entity\Role;
+use Dboss\Entity\Connection;
 use Dboss\Xtea;
 use PHPUnit_Framework_TestCase;
 
@@ -408,6 +409,33 @@ class UserTest extends PHPUnit_Framework_TestCase
             false,
             $this->user->canEditUser($user_id),
             "Mis-matching user_ids should return false"
+        );
+    }
+
+    /**
+     * 
+     */
+    public function testGetConnectionInfo()
+    {
+        $connection = new Connection();
+        $connection->connection_id = 1;
+        $connection->is_server_connection = false;
+        $connection->database_name = "unit_test_db";
+        $connection->host = "unit_server";
+
+        $this->user->connections = array($connection);
+
+        $key = $connection->connection_id . "-" . $connection->database_name;
+        $value = $connection->database_name . "-" . $connection->host;
+
+        $connection_info = array(
+            $key => $value
+        );
+
+        $this->assertSame(
+            $connection_info,
+            $this->user->getConnectionInfo(),
+            "Connection Info was not retrieved properly"
         );
     }
 }
