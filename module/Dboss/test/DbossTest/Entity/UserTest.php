@@ -438,5 +438,25 @@ class UserTest extends PHPUnit_Framework_TestCase
             "Connection Info was not retrieved properly"
         );
     }
+
+    /**
+     * 
+     */
+    public function testOnPrePersist()
+    {
+        $this->user->onPrePersist();
+
+        $this->assertInstanceOf(
+            '\DateTime',
+            $this->user->creation_date,
+            'creation_date should be an instance of DateTime'
+        );
+
+        $this->assertInstanceOf(
+            '\DateTime',
+            $this->user->modification_date,
+            'modification_date should be an instance of DateTime'
+        );
+    }
 }
 
