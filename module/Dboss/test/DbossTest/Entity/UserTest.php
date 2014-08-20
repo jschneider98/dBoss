@@ -478,5 +478,19 @@ class UserTest extends PHPUnit_Framework_TestCase
             'modification_date should be an instance of DateTime'
         );
     }
+
+    /**
+     * 
+     */
+    public function testDelete()
+    {
+        $this->user->delete();
+
+        $this->assertInstanceOf(
+            '\DateTime',
+            $this->user->deletion_date,
+            'deletion_date should be an instance of DateTime'
+        );
+    }
 }
 
