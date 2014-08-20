@@ -4,6 +4,7 @@ namespace DbossTest\Entity;
 use Dboss\Entity\User;
 use Dboss\Entity\Role;
 use Dboss\Entity\Connection;
+use Dboss\Entity\Query;
 use Dboss\Xtea;
 use PHPUnit_Framework_TestCase;
 
@@ -490,6 +491,66 @@ class UserTest extends PHPUnit_Framework_TestCase
             '\DateTime',
             $this->user->deletion_date,
             'deletion_date should be an instance of DateTime'
+        );
+    }
+
+    /**
+     * 
+     */
+    public function testIsMyQuery()
+    {
+        $query_id = null;
+        $this->user_id = null;
+
+        $this->assertSame(
+            false,
+            $this->user->isMyQuery($query_id),
+            "If user_id is not set should always return false"
+        );
+
+        $this->user_id = "bad_user_id";
+
+        $this->assertSame(
+            false,
+            $this->user->isMyQuery($query_id),
+            "Invalid user_id should always return false"
+        );
+
+        $this->user->user_id = 1;
+
+        $this->assertSame(
+            false,
+            $this->user->isMyQuery($query_id),
+            "If query_id is not set should always return false"
+        );
+
+        $query_id = "bad_query_id";
+
+        $this->assertSame(
+            false,
+            $this->user->isMyQuery($query_id),
+            "Invalid query_id should always return false"
+        );
+
+        // test a query that does not belong to user
+        $query_id = 1;
+
+        $this->assertSame(
+            false,
+            $this->user->isMyQuery($query_id),
+            "Query that doesn't belong to user should return false"
+        );
+
+        // test a query that does belong to user
+        $query = new Query();
+        $query->user_id = $this->user->user_id;
+        $query->query_id = $query_id;
+        $this->user->queries->add($query);
+
+        $this->assertSame(
+            true,
+            $this->user->isMyQuery($query_id),
+            "Query that belongs to user should return true"
         );
     }
 }
