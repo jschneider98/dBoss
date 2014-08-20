@@ -613,5 +613,65 @@ class UserTest extends PHPUnit_Framework_TestCase
             "Connection that belongs to user should return true"
         );
     }
+
+    /**
+     * 
+     */
+    public function testGetMyQuery()
+    {
+        $query_id = null;
+        $this->user->user_id = null;
+
+        $this->assertSame(
+            null,
+            $this->user->getMyQuery($query_id),
+            "If user_id is not set should always return null"
+        );
+
+        $this->user->user_id = "bad_user_id";
+
+        $this->assertSame(
+            null,
+            $this->user->getMyQuery($query_id),
+            "Invalid user_id should always return null"
+        );
+
+        $this->user->user_id = 1;
+
+        $this->assertSame(
+            null,
+            $this->user->getMyQuery($query_id),
+            "If query_id is not set should always return null"
+        );
+
+        $query_id = "bad_query_id";
+
+        $this->assertSame(
+            null,
+            $this->user->getMyQuery($query_id),
+            "Invalid query_id should always return null"
+        );
+
+        // test a query that does not belong to user
+        $query_id = 1;
+
+        $this->assertSame(
+            null,
+            $this->user->getMyQuery($query_id),
+            "Query that doesn't belong to user should return null"
+        );
+
+        // test a query that does belong to user
+        $query = new Query();
+        $query->user_id = $this->user->user_id;
+        $query->query_id = $query_id;
+        $this->user->queries->add($query);
+
+        $this->assertInstanceOf(
+            'Dboss\Entity\Query',
+            $this->user->getMyQuery($query_id),
+            "Query that belongs to user should return an instance of Dboss\Entity\Query"
+        );
+    }
 }
 
