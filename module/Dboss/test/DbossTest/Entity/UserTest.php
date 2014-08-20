@@ -500,7 +500,7 @@ class UserTest extends PHPUnit_Framework_TestCase
     public function testIsMyQuery()
     {
         $query_id = null;
-        $this->user_id = null;
+        $this->user->user_id = null;
 
         $this->assertSame(
             false,
@@ -508,7 +508,7 @@ class UserTest extends PHPUnit_Framework_TestCase
             "If user_id is not set should always return false"
         );
 
-        $this->user_id = "bad_user_id";
+        $this->user->user_id = "bad_user_id";
 
         $this->assertSame(
             false,
@@ -551,6 +551,66 @@ class UserTest extends PHPUnit_Framework_TestCase
             true,
             $this->user->isMyQuery($query_id),
             "Query that belongs to user should return true"
+        );
+    }
+
+    /**
+     * 
+     */
+    public function testIsMyConnection()
+    {
+        $connection_id = null;
+        $this->user->user_id = null;
+
+        $this->assertSame(
+            false,
+            $this->user->isMyConnection($connection_id),
+            "If user_id is not set should always return false"
+        );
+
+        $this->user_id = "bad_user_id";
+
+        $this->assertSame(
+            false,
+            $this->user->isMyConnection($connection_id),
+            "Invalid user_id should always return false"
+        );
+
+        $this->user->user_id = 1;
+
+        $this->assertSame(
+            false,
+            $this->user->isMyConnection($connection_id),
+            "If connection_id is not set should always return false"
+        );
+
+        $connection_id = "bad_connection_id";
+
+        $this->assertSame(
+            false,
+            $this->user->isMyConnection($connection_id),
+            "Invalid connection_id should always return false"
+        );
+
+        // test a connection that does not belong to user
+        $connection_id = 1;
+
+        $this->assertSame(
+            false,
+            $this->user->isMyConnection($connection_id),
+            "Connection that doesn't belong to user should return false"
+        );
+
+        // test a connection that does belong to user
+        $connection = new Connection();
+        $connection->user_id = $this->user->user_id;
+        $connection->connection_id = $connection_id;
+        $this->user->connections->add($connection);
+
+        $this->assertSame(
+            true,
+            $this->user->isMyConnection($connection_id),
+            "Connection that belongs to user should return true"
         );
     }
 }
