@@ -451,7 +451,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
      * 
      * @param int A query_id
      * 
-     * @return boolean
+     * @return Dboss\Entity\Query
      **/
     public function getMyQuery($query_id = null)
     {
