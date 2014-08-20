@@ -2,18 +2,26 @@
 
 namespace Dboss\Entity;
 
+use Zend\ServiceManager\ServiceManager;
+
 /**
  * Take care of all doctrine entity dependancy injection here
  **/
 class EntityInjector
 {
-    private $service_manager;
+    protected $service_manager;
 
-    public function __construct($service_manager)
+    /**
+     * 
+     */
+    public function __construct(ServiceManager $service_manager)
     {
-        $this->service_manager = $service_manager;
+        $this->setServiceManager($service_manager);
     }
 
+    /**
+     * 
+     */
     public function postLoad($event)
     {
         $entity = $event->getEntity();
@@ -22,5 +30,26 @@ class EntityInjector
             $config = $this->service_manager->get('config');
             $entity->security = $config['security'];
         }
+    }
+
+    /**
+     * service_manager setter
+     * 
+     * @param \Zend\ServiceManager\ServiceManager Service Manager
+     * @return void
+     */
+    public function setServiceManager(ServiceManager $service_manager)
+    {
+        $this->service_manager = $service_manager;
+    }
+
+    /**
+     * service_manager getter
+     * 
+     * @return \Zend\ServiceManager\ServiceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->service_manager;
     }
 }
