@@ -4,6 +4,7 @@ namespace DbossTest\Entity;
 use Dboss\Entity\Connection;
 use DbossTest\Mock\Adapter;
 use DbossTest\Mock\Platform;
+use DbossTest\Mock\Statement;
 use PHPUnit_Framework_TestCase;
 
 class ConnectionTest extends PHPUnit_Framework_TestCase
@@ -392,5 +393,46 @@ class ConnectionTest extends PHPUnit_Framework_TestCase
             "No results should return an empty array"
         );
     }
-}
 
+    /**
+     * 
+     */
+    public function testGetDatabaseNamesWithResults()
+    {
+        $connection = new Connection();
+        $connection->is_server_connection = true;
+        $database_name = 'unit_test_db';
+
+        $platform = new Platform();
+        $platform->name = 'PostgreSQL';
+
+        $statement = new Statement();
+
+        $results = array(
+            array(
+                'resource_type' => 'unit_test_type',
+                'resource_name' => $database_name,
+            )
+        );
+
+        $statement->results = $results;
+
+        $adapter = new Adapter();
+        $adapter->platform = $platform;
+        $adapter->statement = $statement;
+
+        $factory_mock = $this->getMock('\Dboss\Connection\ConnectionFactory');
+
+        $factory_mock->expects($this->any())
+            ->method('getConnection')
+            ->will($this->returnValue($adapter));
+
+        $connection->connection_factory = $factory_mock;
+
+        $this->assertSame(
+            array($database_name),
+            $connection->getDatabaseNames(),
+            "Results did not match"
+        );
+    }
+}
