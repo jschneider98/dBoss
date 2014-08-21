@@ -4,6 +4,7 @@ namespace DbossTest\Entity;
 use Zend\ServiceManager\ServiceManager;
 use Dboss\Entity\EntityInjector;
 use Dboss\Entity\User;
+use Dboss\Entity\Connection;
 use PHPUnit_Framework_TestCase;
 
 class EntityInjectorTest extends PHPUnit_Framework_TestCase
@@ -37,7 +38,9 @@ class EntityInjectorTest extends PHPUnit_Framework_TestCase
         );
 
         $user = new User();
+        $connection = new Connection();
 
+        // user injection test
         $event_mock = $this->getMock(
             'Doctrine\ORM\Event\LifecycleEventArgs',
             array(),
@@ -63,6 +66,27 @@ class EntityInjectorTest extends PHPUnit_Framework_TestCase
             $security,
             $user->security,
             "Post Load did not properly inject the security value into user entity"
+        );
+
+        // connection injection test
+        $event_mock = $this->getMock(
+            'Doctrine\ORM\Event\LifecycleEventArgs',
+            array(),
+            array(),
+            "",
+            false
+        );
+
+        $event_mock->expects($this->any())
+            ->method('getEntity')
+            ->will($this->returnValue($connection));
+
+        $entity_injector->postLoad($event_mock);
+
+        $this->assertInstanceOf(
+            '\Dboss\Connection\ConnectionFactory',
+            $connection->connection_factory,
+            "Post Load did not properly inject the connection_factory into connection entity"
         );
     }
 }
