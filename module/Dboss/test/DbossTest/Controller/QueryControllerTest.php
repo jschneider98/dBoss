@@ -3,12 +3,15 @@ namespace DbossTest\Controller;
 
 use DbossTest\Bootstrap;
 use Dboss\Controller\QueryController;
+use Dboss\Entity\User;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
 use Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter;
 use PHPUnit_Framework_TestCase;
+
+
 
 class QueryControllerTest extends PHPUnit_Framework_TestCase
 {
@@ -34,12 +37,31 @@ class QueryControllerTest extends PHPUnit_Framework_TestCase
         $this->controller->setServiceLocator($serviceManager);
     }
 
+    /**
+     * 
+     */
     public function testIndexActionCanBeAccessed()
     {
         $this->routeMatch->setParam('action', 'index');
 
-        // @TODO: Replace with mock object?
         $this->controller->user = true;
+        $this->controller->db = true;
+
+        $result   = $this->controller->dispatch($this->request);
+        $response = $this->controller->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * 
+     */
+    public function testHistoryAction()
+    {
+        $this->routeMatch->setParam('action', 'history');
+
+        $this->controller->user = new User();
+        $this->controller->user->user_id = 1;
         $this->controller->db = true;
 
         $result   = $this->controller->dispatch($this->request);
