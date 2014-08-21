@@ -26,4 +26,22 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
             "Connection with no driver should return null"
         );
     }
+
+    /**
+     * 
+     */
+    public function testGetConnectionPgsql()
+    {
+        $connection = new Connection();
+        $connection->driver = 'Pdo_Pgsql';
+        $factory = new ConnectionFactory(array('connection' => $connection));
+
+        $adapter = $factory->getConnection();
+
+        $this->assertInstanceOf(
+            'Zend\Db\Adapter\Adapter',
+            $adapter,
+            "Zend DB adapter should be returned by factory"
+        );
+    }
 }
