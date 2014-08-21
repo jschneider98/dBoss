@@ -22,4 +22,12 @@ class Platform
     {
         return $this->name;
     }
+
+    /**
+     * 
+     */
+    public function quoteValue($value)
+    {
+        return "'$value'";
+    }
 }

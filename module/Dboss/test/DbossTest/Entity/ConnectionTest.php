@@ -340,7 +340,7 @@ class ConnectionTest extends PHPUnit_Framework_TestCase
     /**
      * 
      */
-    public function testDatabaseNamesNullAdapter()
+    public function testGetDatabaseNamesNullAdapter()
     {
         $connection = new Connection();
         $connection->is_server_connection = true;
@@ -361,6 +361,35 @@ class ConnectionTest extends PHPUnit_Framework_TestCase
             array(),
             $connection->getDatabaseNames(),
             "Null adapter should return an empty array"
+        );
+    }
+
+    /**
+     * 
+     */
+    public function testGetDatabaseNamesNoResults()
+    {
+        $connection = new Connection();
+        $connection->is_server_connection = true;
+
+        $platform = new Platform();
+        $platform->name = 'PostgreSQL';
+
+        $adapter = new Adapter();
+        $adapter->platform = $platform;
+
+        $factory_mock = $this->getMock('\Dboss\Connection\ConnectionFactory');
+
+        $factory_mock->expects($this->any())
+            ->method('getConnection')
+            ->will($this->returnValue($adapter));
+
+        $connection->connection_factory = $factory_mock;
+
+        $this->assertSame(
+            array(),
+            $connection->getDatabaseNames(),
+            "No results should return an empty array"
         );
     }
 }
