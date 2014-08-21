@@ -44,6 +44,8 @@ class Adapter implements AdapterInterface
 
         $user = $this->user_service->findByUserName($this->user_name);
 
+        $user_id = ($user) ? $user->user_id : null;
+
         if (! $user) {
             
             $auth_code = Result::FAILURE_IDENTITY_NOT_FOUND;
@@ -54,6 +56,6 @@ class Adapter implements AdapterInterface
             $messages[] = "Incorrect password.";
         }
 
-        return new Result($auth_code, $user->user_id, $messages);
+        return new Result($auth_code, $user_id, $messages);
     }
 }
