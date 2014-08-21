@@ -10,6 +10,23 @@ use PHPUnit_Framework_TestCase;
 
 class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
 {
+
+    /**
+     * 
+     */
+    public function testGetConnectionNoEntity()
+    {
+        $factory = new ConnectionFactory();
+
+        $null = $factory->getConnection();
+
+        $this->assertSame(
+            null,
+            $null,
+            "Connection with no entity should return null"
+        );
+    }
+
     /**
      * 
      */
