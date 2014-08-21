@@ -6,7 +6,7 @@
 
 namespace Dboss\Schema\Resource;
 
-class ResourceFactory extends ResourceFactoryAbstract
+class NullResourceFactory extends ResourceFactoryAbstract
 {
     /**
      * Returns a resource for a specific db platform (based on object's resource type)

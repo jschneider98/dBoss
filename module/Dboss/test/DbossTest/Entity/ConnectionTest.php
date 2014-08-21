@@ -2,6 +2,8 @@
 namespace DbossTest\Entity;
 
 use Dboss\Entity\Connection;
+use DbossTest\Mock\Adapter;
+use DbossTest\Mock\Platform;
 use PHPUnit_Framework_TestCase;
 
 class ConnectionTest extends PHPUnit_Framework_TestCase
@@ -312,6 +314,54 @@ class ConnectionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($input_filter->has('host'));
         $this->assertTrue($input_filter->has('driver'));
         $this->assertTrue($input_filter->has('is_server_connection'));
+    }
+
+    /**
+     * 
+     */
+    public function testConnect()
+    {
+        $connection = new Connection();
+        $factory_mock = $this->getMock('\Dboss\Connection\ConnectionFactory');
+
+        $factory_mock->expects($this->any())
+            ->method('getConnection')
+            ->will($this->returnValue(true));
+
+        $connection->connection_factory = $factory_mock;
+
+        $this->assertSame(
+            true,
+            $connection->connect(),
+            "Connection test failed"
+        );
+    }
+
+    /**
+     * 
+     */
+    public function testDatabaseNamesNullAdapter()
+    {
+        $connection = new Connection();
+        $connection->is_server_connection = true;
+
+        $platform = new Platform();
+        $adapter = new Adapter();
+        $adapter->platform = $platform;
+
+        $factory_mock = $this->getMock('\Dboss\Connection\ConnectionFactory');
+
+        $factory_mock->expects($this->any())
+            ->method('getConnection')
+            ->will($this->returnValue($adapter));
+
+        $connection->connection_factory = $factory_mock;
+
+        $this->assertSame(
+            array(),
+            $connection->getDatabaseNames(),
+            "Null adapter should return an empty array"
+        );
     }
 }
 
