@@ -69,4 +69,22 @@ class QueryControllerTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
     }
+
+    /**
+     * 
+     */
+    public function testSavedAction()
+    {
+        $this->routeMatch->setParam('action', 'saved');
+
+        $this->controller->user = new User();
+        $this->controller->user->user_id = 1;
+        $this->controller->db = true;
+
+        $result   = $this->controller->dispatch($this->request);
+        $response = $this->controller->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
 }
