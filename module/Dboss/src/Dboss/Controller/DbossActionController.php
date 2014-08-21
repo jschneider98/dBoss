@@ -121,7 +121,6 @@ abstract class DbossActionController extends AbstractActionController
             $data['database_name'] = $database_name;
             unset($data['connection_id']);
 
-
             $connection = $connection_service->create();
             $connection->exchangeArray($data);
         }

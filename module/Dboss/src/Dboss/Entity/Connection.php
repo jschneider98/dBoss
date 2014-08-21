@@ -8,7 +8,6 @@ use Zend\InputFilter\InputFilter as InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-use Dboss\Connection\ConnectionFactory;
 use Dboss\Schema\Resource\ResourceFactory;
 use Dboss\Schema\Resource\Null;
 
@@ -62,6 +61,8 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
      **/
     protected $user;
 
+    // Set via event & EntityIngector
+    protected $connection_factory;
     protected $input_filter;
 
     /**
@@ -275,9 +276,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
      **/
     public function connect()
     {
-        $connection_factory = new ConnectionFactory(array('connection' => $this));
-
-        return $connection_factory->getConnection();
+        return $this->connection_factory->getConnection();
     }
 
     /**

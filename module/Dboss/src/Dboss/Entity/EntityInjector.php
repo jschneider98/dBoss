@@ -3,6 +3,7 @@
 namespace Dboss\Entity;
 
 use Zend\ServiceManager\ServiceManager;
+use Dboss\Connection\ConnectionFactory;
 
 /**
  * Take care of all doctrine entity dependancy injection here
@@ -29,6 +30,8 @@ class EntityInjector
         if ($entity instanceof User) {
             $config = $this->service_manager->get('config');
             $entity->security = $config['security'];
+        } else if ($entity instanceof Connection) {
+            $entity->connection_factory = new ConnectionFactory(array('connection' => $entity));
         }
     }
 
