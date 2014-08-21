@@ -3,9 +3,6 @@ namespace DbossTest\Connection;
 
 use Dboss\Entity\Connection;
 use Dboss\Connection\ConnectionFactory;
-use DbossTest\Mock\Adapter;
-use DbossTest\Mock\Platform;
-use DbossTest\Mock\Statement;
 use PHPUnit_Framework_TestCase;
 
 class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
