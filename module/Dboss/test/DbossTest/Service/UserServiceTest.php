@@ -2,10 +2,10 @@
 namespace DbossTest\Service;
 
 use DbossTest\Bootstrap;
-use Dboss\Service\RoleService;
+use Dboss\Service\UserService;
 use PHPUnit_Framework_TestCase;
 
-class RoleServiceTest extends PHPUnit_Framework_TestCase
+class UserServiceTest extends PHPUnit_Framework_TestCase
 {
     protected $service_manager;
 
@@ -20,7 +20,14 @@ class RoleServiceTest extends PHPUnit_Framework_TestCase
     public function testRoleServiceConstruct()
     {
         $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
-        $params = array('object_manager' => $object_manager);
-        $role_service = new RoleService($params);
+        
+        $params = array(
+            'object_manager' => $object_manager,
+            'security'       => array(
+                'salt_key'   => 'unit_test',
+            )
+        );
+        
+        $user_service = new UserService($params);
     }
 }
