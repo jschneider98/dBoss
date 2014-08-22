@@ -30,4 +30,20 @@ class UserServiceTest extends PHPUnit_Framework_TestCase
         
         $user_service = new UserService($params);
     }
+
+    /**
+     * 
+     */
+    public function testRoleServiceConstructInvalidSecurity()
+    {
+        $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
+        
+        $params = array(
+            'object_manager' => $object_manager,
+        );
+
+        $this->setExpectedException("\Exception");
+        
+        $user_service = new UserService($params);
+    }
 }
