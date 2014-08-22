@@ -2,6 +2,9 @@
 namespace DbossTest\Controller;
 
 use DbossTest\Bootstrap;
+use DbossTest\Mock\Adapter;
+use DbossTest\Mock\Platform;
+use DbossTest\Mock\Statement;
 use Dboss\Controller\QueryController;
 use Dboss\Entity\User;
 use Zend\Http\Request;
@@ -87,4 +90,38 @@ class QueryControllerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
+    /**
+     * 
+     */
+    public function testGetSql()
+    {
+        $platform = new Platform();
+        $platform->name = 'PostgreSQL';
+
+        $statement = new Statement();
+
+        $results = array("Test SQL");
+        $statement->results = $results;
+
+        $adapter = new Adapter();
+        $adapter->platform = $platform;
+        $adapter->statement = $statement;
+
+        $this->controller->user = true;
+        $this->controller->db = $adapter;
+
+        $params = array(
+            'query_type'    => "Select",
+            'schema_name'   => "test",
+            'resource_name' => "test",
+        );
+
+        $result = $this->controller->getSql($params);
+
+        $this->assertSame(
+            true,
+            is_string($result),
+            "Result should be a string"
+        );
+    }
 }

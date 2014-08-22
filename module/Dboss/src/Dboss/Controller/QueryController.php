@@ -153,7 +153,7 @@ class QueryController extends DbossActionController
     /**
      * Generate various SQL queries (SELECT, INSERT, UPDATE, etc)
      **/
-    protected function getSql(array $params = array())
+    public function getSql(array $params = array())
     {
         $query_type = null;
         $schema_name = null;
