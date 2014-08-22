@@ -41,7 +41,6 @@ class SchemaControllerTest extends PHPUnit_Framework_TestCase
     {
         $this->routeMatch->setParam('action', 'index');
 
-        // @TODO: Replace with mock object?
         $this->controller->user = true;
         $this->controller->db = true;
 
@@ -58,6 +57,9 @@ class SchemaControllerTest extends PHPUnit_Framework_TestCase
     public function testDefinitionActionCanBeAccessed()
     {
         $this->routeMatch->setParam('action', 'definition');
+
+        $this->controller->user = true;
+        $this->controller->db = true;
 
         $result   = $this->controller->dispatch($this->request);
         $response = $this->controller->getResponse();
