@@ -17,10 +17,31 @@ class ConnectionServiceTest extends PHPUnit_Framework_TestCase
     /**
      * 
      */
-    public function testRoleServiceConstruct()
+    public function testConnectionServiceConstruct()
     {
         $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
         $params = array('object_manager' => $object_manager);
-        $data_type_service = new ConnectionService($params);
+        $connection_service = new ConnectionService($params);
+    }
+
+    /**
+     * 
+     */
+    public function testConnectionServiceCreate()
+    {
+        $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
+        
+        $params = array(
+            'object_manager' => $object_manager,
+        );
+
+        $connection_service = new ConnectionService($params);
+        $connection = $connection_service->create();
+
+        $this->assertInstanceOf(
+            '\Dboss\Entity\Connection',
+            $connection,
+            "Create should return an entity connection"
+        );
     }
 }
