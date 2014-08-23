@@ -2,7 +2,10 @@
 namespace DbossTest\Service;
 
 use DbossTest\Bootstrap;
+use DbossTest\Mock\BadEntityService;
 use Dboss\Service\UserService;
+
+use Zend\Stdlib\Exception;
 
 use PHPUnit_Framework_TestCase;
 
@@ -53,8 +56,23 @@ class UserServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testAbstractConstructNoEntityManager()
     {
-        
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('BadMethodCallException');
         $user_service = new UserService(array());
+    }
+
+    /**
+     * 
+     */
+    public function testAbstractContructNoEntity()
+    {
+        $this->setExpectedException('BadMethodCallException');
+        
+        $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
+        
+        $params = array(
+            'object_manager' => $object_manager,
+        );
+
+        $bad_service = new BadEntityService($params);
     }
 }
