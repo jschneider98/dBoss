@@ -17,7 +17,7 @@ class DataTypeServiceTest extends PHPUnit_Framework_TestCase
     /**
      * 
      */
-    public function testRoleServiceConstruct()
+    public function testDataTypeServiceConstruct()
     {
         $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
         $params = array('object_manager' => $object_manager);

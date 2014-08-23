@@ -17,7 +17,7 @@ class UserServiceTest extends PHPUnit_Framework_TestCase
     /**
      * 
      */
-    public function testRoleServiceConstruct()
+    public function testUserServiceConstruct()
     {
         $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
         
@@ -34,7 +34,7 @@ class UserServiceTest extends PHPUnit_Framework_TestCase
     /**
      * 
      */
-    public function testRoleServiceConstructInvalidSecurity()
+    public function testUserServiceConstructInvalidSecurity()
     {
         $object_manager = $this->service_manager->get('Doctrine\ORM\EntityManager');
         
