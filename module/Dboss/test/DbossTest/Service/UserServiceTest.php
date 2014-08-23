@@ -3,6 +3,7 @@ namespace DbossTest\Service;
 
 use DbossTest\Bootstrap;
 use Dboss\Service\UserService;
+
 use PHPUnit_Framework_TestCase;
 
 class UserServiceTest extends PHPUnit_Framework_TestCase
@@ -45,5 +46,15 @@ class UserServiceTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException("\Exception");
         
         $user_service = new UserService($params);
+    }
+
+    /**
+     * 
+     */
+    public function testAbstractConstructNoEntityManager()
+    {
+        
+        $this->setExpectedException('\Exception');
+        $user_service = new UserService(array());
     }
 }
