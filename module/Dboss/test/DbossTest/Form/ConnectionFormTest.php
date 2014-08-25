@@ -110,4 +110,19 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
             'host field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddDatabaseName()
+    {
+        $form = new ConnectionForm();
+        $form->addDatabaseName();
+
+        $this->assertSame(
+            true,
+            $form->has('database_name'),
+            'database_name field missing from form'
+        );
+    }
 }
