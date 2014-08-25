@@ -155,4 +155,19 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
             'password field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddVerifyPasswrod()
+    {
+        $form = new ConnectionForm();
+        $form->addVerifyPassword();
+
+        $this->assertSame(
+            true,
+            $form->has('verify_password'),
+            'verify_password field missing from form'
+        );
+    }
 }
