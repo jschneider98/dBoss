@@ -20,4 +20,19 @@ class UserFormTest extends PHPUnit_Framework_TestCase
             'Default form method should be post'
         );
     }
+
+    /**
+     * 
+     */
+    public function testSetup()
+    {
+        $form = new UserForm();
+        $form->setup();
+
+        $this->assertSame(
+            8,
+            $form->count(),
+            "Incorrect number of form elements"
+        );
+    }
 }
