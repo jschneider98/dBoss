@@ -28,4 +28,18 @@ class AuthFormTest extends PHPUnit_Framework_TestCase
             'Default form method should be post'
         );
     }
+
+    /**
+     * 
+     */
+    public function testSetup()
+    {
+        $this->form->setup();
+
+        $this->assertSame(
+            3,
+            $this->form->count(),
+            "Incorrect number of form elements"
+        );
+    }
 }
