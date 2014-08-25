@@ -21,7 +21,6 @@ class UserForm extends Form
         $this->addRoleId();
         $this->addFirstName();
         $this->addLastName();
-        $this->addFirstName();
         $this->addPassword();
         $this->addVerifyPassword();
         $this->addSubmit();
