@@ -39,6 +39,21 @@ class UserFormTest extends PHPUnit_Framework_TestCase
     /**
      * 
      */
+    public function testAddUserId()
+    {
+        $form = new UserForm();
+        $form->addUserId();
+
+        $this->assertSame(
+            true,
+            $form->has('user_id'),
+            'user_id field missing from form'
+        );
+    }
+
+    /**
+     * 
+     */
     public function testAddUserName()
     {
         $form = new UserForm();
