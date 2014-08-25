@@ -95,4 +95,19 @@ class UserFormTest extends PHPUnit_Framework_TestCase
             'first_name field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddLastName()
+    {
+        $form = new UserForm();
+        $form->addLastName();
+
+        $this->assertSame(
+            true,
+            $form->has('last_name'),
+            'last_name field missing from form'
+        );
+    }
 }
