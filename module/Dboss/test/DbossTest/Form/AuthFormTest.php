@@ -56,4 +56,18 @@ class AuthFormTest extends PHPUnit_Framework_TestCase
             'user_name field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddPassword()
+    {
+        $this->form->addPassword();
+
+        $this->assertSame(
+            true,
+            $this->form->has('password'),
+            'password field missing from form'
+        );
+    }
 }
