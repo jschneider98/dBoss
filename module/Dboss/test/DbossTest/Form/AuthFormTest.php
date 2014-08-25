@@ -42,4 +42,18 @@ class AuthFormTest extends PHPUnit_Framework_TestCase
             "Incorrect number of form elements"
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddUserName()
+    {
+        $this->form->addUserName();
+
+        $this->assertSame(
+            true,
+            $this->form->has('user_name'),
+            'user_name field missing from form'
+        );
+    }
 }
