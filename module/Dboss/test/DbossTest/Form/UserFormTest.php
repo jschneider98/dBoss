@@ -65,4 +65,19 @@ class UserFormTest extends PHPUnit_Framework_TestCase
             'user_name field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddRoleId()
+    {
+        $form = new UserForm();
+        $form->addRoleId();
+
+        $this->assertSame(
+            true,
+            $form->has('role_id'),
+            'role_id field missing from form'
+        );
+    }
 }
