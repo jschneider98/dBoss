@@ -20,4 +20,19 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
             'Default form method should be post'
         );
     }
+
+    /**
+     * 
+     **/
+    public function testSetup()
+    {
+        $form = new ConnectionForm();
+        $form->setup();
+
+        $this->assertSame(
+            11,
+            $form->count(),
+            "Incorrect number of form elements"
+        );
+    }
 }
