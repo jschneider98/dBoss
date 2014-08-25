@@ -35,4 +35,19 @@ class UserFormTest extends PHPUnit_Framework_TestCase
             "Incorrect number of form elements"
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddUserName()
+    {
+        $form = new UserForm();
+        $form->addUserName();
+
+        $this->assertSame(
+            true,
+            $form->has('user_name'),
+            'user_name field missing from form'
+        );
+    }
 }
