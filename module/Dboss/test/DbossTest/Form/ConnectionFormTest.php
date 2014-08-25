@@ -80,4 +80,19 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
             'display_name field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddDriver()
+    {
+        $form = new ConnectionForm();
+        $form->addDriver();
+
+        $this->assertSame(
+            true,
+            $form->has('driver'),
+            'driver field missing from form'
+        );
+    }
 }
