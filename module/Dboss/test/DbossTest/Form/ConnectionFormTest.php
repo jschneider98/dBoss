@@ -95,4 +95,19 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
             'driver field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddHost()
+    {
+        $form = new ConnectionForm();
+        $form->addHost();
+
+        $this->assertSame(
+            true,
+            $form->has('host'),
+            'host field missing from form'
+        );
+    }
 }
