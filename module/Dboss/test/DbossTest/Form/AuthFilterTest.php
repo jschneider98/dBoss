@@ -10,7 +10,7 @@ class AuthFilterTest extends PHPUnit_Framework_TestCase
     /**
      * 
      */
-    public function testAuthFiler()
+    public function testAuthFilter()
     {
         $auth_filter = new AuthFilter();
 
