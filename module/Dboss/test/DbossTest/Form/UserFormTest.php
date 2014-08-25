@@ -140,4 +140,19 @@ class UserFormTest extends PHPUnit_Framework_TestCase
             'verify_password field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddSubmit()
+    {
+        $form = new UserForm();
+        $form->addSubmit();
+
+        $this->assertSame(
+            true,
+            $form->has('save_submit'),
+            'save_submit field missing from form'
+        );
+    }
 }
