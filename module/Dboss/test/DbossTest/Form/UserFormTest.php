@@ -7,16 +7,24 @@ use PHPUnit_Framework_TestCase;
 
 class UserFormTest extends PHPUnit_Framework_TestCase
 {
+    protected $form;
+
     /**
      * 
      */
-    public function testUserFormConstruct()
+    public function setUp()
     {
-        $form = new UserForm();
+        $this->form = new UserForm();
+    }
 
+    /**
+     * 
+     */
+    public function testFormConstruct()
+    {
         $this->assertSame(
             'post',
-            $form->getAttribute('method'),
+            $this->form->getAttribute('method'),
             'Default form method should be post'
         );
     }
@@ -26,12 +34,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testSetup()
     {
-        $form = new UserForm();
-        $form->setup();
+        $this->form->setup();
 
         $this->assertSame(
             8,
-            $form->count(),
+            $this->form->count(),
             "Incorrect number of form elements"
         );
     }
@@ -41,12 +48,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddUserId()
     {
-        $form = new UserForm();
-        $form->addUserId();
+        $this->form->addUserId();
 
         $this->assertSame(
             true,
-            $form->has('user_id'),
+            $this->form->has('user_id'),
             'user_id field missing from form'
         );
     }
@@ -56,12 +62,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddUserName()
     {
-        $form = new UserForm();
-        $form->addUserName();
+        $this->form->addUserName();
 
         $this->assertSame(
             true,
-            $form->has('user_name'),
+            $this->form->has('user_name'),
             'user_name field missing from form'
         );
     }
@@ -71,12 +76,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddRoleId()
     {
-        $form = new UserForm();
-        $form->addRoleId();
+        $this->form->addRoleId();
 
         $this->assertSame(
             true,
-            $form->has('role_id'),
+            $this->form->has('role_id'),
             'role_id field missing from form'
         );
     }
@@ -86,12 +90,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddFirstName()
     {
-        $form = new UserForm();
-        $form->addFirstName();
+        $this->form->addFirstName();
 
         $this->assertSame(
             true,
-            $form->has('first_name'),
+            $this->form->has('first_name'),
             'first_name field missing from form'
         );
     }
@@ -101,12 +104,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddLastName()
     {
-        $form = new UserForm();
-        $form->addLastName();
+        $this->form->addLastName();
 
         $this->assertSame(
             true,
-            $form->has('last_name'),
+            $this->form->has('last_name'),
             'last_name field missing from form'
         );
     }
@@ -116,12 +118,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddPassword()
     {
-        $form = new UserForm();
-        $form->addPassword();
+        $this->form->addPassword();
 
         $this->assertSame(
             true,
-            $form->has('password'),
+            $this->form->has('password'),
             'password field missing from form'
         );
     }
@@ -131,12 +132,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddVerifyPasswrod()
     {
-        $form = new UserForm();
-        $form->addVerifyPassword();
+        $this->form->addVerifyPassword();
 
         $this->assertSame(
             true,
-            $form->has('verify_password'),
+            $this->form->has('verify_password'),
             'verify_password field missing from form'
         );
     }
@@ -146,12 +146,11 @@ class UserFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddSubmit()
     {
-        $form = new UserForm();
-        $form->addSubmit();
+        $this->form->addSubmit();
 
         $this->assertSame(
             true,
-            $form->has('save_submit'),
+            $this->form->has('save_submit'),
             'save_submit field missing from form'
         );
     }
