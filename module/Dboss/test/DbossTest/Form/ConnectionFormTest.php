@@ -50,4 +50,19 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
             'connection_id field missing from form'
         );
     }
+
+    /**
+     * 
+     */
+    public function testAddUserId()
+    {
+        $form = new ConnectionForm();
+        $form->addUserId();
+
+        $this->assertSame(
+            true,
+            $form->has('user_id'),
+            'user_id field missing from form'
+        );
+    }
 }
