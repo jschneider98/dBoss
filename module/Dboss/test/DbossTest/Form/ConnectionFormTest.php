@@ -23,7 +23,7 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
 
     /**
      * 
-     **/
+     */
     public function testSetup()
     {
         $form = new ConnectionForm();
@@ -33,6 +33,21 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
             11,
             $form->count(),
             "Incorrect number of form elements"
+        );
+    }
+
+    /**
+     * 
+     */
+    public function testAddConnectionId()
+    {
+        $form = new ConnectionForm();
+        $form->addConnectionId();
+
+        $this->assertSame(
+            true,
+            $form->has('connection_id'),
+            'connection_id field missing from form'
         );
     }
 }
