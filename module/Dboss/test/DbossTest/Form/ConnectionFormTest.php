@@ -7,16 +7,24 @@ use PHPUnit_Framework_TestCase;
 
 class ConnectionFormTest extends PHPUnit_Framework_TestCase
 {
+    protected $form;
+
     /**
      * 
      */
-    public function testConnectionFormConstruct()
+    public function setUp()
     {
-        $form = new ConnectionForm();
+        $this->form = new ConnectionForm();
+    }
 
+    /**
+     * 
+     */
+    public function testFormConstruct()
+    {
         $this->assertSame(
             'post',
-            $form->getAttribute('method'),
+            $this->form->getAttribute('method'),
             'Default form method should be post'
         );
     }
@@ -26,12 +34,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testSetup()
     {
-        $form = new ConnectionForm();
-        $form->setup();
+        $this->form->setup();
 
         $this->assertSame(
             11,
-            $form->count(),
+            $this->form->count(),
             "Incorrect number of form elements"
         );
     }
@@ -41,12 +48,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddConnectionId()
     {
-        $form = new ConnectionForm();
-        $form->addConnectionId();
+        $this->form->addConnectionId();
 
         $this->assertSame(
             true,
-            $form->has('connection_id'),
+            $this->form->has('connection_id'),
             'connection_id field missing from form'
         );
     }
@@ -56,12 +62,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddUserId()
     {
-        $form = new ConnectionForm();
-        $form->addUserId();
+        $this->form->addUserId();
 
         $this->assertSame(
             true,
-            $form->has('user_id'),
+            $this->form->has('user_id'),
             'user_id field missing from form'
         );
     }
@@ -71,12 +76,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddDisplayName()
     {
-        $form = new ConnectionForm();
-        $form->addDisplayName();
+        $this->form->addDisplayName();
 
         $this->assertSame(
             true,
-            $form->has('display_name'),
+            $this->form->has('display_name'),
             'display_name field missing from form'
         );
     }
@@ -86,12 +90,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddDriver()
     {
-        $form = new ConnectionForm();
-        $form->addDriver();
+        $this->form->addDriver();
 
         $this->assertSame(
             true,
-            $form->has('driver'),
+            $this->form->has('driver'),
             'driver field missing from form'
         );
     }
@@ -101,12 +104,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddHost()
     {
-        $form = new ConnectionForm();
-        $form->addHost();
+        $this->form->addHost();
 
         $this->assertSame(
             true,
-            $form->has('host'),
+            $this->form->has('host'),
             'host field missing from form'
         );
     }
@@ -116,12 +118,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddDatabaseName()
     {
-        $form = new ConnectionForm();
-        $form->addDatabaseName();
+        $this->form->addDatabaseName();
 
         $this->assertSame(
             true,
-            $form->has('database_name'),
+            $this->form->has('database_name'),
             'database_name field missing from form'
         );
     }
@@ -131,12 +132,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddUserName()
     {
-        $form = new ConnectionForm();
-        $form->addUserName();
+        $this->form->addUserName();
 
         $this->assertSame(
             true,
-            $form->has('user_name'),
+            $this->form->has('user_name'),
             'user_name field missing from form'
         );
     }
@@ -146,12 +146,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddPassword()
     {
-        $form = new ConnectionForm();
-        $form->addPassword();
+        $this->form->addPassword();
 
         $this->assertSame(
             true,
-            $form->has('password'),
+            $this->form->has('password'),
             'password field missing from form'
         );
     }
@@ -161,12 +160,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddVerifyPasswrod()
     {
-        $form = new ConnectionForm();
-        $form->addVerifyPassword();
+        $this->form->addVerifyPassword();
 
         $this->assertSame(
             true,
-            $form->has('verify_password'),
+            $this->form->has('verify_password'),
             'verify_password field missing from form'
         );
     }
@@ -176,12 +174,11 @@ class ConnectionFormTest extends PHPUnit_Framework_TestCase
      */
     public function testAddSubmit()
     {
-        $form = new ConnectionForm();
-        $form->addSubmit();
+        $this->form->addSubmit();
 
         $this->assertSame(
             true,
-            $form->has('save_submit'),
+            $this->form->has('save_submit'),
             'save_submit field missing from form'
         );
     }
