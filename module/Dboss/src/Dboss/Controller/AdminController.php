@@ -167,7 +167,7 @@ class AdminController extends DbossActionController
         $this->view_model->setVariables(
             array(
                 'user'        => $user,
-                'connnection' => $connnection
+                'connnection' => $connection
             )
         );
 
