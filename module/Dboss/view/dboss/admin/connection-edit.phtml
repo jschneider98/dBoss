@@ -1,6 +1,6 @@
 <?php
 
-$title = ($user->connection_id) ? 'Edit Connection' : 'Add Connection';
+$title = ($connection->connection_id) ? 'Edit Connection' : 'Add Connection';
 $title = $user->first_name . " " . $user->last_name . ": " . $title;
 $this->headTitle($title);
 
