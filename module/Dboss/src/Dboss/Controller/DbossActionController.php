@@ -94,9 +94,14 @@ abstract class DbossActionController extends AbstractActionController
             return;
         }
 
+        $connection_id = null;
+        $database_name = null;
+
         $this->getConnectionString();
 
-        list($connection_id, $database_name) = explode("-", $this->connection_string);
+        if ($this->connection_string) {
+            list($connection_id, $database_name) = explode("-", $this->connection_string);
+        }
 
         if (! $connection_id || ! $database_name) {
             return null;
