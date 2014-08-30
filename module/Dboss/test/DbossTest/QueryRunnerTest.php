@@ -14,4 +14,14 @@ class QueryRunnerTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $runner = new QueryRunner(array());
     }
+
+    /**
+     *
+     */
+    public function testContructNoQueryService()
+    {
+        $this->setExpectedException('\Exception');
+        $runner = new QueryRunner(array('user' => true));
+    }
+
 }
