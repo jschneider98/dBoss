@@ -57,5 +57,4 @@ class QueryRunnerTest extends PHPUnit_Framework_TestCase
             'Result should be false'
         );
     }
-
 }
