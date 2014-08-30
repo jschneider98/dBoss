@@ -36,4 +36,26 @@ class QueryRunnerTest extends PHPUnit_Framework_TestCase
             )
         );
     }
+
+    /**
+     *
+     */
+    public function testExecSqlNoSql()
+    {
+        $runner = new QueryRunner(
+            array(
+                'user'          => true,
+                'query_service' => true,
+            )
+        );
+
+        $result = $runner->execSql();
+
+        $this->assertSame(
+            false,
+            $result,
+            'Result should be false'
+        );
+    }
+
 }
