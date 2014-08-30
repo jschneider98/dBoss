@@ -29,11 +29,10 @@ class QueryRunnerTest extends PHPUnit_Framework_TestCase
      */
     public function testContruct()
     {
-        $this->setExpectedException('\Exception');
         $runner = new QueryRunner(
             array(
                 'user'          => true,
-                'query_service' => ture,
+                'query_service' => true,
             )
         );
     }
