@@ -41,6 +41,9 @@ class PgResourceFactory extends ResourceFactoryAbstract
                 case "functions":
                     return new SqlFunction($params);
                     break;
+                case "fkey":
+                    return new SqlForeignKey($params);
+                    break;
                 case "seq":
                 case "sequence":
                 case "sequences":
