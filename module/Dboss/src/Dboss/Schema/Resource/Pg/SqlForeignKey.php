@@ -134,6 +134,6 @@ class SqlForeignKey extends ResourceAbstract
      **/
     public function getOrderBy(array $params = array())
     {
-        return "\nORDER BY constraint_name DESC";
+        return "\nORDER BY schema_name DESC, constraint_name DESC";
     }
 }
