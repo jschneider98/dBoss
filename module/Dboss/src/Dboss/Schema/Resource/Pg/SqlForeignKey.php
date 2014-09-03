@@ -33,9 +33,7 @@ class SqlForeignKey extends ResourceAbstract
             SELECT
                 src_schema_name as schema_name,
                 src_table_name as table_name,
-                constraint_name
-                    || ' (' || src_schema_name || '.' || src_table_name || '.' || src_field_name || ' -> '
-                    || dest_schema_name || '.' || dest_table_name || '.' || dest_field_name || ')' as resource_name,
+                constraint_name as resource_name,
                 NULL::text as resource_arguments,
                 '{$this->resource_type}'::text as resource_type
             FROM (
