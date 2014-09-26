@@ -9,6 +9,7 @@ namespace Dboss\Controller;
 use Zend\View\Model\ViewModel;
 use Zend\Db\Adapter\Adapter;
 use Dboss\Form\QueryForm;
+use Dboss\Form\SchemaSearchForm;
 use Dboss\Schema\Resource\ResourceFactory;
 use Dboss\QueryRunner;
 
@@ -105,21 +106,30 @@ class QueryController extends DbossActionController
      **/
     public function historyAction()
     {
+        $form = new SchemaSearchForm();
+        $this->view_model->setVariable('form', $form);
+
         $criteria = array(
-            'user_id'       => $this->user->user_id,
-            'query_name'    => null,
-            'deletion_date' => null
+            'user_id' => $this->user->user_id,
         );
 
-        $order_by = array("modification_date" => "DESC");
+        $request = $this->getRequest();
 
-        $limit = null;
-        //$limit = 100;
+        if ($request->isGet()) {
+            $get_data = $request->getQuery();
+            $form->setData($get_data);
+
+            $search = $get_data['search'];
+
+            if ($search !== null) {
+                $criteria['search'] = $search;
+            }
+        }
 
         $this->view_model->setVariables(
             array(
                 'connection_string' => $this->connection_string,
-                'queries'           => $this->getQueryService()->findBy($criteria, $order_by, $limit),
+                'queries'           => $this->getQueryService()->findHistoricalQueries($criteria),
             )
         );
 
@@ -131,19 +141,30 @@ class QueryController extends DbossActionController
      **/
     public function savedAction()
     {
+        $form = new SchemaSearchForm();
+        $this->view_model->setVariable('form', $form);
+
         $criteria = array(
             'user_id' => $this->user->user_id,
         );
 
-        $order_by = array("modification_date" => "DESC");
+        $request = $this->getRequest();
 
-        $limit = null;
-        //$limit = 100;
+        if ($request->isGet()) {
+            $get_data = $request->getQuery();
+            $form->setData($get_data);
+
+            $search = $get_data['search'];
+
+            if ($search !== null) {
+                $criteria['search'] = $search;
+            }
+        }
 
         $this->view_model->setVariables(
             array(
                 'connection_string' => $this->connection_string,
-                'queries'           => $this->getQueryService()->findSavedQueries($criteria, $order_by, $limit),
+                'queries'           => $this->getQueryService()->findSavedQueries($criteria),
             )
         );
 
