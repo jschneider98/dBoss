@@ -1,3 +1,24 @@
+<div class="row-fluid">
+    <div class="span8">
+
+        <?php
+            $params = array(
+                'connection_string' => $this->connection_string,
+                'action'            => 'history'
+            );
+        ?>
+        <form action="<?php echo $this->url('query', $params) ?>" id="search_form" method="get">
+             <div class="input-group">
+                <span class="input-group-btn">
+                    <button name="search_submit" id="search_button" class="btn btn-default" type="submit">Search</button>
+                </span>
+                <input type="text" name="search" id="search" class="form-control" value="<?php echo $form->get('search')->getValue() ?>">
+            </div>
+        </form>
+    </div>
+</div>
+<hr>
+
 <?php
     $params = ($this->connection_string) ? array('connection_string' => $this->connection_string) : array();
 ?>
