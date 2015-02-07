@@ -94,7 +94,11 @@ $form->prepare();
                 <?php while ($row = $result->getResource()->fetch(\PDO::FETCH_NUM)): ?>
                 <tr>
                     <?php foreach ($row as $value): ?>
-                        <td><?php echo ($value === null ? "<em>NULL</em>" : $value) ?></td>
+                        <td>
+                            <pre class="query-result">
+                            <?php echo ($value === null ? "<em>NULL</em>" : $value) ?>
+                            </pre>
+                        </td>
                     <?php endforeach ?>
                 </tr>
                 <?php endwhile ?>
