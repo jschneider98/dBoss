@@ -189,7 +189,9 @@ class QueryRunner
      * Get statement object's fields
      *
      * @var string
-     **/
+     *
+     * @return array
+     */
     public static function getStatementFields($statement)
     {
         $fields = array();
