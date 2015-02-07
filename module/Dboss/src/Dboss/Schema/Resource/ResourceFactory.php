@@ -7,6 +7,7 @@
 namespace Dboss\Schema\Resource;
 
 use Dboss\Schema\Resource\Pg\PgResourceFactory;
+use Dboss\Schema\Resource\My\MyResourceFactory;
 
 class ResourceFactory extends ResourceFactoryAbstract
 {
@@ -41,7 +42,10 @@ class ResourceFactory extends ResourceFactoryAbstract
              case 'PostgreSQL':
                  return new PgResourceFactory($this->params);
                  break;
-             
+            case 'MySQL':
+                return new MyResourceFactory($this->params);
+                break;
+
              default:
                  return new NullResourceFactory($this->params);
                  break;
