@@ -20,7 +20,7 @@ class Null extends ResourceAbstract
 
     public function getResourceDefinition(array $params = array())
     {
-        return "";
+        return "Not supported by this platform yet";
     }
 
     public function getResourceListSql(array $params = array())
