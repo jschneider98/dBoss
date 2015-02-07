@@ -7,6 +7,7 @@
 namespace Dboss\Schema\Resource\Pg;
 
 use Dboss\Schema\Resource\ResourceFactoryAbstract;
+use Dboss\Schema\Resource\Null;
 
 class PgResourceFactory extends ResourceFactoryAbstract
 {
