@@ -13,7 +13,7 @@ class ConnectionFactory
     public $connection;
 
     /**
-     * 
+     * @param array $params
      */
     public function __construct($params = array())
     {
@@ -37,9 +37,9 @@ class ConnectionFactory
 
         switch ($this->connection->driver) {
             case 'Pdo_Pgsql':
-                return $this->getPgsqlConnection();
+            case 'Pdo_Mysql':
+                return $this->getGenericConnection();
                 break;
-            
             default:
                 return null;
                 break;
@@ -47,9 +47,10 @@ class ConnectionFactory
     }
 
     /**
-     * Get a pgsql connection
+     * Get a generic connection
+     * @return Adapter zf2 adapter object
      */
-    protected function getPgsqlConnection()
+    protected function getGenericConnection()
     {
         $params = array(
             'driver'   => $this->connection->driver,
