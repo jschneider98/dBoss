@@ -74,7 +74,7 @@ $form->prepare();
 <section id="statement_<?php echo $query_num ?>">
     <h4>
         <strong><?php echo $count; ?></strong> record(s) in *unknown*
-        <strong> <?php //echo round($this->logger->queries[$query_num]['executionMS'], 3) ?></strong> seconds
+        <strong> <?php //echo round($this->logger->queries[$query_num]['execution'], 3) ?></strong> seconds
         <small> <?php echo substr($result->getResource()->queryString, 0, 100); ?></small>
     </h4>
     <hr>
@@ -95,9 +95,9 @@ $form->prepare();
                 <tr>
                     <?php foreach ($row as $value): ?>
                         <td>
-                            <pre class="query-result">
-                            <?php echo ($value === null ? "<em>NULL</em>" : $value) ?>
-                            </pre>
+<pre class="query-result">
+<?php echo ($value === null ? "<em>NULL</em>" : $value) ?>
+</pre>
                         </td>
                     <?php endforeach ?>
                 </tr>
