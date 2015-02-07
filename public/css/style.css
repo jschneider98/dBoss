@@ -35,3 +35,16 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+pre.query-result {
+  background-color: initial;
+  border: initial;
+  border-radius: initial;
+  padding: initial;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  margin: inherit;
+  word-break: inherit;
+  padding: 0px;
+}
