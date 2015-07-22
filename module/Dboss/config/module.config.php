@@ -164,6 +164,16 @@ return array(
                         ),
                     ),
                 ),
+                'defaultlogin' => array(
+                    'options' => array(
+                        'route' => 'defaultlogin',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Dboss\Controller',
+                            'controller'    => 'Console',
+                            'action'        => 'defaultlogin'
+                        ),
+                    ),
+                ),
                 'load-sqlite' => array(
                     'options' => array(
                         'route' => 'load-sqlite [--unlink|-u] [--withdata|-wd]',
