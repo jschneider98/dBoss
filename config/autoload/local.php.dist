@@ -12,4 +12,9 @@
  */
 
 return array(
+    'security' => array(
+        'salt_key' => 'cf2a283c9e6d6e3306a2972b82e749070cc1c6c27c12cc026ae746c703ffcbcc',
+        'iteration_count' => 8,
+        'portable_hashes' => 0,
+    ),
 );
