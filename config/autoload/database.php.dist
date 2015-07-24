@@ -1,0 +1,16 @@
+<?php
+
+$root_dir = dirname(__DIR__) . '/..';
+
+return array(
+  'doctrine' => array(
+    'connection' => array(
+      'orm_default' => array(
+        'driverClass' => 'Doctrine\DBAL\Driver\PDOSqlite\Driver',
+        'params' => array(
+            'path' => $root_dir . "/data/db/system.db"
+        )
+      )
+    )
+  ),
+);

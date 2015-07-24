@@ -137,7 +137,36 @@ class ConsoleController extends AbstractActionController
         echo "Q: " . $query->query . "\n";
         */
     }
+    
+    /**
+     * Simple console test action
+     **/
+    public function defaultloginAction()
+    {
+        $request = $this->getRequest();
 
+        if ( ! $request instanceof ConsoleRequest){
+            throw new RuntimeException('FATAL ERROR: Tried to use console action in a non-console context');
+        }
+
+        $user_service = $this->getServiceLocator()->get('Dboss\Service\UserService');
+        $role_service = $this->getServiceLocator()->get('Dboss\Service\RoleService');
+
+        $boss_role = $role_service->findOneBy(array('role_name' => 'boss'));
+        
+        $config = $this->getServiceLocator()->get('config');
+        $security = $config['security'];
+        
+        $user = new \Dboss\Entity\User();
+        $user->security = $security;
+        $user->user_name = 'dboss';
+        $user->first_name = 'Administrator';
+        $user->last_name = 'Account';
+        $user->password = 'dboss';
+        $user->role = $boss_role;
+
+        $user_service->save($user);
+        
     /**
      * 
      **/
