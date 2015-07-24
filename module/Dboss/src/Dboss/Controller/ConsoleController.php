@@ -166,7 +166,8 @@ class ConsoleController extends AbstractActionController
         $user->role = $boss_role;
 
         $user_service->save($user);
-        
+    }
+    
     /**
      * 
      **/
