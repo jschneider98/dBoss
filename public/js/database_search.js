@@ -42,11 +42,11 @@ $(document).ready(function() {
             var show = true;
 
             if (database_name) {
-                show = (database.data('database_name').toLowerCase().indexOf(database_name) >= 0);
+                show = (String(database.data('database_name')).toLowerCase().indexOf(database_name) >= 0);
             }
 
             if (show && host_name) {
-                show = (database.data('host_name').toLowerCase().indexOf(host_name) >= 0);
+                show = (String(database.data('host_name')).toLowerCase().indexOf(host_name) >= 0);
             }
             
             if (show) {
