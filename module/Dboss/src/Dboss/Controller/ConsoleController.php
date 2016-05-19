@@ -275,7 +275,7 @@ class ConsoleController extends AbstractActionController
 
         foreach ($entity->getFields() as $field_name) {
 $null_checks[] = <<<CODE
-        \$this->assertNullResource(
+        \$this->assertNull(
             \${$object_name}->{$field_name},
             "{$field_name} should initially be null"
         );
