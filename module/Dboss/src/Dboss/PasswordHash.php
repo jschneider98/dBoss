@@ -38,7 +38,7 @@ class PasswordHash {
 
         if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
             $iteration_count_log2 = 8;
-        
+
         $this->iteration_count_log2 = $iteration_count_log2;
 
         $this->portable_hashes = $portable_hashes;

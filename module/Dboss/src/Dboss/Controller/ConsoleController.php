@@ -36,7 +36,7 @@ class ConsoleController extends AbstractActionController
 
         $config = $this->getServiceLocator()->get('config');
         $security = $config['security'];
-        
+
         $user = new \Dboss\Entity\User();
         $user->security = $security;
         $user->user_name = 'jschneider';
@@ -84,7 +84,7 @@ class ConsoleController extends AbstractActionController
         $role->role_name = "boss";
         $role->display_name = "Boss";
         $om->persist($role);
-        
+
 
         $om->persist($user);
 
@@ -137,7 +137,7 @@ class ConsoleController extends AbstractActionController
         echo "Q: " . $query->query . "\n";
         */
     }
-    
+
     /**
      * Simple console test action
      **/
@@ -153,10 +153,10 @@ class ConsoleController extends AbstractActionController
         $role_service = $this->getServiceLocator()->get('Dboss\Service\RoleService');
 
         $boss_role = $role_service->findOneBy(array('role_name' => 'boss'));
-        
+
         $config = $this->getServiceLocator()->get('config');
         $security = $config['security'];
-        
+
         $user = new \Dboss\Entity\User();
         $user->security = $security;
         $user->user_name = 'dboss';
@@ -167,9 +167,9 @@ class ConsoleController extends AbstractActionController
 
         $user_service->save($user);
     }
-    
+
     /**
-     * 
+     *
      **/
     public function loadSqliteAction()
     {
@@ -216,7 +216,7 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
-     * 
+     *
      **/
     public function listTablesAction()
     {
@@ -252,7 +252,7 @@ class ConsoleController extends AbstractActionController
 
 
     /**
-     * 
+     *
      */
     protected function createEntityTestAction()
     {
@@ -275,7 +275,7 @@ class ConsoleController extends AbstractActionController
 
         foreach ($entity->getFields() as $field_name) {
 $null_checks[] = <<<CODE
-        \$this->assertNull(
+        \$this->assertNullResource(
             \${$object_name}->{$field_name},
             "{$field_name} should initially be null"
         );
@@ -411,7 +411,7 @@ CODE;
     // ************* Non-Action Methods ******************
 
     /**
-     * 
+     *
      **/
     protected function loadData()
     {
@@ -436,7 +436,7 @@ CODE;
     }
 
     /**
-     * 
+     *
      **/
     protected function loadFileData(array $params = array())
     {

@@ -10,12 +10,12 @@ use Zend\View\Model\ViewModel;
 use Zend\Db\Adapter\Adapter;
 use Dboss\Form\SchemaSearchForm;
 use Dboss\Schema\Resource\ResourceFactory;
-use Dboss\Schema\Resource\Null;
+use Dboss\Schema\Resource\NullResource;
 
 class SchemaController extends DbossActionController
 {
     /**
-     * 
+     *
      **/
     public function indexAction()
     {
@@ -59,7 +59,7 @@ class SchemaController extends DbossActionController
                 $resource_factory = new ResourceFactory($params);
                 $schema_resource = $resource_factory->getResource();
 
-                if ($schema_resource instanceof Null) {
+                if ($schema_resource instanceof NullResource) {
                     $this->view_model->setVariable(
                         'not_implemented',
                         "This feature is either not supported by your database platform or it has not been implemented yet."
@@ -67,7 +67,7 @@ class SchemaController extends DbossActionController
                 }
 
                 $results = $schema_resource->getEncodedResourceList(array('search' => $search));
-                
+
                 $this->view_model->setVariable('results', $results);
                 $this->view_model->setVariable('row_count', count($results));
             }
@@ -77,7 +77,7 @@ class SchemaController extends DbossActionController
     }
 
     /**
-     * 
+     *
      */
     public function definitionAction()
     {
@@ -106,7 +106,7 @@ class SchemaController extends DbossActionController
             'resource_name'      => $resource_name,
             'resource_arguments' => $resource_arguments
         );
-        
+
         $this->view_model->setVariable('definition', $schema_resource->getResourceDefinition($params));
         $this->view_model->setVariable('schema_name', $schema_name);
         $this->view_model->setVariable('resource_name', $resource_name);
