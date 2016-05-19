@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  */
 return array(
     'module_dir' => dirname(__DIR__),
@@ -219,7 +219,7 @@ return array(
                     'Dboss\Entity' => 'application_entities'
                 )
             )
-        )
+        ),
     ),
     'view_helpers' => array(
         'invokables' => array(

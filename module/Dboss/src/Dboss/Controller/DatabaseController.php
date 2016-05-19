@@ -5,12 +5,12 @@
 
 namespace Dboss\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\Db\Adapter\Adapter;
-use Dboss\Form\SchemaSearchForm;
-use Dboss\Schema\Resource\ResourceFactory;
-use Dboss\Schema\Resource\Null;
+//use Zend\Mvc\Controller\AbstractActionController;
+//use Zend\View\Model\ViewModel;
+//use Zend\Db\Adapter\Adapter;
+//use Dboss\Form\SchemaSearchForm;
+//use Dboss\Schema\Resource\ResourceFactory;
+//use Dboss\Schema\Resource\NullResource;
 
 class DatabaseController extends DbossActionController
 {
@@ -18,7 +18,7 @@ class DatabaseController extends DbossActionController
     public $require_connection = false;
 
     /**
-     * 
+     *
      **/
     public function indexAction()
     {

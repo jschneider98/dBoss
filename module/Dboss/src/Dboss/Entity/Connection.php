@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 use Dboss\Schema\Resource\ResourceFactory;
-use Dboss\Schema\Resource\Null;
+use Dboss\Schema\Resource\NullResource;
 
 /**
  * @ORM\Entity
@@ -90,7 +90,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
@@ -98,7 +98,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function getInputFilter()
     {
@@ -271,7 +271,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
 
     /**
      * Connect to the db
-     * 
+     *
      * @return Zend\Db\Adapter\Adapter Zf2 db adapter
      **/
     public function connect()
@@ -280,7 +280,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function getDatabaseNames()
     {
@@ -298,7 +298,7 @@ class Connection extends AbstractEntity implements InputFilterAwareInterface
         $resource_factory = new ResourceFactory($params);
         $schema_resource = $resource_factory->getResource();
 
-        if ($schema_resource instanceof Null) {
+        if ($schema_resource instanceof NullResource) {
             return array();
         }
 

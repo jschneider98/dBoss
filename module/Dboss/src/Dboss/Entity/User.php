@@ -105,7 +105,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
@@ -113,7 +113,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function getInputFilter()
     {
@@ -272,7 +272,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function setPassword($password)
     {
@@ -293,7 +293,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
 
     /**
      * Checks to see if passed password matches the user's password
-     * 
+     *
      * @param string Password to check
      * @return bool True if the password matches, false otherwise
      */
@@ -328,7 +328,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function getUserName()
     {
@@ -341,7 +341,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function getRawUserName()
     {
@@ -349,7 +349,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function setSecurity(array $security = array())
     {
@@ -372,9 +372,9 @@ class User extends AbstractEntity implements InputFilterAwareInterface
 
     /**
      * Checks to see if a query belongs to the user
-     * 
+     *
      * @param int A query_id
-     * 
+     *
      * @return boolean
      **/
     public function isMyQuery($query_id = null)
@@ -410,9 +410,9 @@ class User extends AbstractEntity implements InputFilterAwareInterface
 
     /**
      * Checks to see if a connection belongs to the user
-     * 
+     *
      * @param int connection_id
-     * 
+     *
      * @return boolean
      **/
     public function isMyConnection($connection_id = null)
@@ -448,9 +448,9 @@ class User extends AbstractEntity implements InputFilterAwareInterface
 
     /**
      * Gets a user's query (but only if it belongs to the user)
-     * 
+     *
      * @param int A query_id
-     * 
+     *
      * @return Dboss\Entity\Query
      **/
     public function getMyQuery($query_id = null)
@@ -521,7 +521,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
-     * 
+     *
      **/
     public function getConnectionInfo()
     {
@@ -534,7 +534,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
                 $connection_info[$connection->connection_id . "-" . $database_name] = $database_name . "-" . $connection->host;
             }
         }
-        
+
         asort($connection_info);
 
         return $connection_info;

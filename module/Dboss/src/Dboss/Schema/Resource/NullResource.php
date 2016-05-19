@@ -5,7 +5,7 @@
 
 namespace Dboss\Schema\Resource;
 
-class Null extends ResourceAbstract
+class NullResource extends ResourceAbstract
 {
 
     public function getResourceList(array $params = array())

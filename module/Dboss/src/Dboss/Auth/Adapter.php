@@ -13,9 +13,9 @@ class Adapter implements AdapterInterface
     protected $password;
 
     /**
-     * 
+     * Adapter constructor.
      *
-     * @return void
+     * @param array $params
      */
     public function __construct(array $params = array())
     {
@@ -47,11 +47,11 @@ class Adapter implements AdapterInterface
         $user_id = ($user) ? $user->user_id : null;
 
         if (! $user) {
-            
+
             $auth_code = Result::FAILURE_IDENTITY_NOT_FOUND;
             $messages[] = "Invalid user name.";
         } else if (! $user->checkPassword($this->password)) {
-            
+
             $auth_code = Result::FAILURE_CREDENTIAL_INVALID;
             $messages[] = "Incorrect password.";
         }

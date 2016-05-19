@@ -7,7 +7,7 @@
 namespace Dboss\Schema\Resource\My;
 
 use Dboss\Schema\Resource\ResourceFactoryAbstract;
-use Dboss\Schema\Resource\Null;
+use Dboss\Schema\Resource\NullResource;
 
 class MyResourceFactory extends ResourceFactoryAbstract
 {
@@ -26,49 +26,49 @@ class MyResourceFactory extends ResourceFactoryAbstract
                 case "columns":
                 case "col":
                 case "cols":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "view":
                 case "views":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "sch":
                 case "schema":
                 case "schemas":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "func":
                 case "function":
                 case "functions":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "fkey":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "seq":
                 case "sequence":
                 case "sequences":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "type":
                 case "types":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "db":
                 case "database":
                 case "databases":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "trig":
                 case "trigger":
                 case "triggers":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "idx":
                 case "indx":
                 case "index":
                 case "indexes":
-                    return new Null($params);
+                    return new NullResource($params);
                     break;
                 case "e":
                 case "everything":
@@ -85,7 +85,7 @@ class MyResourceFactory extends ResourceFactoryAbstract
             }
         }
 
-        return new Null($params);
+        return new NullResource($params);
     }
 
     /**

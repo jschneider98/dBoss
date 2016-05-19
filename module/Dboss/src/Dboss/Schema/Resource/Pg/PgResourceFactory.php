@@ -7,13 +7,13 @@
 namespace Dboss\Schema\Resource\Pg;
 
 use Dboss\Schema\Resource\ResourceFactoryAbstract;
-use Dboss\Schema\Resource\Null;
+use Dboss\Schema\Resource\NullResource;
 
 class PgResourceFactory extends ResourceFactoryAbstract
 {
     /**
      * Returns a resource for a specific db platform (based on object's resource type)
-     * 
+     *
      * @return obj A resource object
      */
     public function getResource()
@@ -84,13 +84,13 @@ class PgResourceFactory extends ResourceFactoryAbstract
                     break;
             }
         }
-        
-        return new Null($params);
+
+        return new NullResource($params);
     }
 
     /**
      * Returns all resources for a specific db platform
-     * 
+     *
      * @return array An array of all resource objects
      */
     public function getAllResources()
