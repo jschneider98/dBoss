@@ -72,6 +72,7 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     protected $fields;
     protected $security;
     protected $input_filter;
+    protected $failed_connections = [];
 
     /**
      *
@@ -521,14 +522,28 @@ class User extends AbstractEntity implements InputFilterAwareInterface
     }
 
     /**
+     * List of failed DB connections
+     */
+    public function getFailedConnections()
+    {
+        return $this->failed_connections;
+    }
+
+    /**
      *
      **/
     public function getConnectionInfo()
     {
         $connection_info = array();
+        $this->failed_connections = [];
 
         foreach ($this->connections as $connection) {
-            $database_names = $connection->getDatabaseNames();
+            try {
+                $database_names = $connection->getDatabaseNames();
+            } catch (\Exception $e) {
+                $this->failed_connections[] = $connection->display_name;
+                $database_names = [];
+            }
 
             foreach ($database_names as $database_name) {
                 $connection_info[$connection->connection_id . "-" . $database_name] = $database_name . "-" . $connection->host;
