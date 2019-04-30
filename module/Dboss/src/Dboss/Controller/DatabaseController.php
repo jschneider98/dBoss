@@ -20,6 +20,12 @@ class DatabaseController extends DbossActionController
             $this->user->getConnectionInfo()
         );
 
+        foreach ($this->user->getFailedConnections() as $display_name) {
+            $this->flashMessenger()
+                    ->setNamespace('error')
+                    ->addMessage("Failed to connect to: " . $display_name);
+        }
+
         return $this->view_model;
     }
 }
