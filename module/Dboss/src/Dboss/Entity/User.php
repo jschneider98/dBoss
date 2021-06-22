@@ -541,7 +541,8 @@ class User extends AbstractEntity implements InputFilterAwareInterface
             try {
                 $database_names = $connection->getDatabaseNames();
             } catch (\Exception $e) {
-                $this->failed_connections[] = $connection->display_name;
+
+                $this->failed_connections[] = $connection->display_name . ' : ' . $e->getMessage();
                 $database_names = [];
             }
 
