@@ -64,6 +64,19 @@ If your system db already exists and you want to unlink it and reload the data:
 
 *php public/index.php load-sqlite --unlink --withdata*
 
+
+Docker
+----------------
+*Build container*
+```
+make build
+```
+
+*Run container*
+```
+make run
+```
+
 Web Server Setup
 ----------------
 
